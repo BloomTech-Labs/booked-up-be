@@ -19,7 +19,15 @@ router.post('/', [
                 return Promise.reject('display name already in use');
               }
             });
-        })
+        }),
+        body('email').custom(value => {
+          return Users.findByEmail(value).then(user => {
+              console.log(user)
+            if (user.length > 0) {
+              return Promise.reject('email already registered');
+            }
+          });
+      }),
     ],
     (req, res) => {
         const errors = validationResult(req);

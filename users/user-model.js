@@ -6,7 +6,8 @@ module.exports = {
   findBy,
   findById,
   findByDisplayName,
-  findByEmail
+  findByEmail,
+  findByAdmin
 };
 
 function find() {
@@ -24,6 +25,13 @@ function findByDisplayName(search) {
 
 function findByEmail(search) {
   return db('users')
+    .where('email', search)
+}
+
+
+function findByAdmin(search) {
+  return db('users')
+    .where('user_type', 'admin')
     .where('email', search)
 }
 
