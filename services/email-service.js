@@ -36,6 +36,7 @@ const sendConfirmationEmail = (user) => {
         subject: 'Confirmation EMail',
     
         html: `<a href=${url}> ${url}`,
+        text: "please click the link to confirm your registration"
       }).then(()=> {
           console.log('email sent')
       }).catch(err => {

@@ -63,7 +63,7 @@ router.get('/confirmation/:token', async (req,res) => {
                         verifiedToken: verifiedJWT,
                         validated: u.admin_verification
                     })
-                    // res.redirect(`http://google.com/${req.params.token}`)
+                    // res.redirect(`http://to log in page`)
                 })
                 .catch(err => {
                     res.status(400).json(err)
