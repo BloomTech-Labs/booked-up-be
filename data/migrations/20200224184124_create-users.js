@@ -11,7 +11,8 @@ exports.up = function(knex, Promise) {
         tbl.string('city', 255)
         tbl.string('state', 255)
         tbl.string('country', 255)
-        tbl.string('avatar_url', 255);  
+        tbl.string('avatar_url', 255)
+        tbl.boolean('admin_verification').defaultTo(false);  
     })
       .createTable('agent_info', tbl => {
         tbl.increments()

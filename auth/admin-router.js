@@ -1,17 +1,22 @@
 const jwt = require('jsonwebtoken');
+const jwtDecode = require('jwt-decode');
 const secrets = require('../config/secrets.js');
 const router = require('express').Router();
 const Users = require('../users/user-model.js');
 const { check, validationResult, body } = require('express-validator');
+const { sendConfirmationEmail } = require('../services/email-service');
 
 router.post('/', [
     check('email','email field is required').not().isEmpty(),
     check('email','a valid email is required').isEmail(),
     body('email').custom(value => {
         return Users.findByAdmin(value).then(user => {
-            console.log(user.length)
+            let newUser = user.map(u => u.admin_verification)
+            console.log(newUser[0])
             if(user.length === 0) {
                 return Promise.reject('email not registered');
+            } else if (newUser[0] === true){
+                return Promise.reject('email already validated');
             }
         });
     }),
@@ -20,6 +25,8 @@ router.post('/', [
     const errors = validationResult(req);
     let { email, id } = req.body;
 
+    
+
     if (!errors.isEmpty()) {
         return res.status(422).jsonp(errors.array());
       } else {
@@ -27,14 +34,9 @@ router.post('/', [
         .first()
         .then(u => {
             if(u) {
-                const token = genToken(u);
-                // res.redirect(`http://localhost:4000/api/auth/admin/${id}`)
-                res.status(200).json(token)
-                // This is where I will send email confirmation in place of the token. When the link is clicked for confirmation a token will be given and sent to change account information
+                sendConfirmationEmail(u)
+                res.status(200).json({message: 'email sent'})
             }
-            // else {
-            //     res.status(401).json({message: "Invalid email"})
-            // }
         })
         .catch(err => {
             res.status(500).json(err.message)
@@ -42,23 +44,33 @@ router.post('/', [
       }
 })
 
-
-function genToken(user) {
-    const payload = {
-        userid: user.id,
-        userType: [`${user.user_type}`]
+router.get('/confirmation/:token', async (req,res) => {
+    const updateUser = {
+        admin_verification: true
     }
+    const decodedJwt = jwtDecode(req.params.token)
 
-    const options = {
-        expiresIn: "8h"
-    }
-
-    const token = jwt.sign(payload, secrets.jwtSecret, options);
-
-    return token;
-}
-
-
+    jwt.verify(req.params.token,secrets.jwtSecret, (err, verifiedJWT) => {
+        if(err){
+            res.status(400).json(err)
+        } else{
+            Users.update(decodedJwt.userid, updateUser)
+                .then(u => {
+                    console.log(u.admin_verification)
+                    res.status(200).json({
+                        message: `Welcome back`,
+                        token: req.params.token,
+                        verifiedToken: verifiedJWT,
+                        validated: u.admin_verification
+                    })
+                    // res.redirect(`http://google.com/${req.params.token}`)
+                })
+                .catch(err => {
+                    res.status(400).json(err)
+                })
+        }
+    });
+});
 
 
 module.exports = router;

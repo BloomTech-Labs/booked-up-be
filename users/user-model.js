@@ -7,7 +7,8 @@ module.exports = {
   findById,
   findByDisplayName,
   findByEmail,
-  findByAdmin
+  findByAdmin,
+  update
 };
 
 function find() {
@@ -48,4 +49,13 @@ function findById(id) {
   return db('users')
     .where({ id })
     .first();
+}
+
+function update(id, changes) {
+  return db('users')
+    .where({ id })
+    .update(changes)
+    .then(() => {
+      return findById(id);
+    });
 }
