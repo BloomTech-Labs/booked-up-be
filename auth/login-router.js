@@ -12,7 +12,7 @@ router.post('/', [
     check('email','a valid email is required').isEmail(),
     body('email').custom(value => {
         return Users.findByEmail(value).then(user => {
-            let newUser = user.map(u => u.admin_verification)
+            let newUser = user.map(u => u.email_verification)
             console.log(user)
           if (user.length === 0) {
             return Promise.reject('email not registered');

@@ -12,7 +12,8 @@ exports.up = function(knex, Promise) {
         tbl.string('state', 255)
         tbl.string('country', 255)
         tbl.string('avatar_url', 255)
-        tbl.boolean('admin_verification').defaultTo(false);  
+        tbl.boolean('email_verification').defaultTo(false)
+        tbl.timestamp('created_at').defaultTo(knex.fn.now());
     })
       .createTable('agent_info', tbl => {
         tbl.increments()
@@ -32,7 +33,7 @@ exports.up = function(knex, Promise) {
         tbl.increments()
         tbl.string('title', 255)
         tbl.string('content_url', 255)
-       tbl.timestamp('created_at').defaultTo(knex.fn.now())
+        tbl.timestamp('created_at').defaultTo(knex.fn.now())
         tbl.integer('author_id', 255)
         tbl.timestamp('last_updated').defaultTo(knex.fn.now())
         tbl.integer('user_id', 255)
