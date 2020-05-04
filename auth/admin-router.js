@@ -2,8 +2,10 @@ const jwt = require('jsonwebtoken');
 const jwtDecode = require('jwt-decode');
 const secrets = require('../config/secrets.js');
 const router = require('express').Router();
-const Users = require('../users/user-model.js');
+const Admins = require('../admins/admin-model.js');
 const bcrypt = require('bcryptjs');
+
+
 const { check, validationResult, body } = require('express-validator');
 const { sendConfirmationEmailAdmin } = require('../services/admin-email-service');
 
@@ -11,7 +13,7 @@ router.post('/', [
     check('email','email field is required').not().isEmpty(),
     check('email','a valid email is required').isEmail(),
     body('email').custom(value => {
-        return Users.findByAdmin(value).then(user => {
+        return Admins.findByAdmin(value).then(user => {
             let newUser = user.map(u => u.email_verification)
             console.log(newUser[0])
             if(user.length === 0) {
@@ -28,7 +30,7 @@ router.post('/', [
     if (!errors.isEmpty()) {
         return res.status(422).jsonp(errors.array());
       } else {
-        Users.findBy({ email })
+        Admins.findBy({ email })
         .first()
         .then(u => {
             if(u) {
@@ -43,29 +45,21 @@ router.post('/', [
 })
 
 router.get('/reset/:id/:token', async (req,res) => {
-
     const decodedJwt = jwtDecode(req.params.token)
+
     jwt.verify(req.params.token,secrets.jwtSecret, (err, verifiedJWT) => {
         if(err){
             res.status(400).json(err)
         } else{
-            console.log
-            res.send(
-                '<form action="/api/auth/admin/adminpasswordreset" method="POST">' +
-                '<input type="hidden" name="id" value="' + decodedJwt.userid + '" />' +
-                '<input type="hidden" name="token" value="' + req.params.token + '" />' +
-                '<input type="password" name="password" value="" placeholder="Enter your new password..." />' +
-                '<input type="submit" />' +
-                '</form>');
+            res.render('index', {error: req.flash('error'), success: req.flash('success'), data: { id: decodedJwt.userid, token: req.params.token}})
         }
     });
 });
 
-router.post('/adminpasswordreset', [
+router.post('/adminpasswordreset/', [
         check('password','Must contain 8 characters - one uppercase, one lowercase, one number, one special').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, "i"),
     ],
 (req, res) => {
-    console.log(req.body)
     const hash = bcrypt.hashSync(req.body.password, 12);
     const updateUser = {
         email_verification: true,
@@ -73,19 +67,23 @@ router.post('/adminpasswordreset', [
     }
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(422).jsonp(errors.array());
+        req.flash("error", 'Password must contain 8 characters - one uppercase, one lowercase, one number, one special');
+        return res.redirect('back')
       } else {
-        Users.update(req.body.id, updateUser)
+        jwt.verify(req.body.token,secrets.jwtSecret, (err, verifiedJWT) => {
+            if(err){
+                res.status(400).json(err)
+            } else{
+                Admins.update(req.body.id, updateUser)
                 .then(u => {
-                    console.log(u)
-                    res.status(200).json({
-                        message: `password updated. Please log in. http://bookedup.net`
-                    })
+                    res.send(`Thanks ${u.first_name}, Your password has been updated and you are now able to <a href=http://www.bookedup.net> log in`)
                 })
                 .catch(err => {
                     res.status(400).json(err.message)
                 })
-      }
+            }
+        })  
+    }
 })
 
 

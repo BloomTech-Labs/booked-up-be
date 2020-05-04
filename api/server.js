@@ -5,6 +5,7 @@ const loginRouter = require('../auth/login-router');
 const usersRouter = require('../users/user-router');
 const adminRouter = require('../auth/admin-router');
 const server = express();
+server.set('view engine', 'ejs');
 
 configureMiddleware(server)
 

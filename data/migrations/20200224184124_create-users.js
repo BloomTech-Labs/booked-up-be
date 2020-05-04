@@ -15,6 +15,16 @@ exports.up = function(knex, Promise) {
         tbl.boolean('email_verification').defaultTo(false)
         tbl.timestamp('created_at').defaultTo(knex.fn.now());
     })
+      .createTable('admins', tbl => {
+        tbl.increments()
+        tbl.string('user_type', 255).notNullable()
+        tbl.string('first_name', 255).notNullable()
+        tbl.string('last_name', 255).notNullable()
+        tbl.string('password', 255).notNullable()
+        tbl.string('email', 255).notNullable().unique()
+        tbl.boolean('email_verification').defaultTo(false)
+        tbl.timestamp('created_at').defaultTo(knex.fn.now());
+      })
       .createTable('agent_info', tbl => {
         tbl.increments()
         tbl.string('agent_type', 255)
