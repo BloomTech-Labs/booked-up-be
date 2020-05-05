@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const secrets = require('../config/secrets.js');
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
-const Users = require('../users/user-model.js');
+const Admins = require('../admins/admin-model');
 const { check, validationResult, body } = require('express-validator');
 
 
@@ -11,12 +11,11 @@ router.post('/', [
     check('email','email field is required').not().isEmpty(),
     check('email','a valid email is required').isEmail(),
     body('email').custom(value => {
-        return Users.findByEmail(value).then(user => {
-            let newUser = user.map(u => u.email_verification)
-            console.log(user)
+        return Admins.findByEmail(value).then(user => {
+            let newAdmin = user.map(u => u.email_verification)
           if (user.length === 0) {
             return Promise.reject('email not registered');
-          } else if (newUser[0] === false){
+          } else if (newAdmin[0] === false){
             return Promise.reject('email has not been validated');
           }
         });
@@ -37,7 +36,7 @@ router.post('/', [
                 const token = genToken(u);
 
                 res.status(200).json({
-                    message: `Welcome back`,
+                    message: `Welcome back ${u.first_name}`,
                     token: token
                 })
             }

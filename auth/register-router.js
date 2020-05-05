@@ -2,6 +2,8 @@ const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const Users = require('../users/user-model.js');
 const { check, validationResult, body } = require('express-validator');
+const { sendConfirmationEmail } = require('../services/email-service');
+const jwtDecode = require('jwt-decode');
 
 router.post('/', [
         check('email','Must be a valid email of 5 to 30 chars').isEmail(),
@@ -19,7 +21,15 @@ router.post('/', [
                 return Promise.reject('display name already in use');
               }
             });
-        })
+        }),
+        body('email').custom(value => {
+          return Users.findByEmail(value).then(user => {
+              console.log(user)
+            if (user.length > 0) {
+              return Promise.reject('email already registered');
+            }
+          });
+      }),
     ],
     (req, res) => {
         const errors = validationResult(req);
@@ -31,6 +41,7 @@ router.post('/', [
           } else {
             Users.add(user)
                 .then(u => {
+                    sendConfirmationEmail(u)
                     res.status(201).json(u)
                 })
                 .catch(err => {
@@ -39,5 +50,33 @@ router.post('/', [
           }
 })
 
+
+router.get('/confirmation/:token', async (req,res) => {
+  const updateUser = {
+      admin_verification: true
+  }
+  const decodedJwt = jwtDecode(req.params.token)
+
+  jwt.verify(req.params.token,secrets.jwtSecret, (err, verifiedJWT) => {
+      if(err){
+          res.status(400).json(err)
+      } else{
+          Users.update(decodedJwt.userid, updateUser)
+              .then(u => {
+                  console.log(u.admin_verification)
+                  res.status(200).json({
+                      message: `Welcome back`,
+                      token: req.params.token,
+                      verifiedToken: verifiedJWT,
+                      validated: u.admin_verification
+                  })
+                  // res.redirect(`http://to log in page`)
+              })
+              .catch(err => {
+                  res.status(400).json(err)
+              })
+      }
+  });
+});
 
 module.exports = router;
