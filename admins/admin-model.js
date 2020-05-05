@@ -5,40 +5,35 @@ module.exports = {
   find,
   findBy,
   findById,
-  findByDisplayName,
   findByEmail,
   findByAdmin,
   update
 };
 
 function find() {
-  return db('users').select('id', 'first_name', 'last_name');
+  return db('admins').select('id', 'username', 'password');
 }
 
 function findBy(filter) {
-  return db('users').where(filter);
+  return db('admins').where(filter);
 }
 
-function findByDisplayName(search) {
-  return db('users')
-    .where('display_name', search)
-}
 
 function findByEmail(search) {
-  return db('users')
+  return db('admins')
     .where('email', search)
 }
 
 
 function findByAdmin(search) {
-  return db('users')
+  return db('admins')
     .where('user_type', 'admin')
     .where('email', search)
 }
 
 
 function add(user) {
-  return db('users')
+  return db('admins')
       .insert(user, 'id')
       .then(ids => {
           return findById(ids[0]);
@@ -46,13 +41,13 @@ function add(user) {
 }
 
 function findById(id) {
-  return db('users')
+  return db('admins')
     .where({ id })
     .first();
 }
 
 function update(id, changes) {
-  return db('users')
+  return db('admins')
     .where({ id })
     .update(changes)
     .then(() => {
