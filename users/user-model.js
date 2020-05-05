@@ -8,12 +8,23 @@ module.exports = {
   findByDisplayName,
   findByEmail,
   findByAdmin,
-  update
+  update,
+
+  // Agent Info
+
+  findAgentInfoId
 };
 
 function find() {
   return db('users');
 }
+
+function findAgentInfoId(id) {
+  return db('agent_info as ai')
+    .join('users as u', 'u.id', 'ai.user_id')
+    .where('ai.user_id', id)
+}
+
 
 function findBy(filter) {
   return db('users').where(filter);

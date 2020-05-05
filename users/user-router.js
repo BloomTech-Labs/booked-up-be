@@ -34,16 +34,31 @@ router.get('/:id', [
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).jsonp(errors.array());
-      } else {
+    } else {
         Users.findById(req.params.id)
-            .then(u => {
-                res.status(200).json(u)
-            })
-            .catch(err => {
-                res.status(500).json(err)
-            })
-      }
-  })
+            .then(user => {
+                if(user.user_type !== 'agent') {
+                    res.status(200).json({user})
+                } else {
+                    Users.findAgentInfoId(req.params.id)
+                    .then(agentInfo => {
+                        const infoList = agentInfo.map(info => {
+                            const {agent_type, agency_type, agency_address, agency_phone_number, agency_email} = info
+                            return {agent_type, agency_type, agency_address, agency_phone_number, agency_email}
+                        })
+                        res.status(200).json({
+                            User: user,
+                            AgentInfo: infoList
+                        })
+                    })
+                    .catch(err => {
+                        res.status(500).json(err)
+                    }) 
+                }   
+        })
+    }
+})
+
 
 
 
