@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const Users = require('./user-model.js');
-
+const bcrypt = require('bcryptjs');
 const checkRole = require('../check-role/check-role-user.js');
 const restricted = require('../auth/restricted');
 const { check, validationResult, body } = require('express-validator');
@@ -23,7 +23,6 @@ router.get('/', restricted, checkRole(),(req, res) => {
 router.get('/:id', [
     check('id').exists().toInt().optional().custom(value => {
         return Users.findById(value).then(user => {
-            console.log(user)
           if (user === undefined) {
             return Promise.reject('User Id not found');
           }
@@ -59,12 +58,68 @@ router.get('/:id', [
     }
 })
 
+// UPDATE user
+
+// router.patch('/:id/', [
+//     // logic will go here
+// ], restricted, checkRole(), 
+// (req, res) => {
+//     Users.update(req.params.id, updateUser)
+//     const updateUser = {
+//         first_name: req.body.first_name,
+//         last_name: req.body.last_name,
+//         email: req.body.email,
+//         user_type: req.body.user_type,
+//         city: req.body.city,
+//         state: req.body.state,
+//         country: req.body.country,
+//         avatar_url: req.body.avatar_url,
+//         display_name: req.body.dispaly_name
+//       }
+//         .then(user => {
+//             res.status(200).json(user)
+//         })
+//         .catch(err => {
+//             res.status(500).json(err)
+//         })
+//   });
+
+// UPDATE password
+
+router.patch('/:id/updatePass', [
+    check('password','Must contain 8 characters - one uppercase, one lowercase, one number, one special').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, "i"),
+    check('id').exists().toInt().optional().custom(value => {
+        return Users.findById(value).then(user => {
+          if (user === undefined) {
+            return Promise.reject('User Id not found');
+          }
+        });
+    }),
+], restricted, checkRole(), 
+(req, res) => {
+    const errors = validationResult(req);
+    const hash = bcrypt.hashSync(req.body.password, 12);
+    const updatePass = {
+        password: hash
+    }
+    if (!errors.isEmpty()) {
+        return res.status(422).jsonp(errors.array());
+    } else {
+        Users.update(req.params.id, updatePass)
+            .then(user => {
+                res.status(200).json(user)
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
+    } 
+});
+
 // DELETE user
 
 router.delete('/:id/', [
     check('id').exists().toInt().optional().custom(value => {
         return Users.findById(value).then(user => {
-            console.log(user)
           if (user === undefined) {
             return Promise.reject('User Id not found');
           }
