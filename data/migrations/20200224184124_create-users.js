@@ -71,7 +71,7 @@ exports.up = function(knex, Promise) {
     
       .createTable('content_library', tbl => {
         tbl.increments()
-        tbl.integer('user_id)', 255)
+        tbl.integer('user_id', 255)
             .unsigned()
             .notNullable()
             .references('users.id')
