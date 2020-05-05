@@ -59,6 +59,27 @@ router.get('/:id', [
     }
 })
 
+// DELETE user
+
+router.delete('/:id/', [
+    check('id').exists().toInt().optional().custom(value => {
+        return Users.findById(value).then(user => {
+            console.log(user)
+          if (user === undefined) {
+            return Promise.reject('User Id not found');
+          }
+        });
+    }),
+], restricted, checkRole(), (req, res) => {
+    Users.removeUser(req.params.id)
+      .then(post => {
+        res.status(200).json(post);
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      })
+});
+
 
 
 
