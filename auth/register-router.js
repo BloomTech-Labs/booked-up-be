@@ -66,12 +66,8 @@ router.get('/confirmation/:token', async (req,res) => {
       } else{
           Users.update(decodedJwt.userid, updateUser)
               .then(u => {
-                  console.log(u.admin_verification)
                   res.status(200).json({
-                      message: `Welcome back`,
-                      token: req.params.token,
-                      verifiedToken: verifiedJWT,
-                      validated: u.admin_verification
+                      message: `Registration succesfull ${u.email}`
                   })
                   // res.redirect(`http://to log in page`)
               })
