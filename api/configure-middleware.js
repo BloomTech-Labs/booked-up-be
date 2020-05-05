@@ -15,10 +15,10 @@ module.exports = server => {
     server.use(express.json());
     server.use(cors());
     server.use(bodyParser.urlencoded({ extended: true }))
-    server.use(cookieParser('keyboard cat'));
+    server.use(cookieParser(process.env.COOKIE_SECRET));
     server.use(session({ 
         cookie: { maxAge: 60000 },
-        secret: 'secret123',
+        secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: true
     }));
