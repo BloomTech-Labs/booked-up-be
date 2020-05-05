@@ -9,6 +9,7 @@ module.exports = {
   findByEmail,
   findByAdmin,
   update,
+  removeUser,
 
   // Agent Info
 
@@ -69,4 +70,11 @@ function update(id, changes) {
     .then(() => {
       return findById(id);
     });
+}
+
+
+function removeUser(id) {
+  return db('users')
+    .where('id', id)
+    .del();
 }
