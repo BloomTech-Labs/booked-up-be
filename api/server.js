@@ -20,7 +20,7 @@ server.use('/api/auth/login', loginRouter);
 server.use('/api/users', usersRouter);
 server.use('/api/author-content', contentRouter);
 server.use('/api/content-library', libraryRouter);
-server.use('/api/auth/admin', adminRegisterRouter);
+server.use('/api/auth/admin/register', adminRegisterRouter);
 server.use('/api/auth/admin/login', adminLoginRouter);
 server.use('/api/admin', adminRouter);
 
