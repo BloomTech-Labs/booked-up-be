@@ -6,7 +6,7 @@ const usersRouter = require('../users/user-router');
 const contentRouter = require('../author-content/content-router');
 const libraryRouter = require('../content-library/library-router');
 const adminRouter = require('../auth/admin-router');
-const contentRouter = require('../author-content/content-router');
+
 
 const server = express();
 server.set('view engine', 'ejs');
@@ -19,7 +19,7 @@ server.use('/api/users', usersRouter);
 server.use('/api/author-content', contentRouter);
 server.use('/api/content-library', libraryRouter);
 server.use('/api/auth/admin', adminRouter);
-server.use('/api/author-content', contentRouter);
+
 
 
 server.get('/', (req, res) => {

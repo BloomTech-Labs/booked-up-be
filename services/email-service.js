@@ -29,7 +29,7 @@ const sendConfirmationEmail = (user) => {
         return token;
     }
     const token = genToken(user);
-    const url = `http://localhost:4000/api/auth/admin/confirmation/${token}`
+    const url = `http://localhost:4000/api/auth/register/confirmation/${token}`
     nodemailerMailgun.sendMail({
         from: 'bookedup.pt9@gmail.com',
         to: `${user.email}`, 
