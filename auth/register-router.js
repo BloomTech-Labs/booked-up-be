@@ -4,6 +4,9 @@ const Users = require('../users/user-model.js');
 const { check, validationResult, body } = require('express-validator');
 const { sendConfirmationEmail } = require('../services/email-service');
 const jwtDecode = require('jwt-decode');
+const jwt = require('jsonwebtoken');
+const secrets = require('../config/secrets.js');
+
 
 router.post('/', [
         check('email','Must be a valid email of 5 to 30 chars').isEmail(),
@@ -53,7 +56,7 @@ router.post('/', [
 
 router.get('/confirmation/:token', async (req,res) => {
   const updateUser = {
-      admin_verification: true
+      email_verification: true
   }
   const decodedJwt = jwtDecode(req.params.token)
 

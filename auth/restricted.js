@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
     if(token) {
       jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
         if (err) {
-          res.status(401).json({message: "Incorrect Username/Password"})
+          res.status(401).json({message: "Not authorized to continue. Contact support."})
         }
         else {
           req.decodedJwt = decodedToken;
@@ -18,7 +18,7 @@ module.exports = (req, res, next) => {
       })
     
     } else {
-      res.status(401).json({message: "Error on login"})
+      res.status(401).json({message: "Access denied"})
     }
 }
   
