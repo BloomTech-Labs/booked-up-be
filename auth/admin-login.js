@@ -29,7 +29,7 @@ router.post('/', [
     if (!errors.isEmpty()) {
         return res.status(422).jsonp(errors.array());
       } else {
-        Users.findBy({ email })
+        Admins.findBy({ email })
         .first()
         .then(u => {
             if(u && bcrypt.compareSync(password, u.password)) {
