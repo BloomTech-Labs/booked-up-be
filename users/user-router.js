@@ -1,10 +1,10 @@
 const router = require('express').Router();
-
+const Agents = require('../agents/agent-model.js')
 const Users = require('./user-model.js');
 const bcrypt = require('bcryptjs');
 const checkRole = require('../check-role/check-role-user.js');
 const checkRoleAdmin = require('../check-role/check-role-admin.js');
-const checkRoleAgent = require('../check-role/check-role-admin.js');
+const checkRoleAgent = require('../check-role/check-role-agent.js');
 const restricted = require('../auth/restricted');
 const { check, validationResult, body } = require('express-validator');
 
@@ -60,7 +60,7 @@ router.get('/:id', [
     }
 })
 
-// UPDATE user *** In progress
+// UPDATE user 
 
 router.patch('/:id/', [
     check('first_name','must contain first name').not().isEmpty(),
@@ -101,7 +101,9 @@ router.patch('/:id/email', [
     check('email','Must be a valid email').isEmail(),
     body("email").custom((value,{req, loc, path}) => {
         return Users.findByEmail(value).then(user => {
-            if(user[0].email === value && Object.is(Number(req.params.id), user[0].id)) {
+            if(user.length === 0){
+                return null; 
+            } else if(user[0].email === value && Object.is(Number(req.params.id), user[0].id)) {
                 return Promise.reject('Please choose a new email')
             } else if(user.length > 0) {
                 return Promise.reject('email already registered'); 
@@ -162,64 +164,6 @@ router.patch('/:id/displayName', [
     }        
 });
 
-// body('display_name').optional().custom(value => {
-//     return Users.findByDisplayName(value).then(user => {
-//         console.log(user[0].email)
-//         if(user[0].display_name === value) {
-//             return Promise.reject('Please select a new display name')
-//         } else if (user.length > 0) {
-//         return Promise.reject('display name already in use');
-//         }
-//     });
-// }),
-
-
-    
-
-
-// UPDATE Agent Info ***In progress
-
-// router.patch('/:id/agent', [
-//     check('agent_type', 'type of agent').optional(),
-//     check('agency_name', 'name of agency worked at').optional(),
-//     check('agency_address', 'agency address').optional(),
-//     check('agency_phone_number', 'agency phone number').optional(),
-//     check('agency_email', 'agency email').optional(),
-//     check('id').exists().toInt().optional().custom(value => {
-//         return Users.findById(value).then(user => {
-//           if (user === undefined) {
-//             return Promise.reject('User Id not found');
-//           }
-//         });
-//     }),
-// ], restricted, checkRoleAgent(), 
-// (req, res) => {
-//     const updateAgentInfo = {
-//         agent_type: req.body.agent_type,
-//         agency_name: req.body.agency_name,
-//         agency_address: req.body.agency_address,
-//         agency_phone_number: req.body.agency_phone_number,
-//         agency_email: req.body.agency_email
-
-//     }
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//         return res.status(422).jsonp(errors.array());
-//     } else {
-//         Users.update(req.params.id, updateAgentInfo)
-//             .then(agent => {
-//                 res.status(200).json({
-//                     User: user,
-//                     AgentInfo: agent
-//                 })
-//             })
-//             .catch(err => {
-//                 res.status(500).json(err)
-//             })
-//     }  
-// });
-
-
 // UPDATE password
 
 router.patch('/:id/updatePass', [
@@ -270,6 +214,120 @@ router.delete('/:id/', [
         res.status(500).json(err);
       })
 });
+
+// GET Agent Info by Id
+
+router.get('/:id/agent', [
+    check('id').exists().toInt().optional().custom(value => {
+        return Agents.findByAgentInfoId(value).then(user => {
+          if (user === undefined) {
+            return Promise.reject('Agent Info not found');
+          }
+        });
+    }),
+  ], restricted, checkRoleAgent(), 
+   (req,res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).jsonp(errors.array());
+    } else {
+        Agents.findById(req.params.id)
+            .then(user => {
+                res.status(200).json(user)
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })  
+    }
+})
+
+// POST Agent Info
+
+router.post('/:id/agent', [
+    check('agent_type', 'type of agent').optional(),
+    check('agency_name', 'name of agency worked at').optional(),
+    check('agency_address', 'agency address').optional(),
+    check('agency_phone_number', 'agency phone number').optional(),
+    check('agency_email', 'agency email').optional(),
+    check('id').exists().toInt().optional().custom(value => {
+        return Users.findById(value).then(user => {
+          if (user === undefined) {
+            return Promise.reject('User Id not found');
+          }
+        });
+    }),
+    check('id').exists().toInt().optional().custom(value => {
+        return Agents.findByAgentInfoId(value).then(user => {
+            console.log(user)
+          if (user) {
+            return Promise.reject('Agent info already created');
+          }
+        });
+    }),
+], restricted, checkRoleAgent(), 
+(req, res) => {
+    const agentInfo = {
+        user_id: req.params.id,
+        agent_type: req.body.agent_type,
+        agency_name: req.body.agency_name,
+        agency_address: req.body.agency_address,
+        agency_phone_number: req.body.agency_phone_number,
+        agency_email: req.body.agency_email
+    }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).jsonp(errors.array());
+    } else {
+        Agents.add(agentInfo)
+            .then(agent => {
+                res.status(200).json(agent)
+            })
+            .catch(err => {
+                res.status(500).json(err.message)
+            })
+    }  
+});
+
+
+// UPDATE Agent Info 
+
+router.patch('/:id/agent', [
+    check('agent_type', 'type of agent').optional(),
+    check('agency_name', 'name of agency worked at').optional(),
+    check('agency_address', 'agency address').optional(),
+    check('agency_phone_number', 'agency phone number').optional(),
+    check('agency_email', 'agency email').optional(),
+    check('id').exists().toInt().optional().custom(value => {
+        return Agents.findByAgentInfoId(value).then(user => {
+          if (user === undefined) {
+            return Promise.reject('User Id not found');
+          }
+        });
+    }),
+], restricted, checkRoleAgent(), 
+(req, res) => {
+    const updateAgentInfo = {
+        agent_type: req.body.agent_type,
+        agency_name: req.body.agency_name,
+        agency_address: req.body.agency_address,
+        agency_phone_number: req.body.agency_phone_number,
+        agency_email: req.body.agency_email,
+        user_id: req.params.id,
+    }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).jsonp(errors.array());
+    } else {
+        Agents.update(req.params.id, updateAgentInfo)
+            .then(agent => {
+                res.status(200).json(agent)
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
+    }  
+});
+
 
 
 

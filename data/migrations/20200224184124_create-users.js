@@ -44,7 +44,6 @@ exports.up = function(knex, Promise) {
         tbl.string('title', 255)
         tbl.string('content_url', 255)
         tbl.timestamp('created_at').defaultTo(knex.fn.now())
-        tbl.integer('author_id', 255)
         tbl.timestamp('last_updated').defaultTo(knex.fn.now())
         tbl.integer('user_id', 255)
             .unsigned()
@@ -87,6 +86,6 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('content_library').dropTableIfExists('author_content').dropTableIfExists('agent_info').dropTableIfExists('users');
+  return knex.schema.dropTableIfExists('content_library').dropTableIfExists('author_content').dropTableIfExists('agent_info').dropTableIfExists('admins').dropTableIfExists('users');
 };
 
