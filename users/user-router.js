@@ -62,57 +62,118 @@ router.get('/:id', [
 
 // UPDATE user *** In progress
 
-// router.patch('/:id/', [
-//     check('email','Must be a valid email').isEmail(),
-//     check('first_name','must contain first name').not().isEmpty(),
-//     check('last_name','must contain last name').not().isEmpty(),
-//     check('city','city name').optional(),
-//     check('state','state name').optional(),
-//     check('country','country name').optional(),
-//     check('avatar_url','url for avatar image').optional(),
-//     body('display_name').optional().custom(value => {
-//         return Users.findByDisplayName(value).then(user => {
-//             if (user.length > 0) {
-//             return Promise.reject('display name already in use');
-//             }
-//         });
-//     }),
-//     body('email').custom(value => {
-//         return Users.findByEmail(value).then(user => {
-//             console.log(user)
-//         if (user.length > 0) {
-//             return Promise.reject('email already registered');
-//         }
-//         });
-//     }),
-// ], restricted, checkRole(), 
-// (req, res) => {
-//     const updateUser = {
-//         first_name: req.body.first_name,
-//         last_name: req.body.last_name,
-//         email: req.body.email,
-//         user_type: req.body.user_type,
-//         city: req.body.city,
-//         state: req.body.state,
-//         country: req.body.country,
-//         avatar_url: req.body.avatar_url,
-//         display_name: req.body.dispaly_name
-//       }
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//         return res.status(422).jsonp(errors.array());
-//     } else {
-//         Users.update(req.params.id, updateUser)
-//             .then(user => {
-//                 res.status(200).json(user)
+router.patch('/:id/', [
+    check('first_name','must contain first name').not().isEmpty(),
+    check('last_name','must contain last name').not().isEmpty(),
+    check('city','city name').optional(),
+    check('state','state name').optional(),
+    check('country','country name').optional(),
+    check('avatar_url','url for avatar image').optional(),
+], restricted, checkRole(), 
+(req, res) => {
+    const updateUser = {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        user_type: req.body.user_type,
+        city: req.body.city,
+        state: req.body.state,
+        country: req.body.country,
+        avatar_url: req.body.avatar_url,
+      }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).jsonp(errors.array());
+    } else {
+        Users.update(req.params.id, updateUser)
+            .then(user => {
+                res.status(200).json(user)
             
-//             })
-//             .catch(err => {
-//                 res.status(500).json(err)
-//             })
-//     }        
-// });
-        
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
+    }        
+});
+
+// UPDATE email
+
+router.patch('/:id/email', [
+    check('email','Must be a valid email').isEmail(),
+    body("email").custom((value,{req, loc, path}) => {
+        return Users.findByEmail(value).then(user => {
+            if(user[0].email === value && Object.is(Number(req.params.id), user[0].id)) {
+                return Promise.reject('Please choose a new email')
+            } else if(user.length > 0) {
+                return Promise.reject('email already registered'); 
+            }
+        })
+    })
+], restricted, checkRole(), 
+(req, res) => {
+    const updateUser = {
+        email: req.body.email
+      }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).jsonp(errors.array());
+    } else {
+        Users.update(req.params.id, updateUser)
+            .then(user => {
+                res.status(200).json(user)
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
+    }        
+});
+
+//UPDATE display name
+
+
+router.patch('/:id/displayName', [
+    check("display_name", "display name").optional(),
+    body("display_name").custom((value,{req, loc, path}) => {
+        return Users.findByDisplayName(value).then(user => {
+            if(user.length === 0) {
+                return null
+            } else if(user[0].display_name === value && Object.is(Number(req.params.id), user[0].id)) {
+                return Promise.reject('Please choose a new display name')
+            } else if(user.length > 0) {
+                return Promise.reject('display name already registered'); 
+            }
+        })
+    })
+], restricted, checkRole(), 
+(req, res) => {
+    const updateUser = {
+        display_name: req.body.display_name
+      }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).jsonp(errors.array());
+    } else {
+        Users.update(req.params.id, updateUser)
+            .then(user => {
+                res.status(200).json(user)
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
+    }        
+});
+
+// body('display_name').optional().custom(value => {
+//     return Users.findByDisplayName(value).then(user => {
+//         console.log(user[0].email)
+//         if(user[0].display_name === value) {
+//             return Promise.reject('Please select a new display name')
+//         } else if (user.length > 0) {
+//         return Promise.reject('display name already in use');
+//         }
+//     });
+// }),
+
+
     
 
 
@@ -159,36 +220,36 @@ router.get('/:id', [
 // });
 
 
-// // UPDATE password
+// UPDATE password
 
-// router.patch('/:id/updatePass', [
-//     check('password','Must contain 8 characters - one uppercase, one lowercase, one number, one special').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, "i"),
-//     check('id').exists().toInt().optional().custom(value => {
-//         return Users.findById(value).then(user => {
-//           if (user === undefined) {
-//             return Promise.reject('User Id not found');
-//           }
-//         });
-//     }),
-// ], restricted, checkRole(), 
-// (req, res) => {
-//     const errors = validationResult(req);
-//     const hash = bcrypt.hashSync(req.body.password, 12);
-//     const updatePass = {
-//         password: hash
-//     }
-//     if (!errors.isEmpty()) {
-//         return res.status(422).jsonp(errors.array());
-//     } else {
-//         Users.update(req.params.id, updatePass)
-//             .then(user => {
-//                 res.status(200).json(user)
-//             })
-//             .catch(err => {
-//                 res.status(500).json(err)
-//             })
-//     } 
-// });
+router.patch('/:id/updatePass', [
+    check('password','Must contain 8 characters - one uppercase, one lowercase, one number, one special').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, "i"),
+    check('id').exists().toInt().optional().custom(value => {
+        return Users.findById(value).then(user => {
+          if (user === undefined) {
+            return Promise.reject('User Id not found');
+          }
+        });
+    }),
+], restricted, checkRole(), 
+(req, res) => {
+    const errors = validationResult(req);
+    const hash = bcrypt.hashSync(req.body.password, 12);
+    const updatePass = {
+        password: hash
+    }
+    if (!errors.isEmpty()) {
+        return res.status(422).jsonp(errors.array());
+    } else {
+        Users.update(req.params.id, updatePass)
+            .then(user => {
+                res.status(200).json(user)
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
+    } 
+});
 
 // DELETE user
 
