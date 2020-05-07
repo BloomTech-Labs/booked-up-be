@@ -6,6 +6,7 @@ module.exports = {
   findBy,
   findById,
   findByAgentInfoId,
+
   update
 };
 
@@ -16,9 +17,6 @@ function find() {
 function findBy(filter) {
   return db('agent_info').where(filter);
 }
-
-
-
 
 function add(user) {
   return db('agent_info')
