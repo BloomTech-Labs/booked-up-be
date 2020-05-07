@@ -30,7 +30,7 @@ const sendConfirmationEmailAdmin = (user) => {
         return token;
     }
     const token = genToken(user);
-    const url = `http://localhost:4000/api/auth/admin/reset/${user.id}/${token}`
+    const url = `http://localhost:4000/api/auth/admin/register/reset/${user.id}/${token}`
     nodemailerMailgun.sendMail({
         from: process.env.EMAILADDRESS,
         to: `${user.email}`, 
