@@ -58,15 +58,15 @@ router.get('/reset/:id/:token', async (req,res) => {
 
 
 router.post('/adminpasswordreset/', [
-        check('password', 'Please enter a password').not().isEmpty(),
+    check("password",'Please enter a password').custom((value,{req, loc, path}) => {
+        console.log(value.length)
+            if(value !== req.body.confirmPassword) {
+                throw new Error("Passwords do not match")
+            } else {
+                return value;
+            }
+        }),
         check('password','Must contain 8 characters - one uppercase, one lowercase, one number, one special').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, "i"),
-        check("password", " ").custom((value,{req, loc, path}) => {
-                if (value !== req.body.confirmPassword) {
-                    throw new Error("Passwords do not match");
-                } else {
-                    return value;
-                }
-            })
     ],
 (req, res) => {
     const hash = bcrypt.hashSync(req.body.password, 12);
@@ -81,7 +81,7 @@ router.post('/adminpasswordreset/', [
         return "  " + err.msg;
     })
     if (!errors.isEmpty()) {
-        console.log(errArr)
+        console.log(errMsg)
         req.flash("error", errMsg);
         return res.redirect('back')
       } else {

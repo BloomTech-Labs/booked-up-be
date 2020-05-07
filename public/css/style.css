@@ -27,6 +27,7 @@
 	border-radius: 3px;
 }
 .admin-password li:last-child{
+    border-bottom: none;
 	margin-bottom: 0px;
 	text-align: center;
 }
