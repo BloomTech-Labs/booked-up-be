@@ -14,7 +14,7 @@ module.exports = {
   },
   testing: {
     client: 'pg',
-    connection: process.env.DATABASE_URL_TEST,
+    connection: process.env.LOCALDB_TESTING,
     useNullAsDefault: true,
     migrations: {
       directory: './data/migrations',
