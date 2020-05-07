@@ -51,7 +51,7 @@ router.get('/reset/:id/:token', async (req,res) => {
         if(err){
             res.status(400).json(err)
         } else{
-            res.render('index', {error: req.flash('error'), data: { id: decodedJwt.userid, token: req.params.token}})
+            res.render('index', {error: req.flash('error'),  data: { id: decodedJwt.userid, token: req.params.token}})
         }
     });
 });
@@ -59,7 +59,6 @@ router.get('/reset/:id/:token', async (req,res) => {
 
 router.post('/adminpasswordreset/', [
     check("password",'Please enter a password').custom((value,{req, loc, path}) => {
-        console.log(value.length)
             if(value !== req.body.confirmPassword) {
                 throw new Error("Passwords do not match")
             } else {
@@ -81,7 +80,6 @@ router.post('/adminpasswordreset/', [
         return "  " + err.msg;
     })
     if (!errors.isEmpty()) {
-        console.log(errMsg)
         req.flash("error", errMsg);
         return res.redirect('back')
       } else {
@@ -91,7 +89,7 @@ router.post('/adminpasswordreset/', [
             } else {
                 Admins.update(req.body.id, updateUser)
                 .then(u => {
-                    res.send(`Thanks ${u.first_name}, Your password has been updated and you are now able to <a href=http://www.bookedup.net> log in`)
+                    res.render('success')
                 })
                 .catch(err => {
                     res.status(400).json(err.message)
