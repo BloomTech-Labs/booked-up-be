@@ -5,6 +5,8 @@ module.exports = {
   find,
   findBy,
   findById,
+  findByAgentInfoId,
+
   update
 };
 
@@ -16,11 +18,8 @@ function findBy(filter) {
   return db('agent_info').where(filter);
 }
 
-
-
-
 function add(user) {
-  return db('admins')
+  return db('agent_info')
       .insert(user, 'id')
       .then(ids => {
           return findById(ids[0]);
@@ -28,13 +27,19 @@ function add(user) {
 }
 
 function findById(id) {
-  return db('admins')
+  return db('agent_info')
     .where({ id })
     .first();
 }
 
+function findByAgentInfoId(id) {
+  return db('agent_info')
+    .where('user_id', id)
+    .first();
+}
+
 function update(id, changes) {
-  return db('admins')
+  return db('agent_info')
     .where({ id })
     .update(changes)
     .then(() => {

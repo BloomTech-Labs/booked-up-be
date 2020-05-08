@@ -7,11 +7,12 @@ const contentRouter = require('../author-content/content-router');
 const libraryRouter = require('../content-library/library-router');
 const adminRegisterRouter = require('../auth/admin-register-router');
 const adminRouter = require('../admins/admin-router');
-const adminLoginRouter = require('../auth/admin-login')
+const adminLoginRouter = require('../auth/admin-login');
 
 
 const server = express();
 server.set('view engine', 'ejs');
+
 
 configureMiddleware(server)
 

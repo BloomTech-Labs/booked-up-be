@@ -13,6 +13,7 @@ exports.up = function(knex, Promise) {
         tbl.string('country', 255)
         tbl.string('avatar_url', 255)
         tbl.boolean('email_verification').defaultTo(false)
+        tbl.boolean('password_reset').defaultTo(false)
         tbl.timestamp('created_at').defaultTo(knex.fn.now());
     })
       .createTable('admins', tbl => {
@@ -23,6 +24,7 @@ exports.up = function(knex, Promise) {
         tbl.string('password', 255).notNullable()
         tbl.string('email', 255).notNullable().unique()
         tbl.boolean('email_verification').defaultTo(false)
+        tbl.boolean('password_reset').defaultTo(false)
         tbl.timestamp('created_at').defaultTo(knex.fn.now());
       })
       .createTable('agent_info', tbl => {
@@ -44,7 +46,6 @@ exports.up = function(knex, Promise) {
         tbl.string('title', 255)
         tbl.string('content_url', 255)
         tbl.timestamp('created_at').defaultTo(knex.fn.now())
-        tbl.integer('author_id', 255)
         tbl.timestamp('last_updated').defaultTo(knex.fn.now())
         tbl.integer('user_id', 255)
             .unsigned()
@@ -87,6 +88,6 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('content_library').dropTableIfExists('author_content').dropTableIfExists('agent_info').dropTableIfExists('users');
+  return knex.schema.dropTableIfExists('content_library').dropTableIfExists('author_content').dropTableIfExists('agent_info').dropTableIfExists('admins').dropTableIfExists('users');
 };
 

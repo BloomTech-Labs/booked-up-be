@@ -9,7 +9,7 @@ const secrets = require('../config/secrets.js');
 
 
 router.post('/', [
-        check('email','Must be a valid email of 5 to 30 chars').isEmail(),
+        check('email','Must be a valid email').isEmail(),
         check('password','Must contain 8 characters - one uppercase, one lowercase, one number, one special').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, "i"),
         check('user_type','must be either author, fan or agent').isIn(['author', 'agent', 'fan']),
         check('first_name','must contain first name').not().isEmpty(),
