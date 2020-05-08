@@ -13,6 +13,7 @@ exports.up = function(knex, Promise) {
         tbl.string('country', 255)
         tbl.string('avatar_url', 255)
         tbl.boolean('email_verification').defaultTo(false)
+        tbl.boolean('password_reset').defaultTo(false)
         tbl.timestamp('created_at').defaultTo(knex.fn.now());
     })
       .createTable('admins', tbl => {
@@ -23,6 +24,7 @@ exports.up = function(knex, Promise) {
         tbl.string('password', 255).notNullable()
         tbl.string('email', 255).notNullable().unique()
         tbl.boolean('email_verification').defaultTo(false)
+        tbl.boolean('password_reset').defaultTo(false)
         tbl.timestamp('created_at').defaultTo(knex.fn.now());
       })
       .createTable('agent_info', tbl => {
