@@ -45,7 +45,7 @@ router.post('/', [
             Users.add(user)
                 .then(u => {
                     sendConfirmationEmail(u)
-                    res.status(201).json(u)
+                    res.status(201).json({User: u, message: "email sent"})
                 })
                 .catch(err => {
                     res.status(500).json(err.message)
@@ -66,10 +66,10 @@ router.get('/confirmation/:token', async (req,res) => {
       } else{
           Users.update(decodedJwt.userid, updateUser)
               .then(u => {
-                  res.status(200).json({
-                      message: `Registration succesfull ${u.email}`
-                  })
-                  // res.redirect(`http://to log in page`)
+                  // res.status(200).json({
+                  //     message: `Registration succesfull ${u.email}`
+                  // })
+                  res.render('user-registration-success')
               })
               .catch(err => {
                   res.status(400).json(err)
