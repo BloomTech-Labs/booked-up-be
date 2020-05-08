@@ -3,14 +3,12 @@ const configureMiddleware = require('./configure-middleware.js');
 const registerRouter = require('../auth/register-router');
 const loginRouter = require('../auth/login-router');
 const usersRouter = require('../users/user-router');
-const userResetPassword = require('../users/user-reset-password')
-
 const contentRouter = require('../author-content/content-router');
 const libraryRouter = require('../content-library/library-router');
-
 const adminRegisterRouter = require('../auth/admin-register-router');
 const adminLoginRouter = require('../auth/admin-login');
 const adminRouter = require('../admins/admin-router');
+const userResetPassword = require('../users/user-reset-password')
 
 
 const server = express();
