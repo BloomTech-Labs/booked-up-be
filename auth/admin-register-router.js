@@ -51,7 +51,7 @@ router.get('/reset/:id/:token', async (req,res) => {
         if(err){
             res.status(400).json(err)
         } else{
-            res.render('admin-password-confirmation', {error: req.flash('error'),  data: { id: decodedJwt.userid, token: req.params.token}})
+            res.render('admin-password-confirmation', {error: req.flash('error'),  data: { id: decodedJwt.userid, token: req.params.token, type: decodedJwt.type}})
         }
     });
 });
