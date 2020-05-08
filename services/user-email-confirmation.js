@@ -33,7 +33,7 @@ const sendConfirmationEmail = (user) => {
     nodemailerMailgun.sendMail({
         from: 'bookedup.pt9@gmail.com',
         to: `${user.email}`, 
-        subject: 'Confirmation EMail',
+        subject: 'Confirmation Email',
     
         html: `<a href=${url}> ${url}`,
         text: "please click the link to confirm your registration"

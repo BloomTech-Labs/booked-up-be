@@ -56,7 +56,7 @@ router.get('/reset/:id/:token', async (req,res) => {
         if(err){
             res.status(400).json(err)
         } else{
-            res.render('password-reset-user', {error: req.flash('error'),  data: { id: decodedJwt.userid, token: req.params.token}})
+            res.render('user-password-reset', {error: req.flash('error'),  data: { id: decodedJwt.userid, token: req.params.token}})
         }
     });
 });
@@ -65,12 +65,21 @@ router.get('/reset/:id/:token', async (req,res) => {
 router.post('/reset/', [
     check("password",'Please enter a password').custom((value,{req, loc, path}) => {
             if(value !== req.body.confirmPassword) {
-                throw new Error("Passwords do not match")
+                throw new Error("Passwords do not match");
             } else {
                 return value;
             }
         }),
         check('password','Must contain 8 characters - one uppercase, one lowercase, one number, one special').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, "i"),
+        body("password").custom((value,{req, loc, path}) => {
+            return Users.findById(Number(req.body.id)).then(user => {
+                if(user ===  undefined){
+                    throw new Error("User Id is not valid"); 
+                } else if (bcrypt.compareSync(req.body.password, user.password)){
+                    throw new Error("Password can not be previous password");
+                }
+            })
+        })
     ],
 (req, res) => {
     const hash = bcrypt.hashSync(req.body.password, 12);

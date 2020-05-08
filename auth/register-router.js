@@ -2,7 +2,7 @@ const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const Users = require('../users/user-model.js');
 const { check, validationResult, body } = require('express-validator');
-const { sendConfirmationEmail } = require('../services/email-service');
+const { sendConfirmationEmail } = require('../services/user-email-confirmation.js');
 const jwtDecode = require('jwt-decode');
 const jwt = require('jsonwebtoken');
 const secrets = require('../config/secrets.js');
@@ -66,9 +66,6 @@ router.get('/confirmation/:token', async (req,res) => {
       } else{
           Users.update(decodedJwt.userid, updateUser)
               .then(u => {
-                  // res.status(200).json({
-                  //     message: `Registration succesfull ${u.email}`
-                  // })
                   res.render('user-registration-success')
               })
               .catch(err => {

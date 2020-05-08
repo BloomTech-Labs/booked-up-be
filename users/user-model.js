@@ -59,9 +59,15 @@ function add(user) {
 
 function findById(id) {
   return db('users')
-    .where({ id })
+    .where('id', id)
     .first();
 }
+
+// function findByIdNew(id) {
+//   return db('users')
+//     .where({ id })
+//     .first();
+// }
 
 function update(id, changes) {
   return db('users')
