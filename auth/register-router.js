@@ -27,7 +27,6 @@ router.post('/', [
         }),
         body('email').custom(value => {
           return Users.findByEmail(value).then(user => {
-              console.log(user)
             if (user.length > 0) {
               return Promise.reject('email already registered');
             }

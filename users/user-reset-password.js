@@ -76,7 +76,7 @@ router.post('/reset/', [
                 if(user ===  undefined){
                     throw new Error("User Id is not valid"); 
                 } else if (bcrypt.compareSync(req.body.password, user.password)){
-                    throw new Error("Password can not be previous password");
+                    throw new Error("New password can not be previous password");
                 }
             })
         })

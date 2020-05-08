@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 
 
 const { check, validationResult, body } = require('express-validator');
-const { sendConfirmationEmailAdmin } = require('../services/admin-email-service');
+const { sendConfirmationEmailAdmin } = require('../services/admin-email-registration');
 
 router.post('/', [
     check('email','email field is required').not().isEmpty(),
