@@ -29,6 +29,7 @@ const sendPasswordResetEmail = (user) => {
     
         return token;
     }
+    const capName = `${user.first_name[0].toUpperCase()}${user.first_name.slice(1)}`;
     const token = genToken(user);
     const url = `http://localhost:4000/api/users/password/reset/${user.id}/${token}`
     nodemailerMailgun.sendMail({
@@ -147,7 +148,7 @@ const sendPasswordResetEmail = (user) => {
                         <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
                           <tr>
                             <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
-                              <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Hi ${user.first_name},</p>
+                              <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Hi ${capName},</p>
                               <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Please click the button to reset your password. </p>
                               <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;">
                                 <tbody>

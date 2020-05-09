@@ -28,11 +28,12 @@ const sendConfirmationEmail = (user) => {
     
         return token;
     }
+    const capName = `${user.first_name[0].toUpperCase()}${user.first_name.slice(1)}`;
     const token = genToken(user);
     const url = `http://localhost:4000/api/auth/register/confirmation/${token}`
     nodemailerMailgun.sendMail({
-        from: 'bookedup.pt9@gmail.com',
-        to: `${user.email}`, 
+        from: process.env.EMAILADDRESS,
+        to: `${user.email}`,
         subject: 'BookedUp',
         html: `
         <html>
@@ -147,7 +148,7 @@ const sendConfirmationEmail = (user) => {
                           <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
                             <tr>
                               <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
-                                <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Hi ${user.first_name},</p>
+                                <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Hi ${capName},</p>
                                 <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Please click the button to finish ${user.user_type} registration. </p>
                                 <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;">
                                   <tbody>
@@ -200,11 +201,12 @@ const sendConfirmationEmail = (user) => {
               </tr>
             </table>
           </body>
-        </html>`,
+        </html>`
+
       }).then(()=> {
           console.log('email sent')
       }).catch(err => {
-          console.log(err)
+          console.log(err.message)
       })
     
 }
