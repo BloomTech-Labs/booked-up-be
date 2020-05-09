@@ -6,6 +6,7 @@ module.exports = {
   findBy,
   findById,
   findByAgentInfoId,
+
   update
 };
 
