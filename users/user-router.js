@@ -214,6 +214,7 @@ router.delete('/:id/', [
       })
 });
 
+
 // GET Agent Info by Id
 
 router.get('/:id/agent', [
@@ -325,10 +326,6 @@ router.patch('/:id/agent', [
             })
     }  
 });
-
-
-
-
 
 
 module.exports = router;
