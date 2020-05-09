@@ -12,16 +12,17 @@ const auth = {
 
 const nodemailerMailgun = nodemailer.createTransport(mg(auth));
 
-const sendConfirmationEmail = (user) => {
+const sendPasswordResetEmail = (user) => {
 
     function genToken(user) {
         const payload = {
             userid: user.id,
-            userType: [`${user.user_type}`]
+            userName: user.first_name,
+            createdAt: user.created_at
         }
     
         const options = {
-            expiresIn: "8h"
+            expiresIn: "1h"
         }
     
         const token = jwt.sign(payload, secrets.jwtSecret, options);
@@ -29,14 +30,13 @@ const sendConfirmationEmail = (user) => {
         return token;
     }
     const token = genToken(user);
-    const url = `http://localhost:4000/api/auth/register/confirmation/${token}`
+    const url = `http://localhost:4000/api/users/password/reset/${user.id}/${token}`
     nodemailerMailgun.sendMail({
-        from: 'bookedup.pt9@gmail.com',
+        from: process.env.EMAILADDRESS,
         to: `${user.email}`, 
-        subject: 'Confirmation EMail',
-    
-        html: `<a href=${url}> ${url}`,
-        text: "please click the link to confirm your registration"
+        subject: 'Confirmation Email',
+        html: `<div> Hi ${user.first_name}, please click the link to reset your password </div> <div><a href=${url}> ${url}</div>`
+        
       }).then(()=> {
           console.log('email sent')
       }).catch(err => {
@@ -45,5 +45,4 @@ const sendConfirmationEmail = (user) => {
     
 }
 
-exports.sendConfirmationEmail = sendConfirmationEmail;
-  
+exports.sendPasswordResetEmail = sendPasswordResetEmail;

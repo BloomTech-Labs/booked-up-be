@@ -131,7 +131,6 @@ router.patch('/:id/email', [
 
 //UPDATE display name
 
-
 router.patch('/:id/displayName', [
     check("display_name", "display name").optional(),
     body("display_name").custom((value,{req, loc, path}) => {
@@ -288,7 +287,6 @@ router.post('/:id/agent', [
             })
     }  
 });
-
 
 // UPDATE Agent Info 
 
