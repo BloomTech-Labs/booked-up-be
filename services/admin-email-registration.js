@@ -18,7 +18,7 @@ const sendConfirmationEmailAdmin = (user) => {
         const payload = {
             userid: user.id,
             userName: user.first_name,
-            createdAt: user.created_at
+            userType: user.user_type
         }
     
         const options = {
