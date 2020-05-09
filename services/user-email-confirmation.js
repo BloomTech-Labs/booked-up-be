@@ -33,9 +33,9 @@ const sendConfirmationEmail = (user) => {
     nodemailerMailgun.sendMail({
         from: 'bookedup.pt9@gmail.com',
         to: `${user.email}`, 
-        subject: 'Confirmation Email',
+        subject: 'BookedUp Confirmation Email',
     
-        html: `<a href=${url}> ${url}`,
+        html: `<div> Hi ${user.first_name}, please click the link to finish admin registration </div><div><a href=${url}> ${url}</div>`,
         text: "please click the link to confirm your registration"
       }).then(()=> {
           console.log('email sent')

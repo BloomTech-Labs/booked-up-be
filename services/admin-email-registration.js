@@ -34,7 +34,7 @@ const sendConfirmationEmailAdmin = (user) => {
     nodemailerMailgun.sendMail({
         from: process.env.EMAILADDRESS,
         to: `${user.email}`, 
-        subject: 'Confirmation Email',
+        subject: 'BookedUp Confirmation Email',
         html: `<div> Hi ${user.first_name}, please click the link to finish admin registration </div> <div><a href=${url}> ${url}</div>`
         
       }).then(()=> {
