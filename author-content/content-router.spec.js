@@ -11,4 +11,9 @@ describe('Get /', () => {
         const res = await request(content).get('/');
         expect(res.type).toBe('application/json');
     })
+
+    it('should return JSON', async () => {
+        const res = await request(content).get('/');
+        expect(res.type).toBe('application/json');
+    })
 })
