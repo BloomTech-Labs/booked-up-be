@@ -56,7 +56,7 @@ router.get('/reset/:id/:token', async (req,res) => {
         if(err){
             res.status(400).json(err)
         } else{
-            res.render('user-password-reset', {error: req.flash('error'),  data: { id: decodedJwt.userid, token: req.params.token, type: decodedJwt.type}})
+            res.render('user-password-reset', {error: req.flash('error'),  data: { id: decodedJwt.userid, token: req.params.token, type: decodedJwt.userType}})
         }
     });
 });
