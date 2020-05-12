@@ -203,6 +203,7 @@ const sendConfirmationEmail = (user) => {
           </body>
         </html>`
 
+
       }).then(()=> {
           console.log('email sent')
       }).catch(err => {
