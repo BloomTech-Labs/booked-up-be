@@ -81,11 +81,26 @@ router.post('/', [
                 .then(u => {
                     if(u && bcrypt.compareSync(password, u.password)) {
                         const token = genToken(u);
+                        
+                        const userList = {
+                            id: u.id,
+                            userType: u.user_type,
+                            firstName: u.first_name,
+                            lastName: u.last_name,
+                            displayName: u.display_name,
+                            email: u.email,
+                            country: u.country,
+                            state: u.state,
+                            city: u.city,
+                            image: u.image,
+                            createdAt: u.created_at
+                        }
+
                         Users.findByIdContentLibrary(u.id)
                             .then(content => {
                                 const contentLibraryList = content.map(info => {
-                                    const {title, content_url, created_at, last_updated, user_id} = info
-                                    return {title, content_url, created_at, last_updated, user_id}
+                                    const {title, content_url, created_at, last_updated} = info
+                                    return {title, content_url, created_at, last_updated}
                                 })
                             Users.findAgentInfoId(u.id)
                                 .then(agentInfo => {
@@ -96,26 +111,26 @@ router.post('/', [
                             Users.findByIdAuthorContent(u.id)
                                 .then(authorContent => {
                                     const authorContentList = authorContent.map(info => {
-                                        const {title, content_url, created_at, last_updated, user_id} = info
-                                        return {title, content_url, created_at, last_updated, user_id}
+                                        const {title, content_url, created_at, last_updated} = info
+                                        return {title, content_url, created_at, last_updated}
                                     })
                                     if(u.user_type === 'author') {
                                         res.status(200).json({
-                                            User: u,
+                                            User: userList,
                                             AuthorContent: authorContentList,
                                             ContentLibrary: contentLibraryList,
                                             Token: token
                                         })
                                     } else if(u.user_type === 'agent'){
                                         res.status(200).json({
-                                            User: u,
+                                            User: userList,
                                             AgentInfo: AgentInfoList,
                                             contentLibrary: contentLibraryList,
                                             Token: token
                                         })
                                     } else {
                                         res.status(200).json({
-                                            User: u,
+                                            User: userList,
                                             contentLibrary: contentLibraryList,
                                             Token: token
                                         })
