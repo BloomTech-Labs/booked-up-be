@@ -7,6 +7,9 @@ module.exports = {
   findById,
   findByDisplayName,
   findByEmail,
+  findByEmailContentLibrary,
+  findByIdContentLibrary,
+  findByIdAuthorContent,
   findByAdmin,
   update,
   removeUser,
@@ -38,6 +41,27 @@ function findByDisplayName(search) {
 function findByEmail(search) {
   return db('users')
     .where('email', search)
+}
+
+function findByEmailContentLibrary(search) {
+  return db('users as u')
+    .join('content_library as cl', 'u_id', 'u.id')
+    .where('email', search)
+}
+
+function findByIdContentLibrary(id) {
+  return db('content_library as cl')
+    .join('users as u', 'u.id', 'cl.user_id')
+    .select('cl.*')
+    .where('cl.user_id', id)
+
+}
+
+function findByIdAuthorContent(id) {
+  return db('author_content as ac')
+    .join('users as u', 'u.id', 'ac.user_id')
+    .select('ac.*')
+    .where('ac.user_id', id)
 }
 
 function findByAdmin(search) {
