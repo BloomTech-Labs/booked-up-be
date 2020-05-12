@@ -43,7 +43,7 @@ router.post('/', [
           } else {
             Users.add(user)
                 .then(u => {
-                    sendConfirmationEmail(u)
+                    // sendConfirmationEmail(u)
                     res.status(201).json({User: u, message: "email sent"})
                 })
                 .catch(err => {
@@ -52,6 +52,36 @@ router.post('/', [
           }
 })
 
+// Resend email registration link 
+
+router.post('/resendConfirm', [
+  check('email','Must be a valid email').isEmail(),
+  body('email').custom(value => {
+    return Users.findByEmail(value).then(user => {
+      let emailConf = user.map(u => u.email_verification)
+      if (user.length === 0) {
+        return Promise.reject('email not registered');
+      } else if(emailConf[0] === true) {
+        return Promise.reject('email has already been validated')
+      }
+    });
+}),
+],
+(req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      return res.status(422).jsonp(errors.array());
+    } else {
+      Users.findByEmail(req.body.email)
+          .then(u => {
+              sendConfirmationEmail(u[0])
+              res.status(201).json({message: "email sent"})
+          })
+          .catch(err => {
+              res.status(500).json(err)
+          })
+    }
+})
 
 router.get('/confirmation/:token', async (req,res) => {
   const updateUser = {
