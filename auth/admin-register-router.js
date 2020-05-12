@@ -88,7 +88,7 @@ router.post('/adminpasswordreset/', [
             } else {
                 Admins.update(req.body.id, updateUser)
                 .then(u => {
-                    res.render('success')
+                    res.render('admin-password-success')
                 })
                 .catch(err => {
                     res.status(400).json(err.message)

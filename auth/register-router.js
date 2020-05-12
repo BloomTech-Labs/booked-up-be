@@ -44,7 +44,7 @@ router.post('/', [
             Users.add(user)
                 .then(u => {
                     // sendConfirmationEmail(u)
-                    res.status(201).json({User: u, message: "email sent"})
+                    res.status(201).json({message: "email sent"})
                 })
                 .catch(err => {
                     res.status(500).json(err.message)
