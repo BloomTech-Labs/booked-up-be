@@ -104,7 +104,7 @@ router.post('/', [
                                 })
                             Users.findAgentInfoId(u.id)
                                 .then(agentInfo => {
-                                    const AgentInfoList = agentInfo.map(info => {
+                                    const agentInfoList = agentInfo.map(info => {
                                         const {agent_type, agency_type, agency_address, agency_phone_number, agency_email} = info
                                         return {agent_type, agency_type, agency_address, agency_phone_number, agency_email}
                                     })
@@ -124,7 +124,7 @@ router.post('/', [
                                     } else if(u.user_type === 'agent'){
                                         res.status(200).json({
                                             User: userList,
-                                            AgentInfo: AgentInfoList,
+                                            AgentInfo: agentInfoList,
                                             contentLibrary: contentLibraryList,
                                             Token: token
                                         })
