@@ -43,7 +43,7 @@ router.post('/', [
           } else {
             Users.add(user)
                 .then(u => {
-                    sendConfirmationEmail(u)
+                    // sendConfirmationEmail(u)
                     res.status(201).json({User: u, message: "email sent"})
                 })
                 .catch(err => {

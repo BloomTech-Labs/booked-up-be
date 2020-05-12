@@ -12,7 +12,7 @@ exports.up = function(knex, Promise) {
         tbl.string('state', 255)
         tbl.string('country', 255)
         tbl.string('avatar_url', 255)
-        tbl.boolean('email_verification').defaultTo(false)
+        tbl.boolean('email_verification').defaultTo(true)
         tbl.boolean('password_reset').defaultTo(false)
         tbl.timestamp('created_at').defaultTo(knex.fn.now());
     })
