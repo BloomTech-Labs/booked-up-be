@@ -53,8 +53,9 @@ const { check, validationResult, body } = require('express-validator');
 
 
 
+
 // router.post('/', [
-    
+
 //     check('email','email field is required').not().isEmpty(),
 //     check('email','a valid email is required').isEmail(),
 //     body('email').custom(value => {

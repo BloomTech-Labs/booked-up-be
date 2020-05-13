@@ -202,6 +202,7 @@ const sendConfirmationEmailAdmin = (user) => {
           </table>
         </body>
       </html>`
+
         
       }).then(()=> {
           console.log('email sent')
