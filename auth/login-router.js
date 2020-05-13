@@ -150,18 +150,20 @@ const { check, validationResult, body } = require('express-validator');
 // })
 
 
-// Test
+// Login using email or display_name
 
 router.post('/', [
     body("login").custom((value,{req, loc, path}) => {
         if(value.indexOf('@') !== -1 ){
             return Users.findByEmail(value).then(user => {
                 let newUser = user.map(u => u.email_verification)
-              if (user.length === 0) {
-                return Promise.reject('email not registered');
-              } else if (newUser[0] === false){
-                return Promise.reject('email has not been validated');
-              }
+                if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value) === false) {
+                    return Promise.reject('please input a valid email')
+                } else if (user.length === 0) {
+                    return Promise.reject('email not registered');
+                } else if (newUser[0] === false){
+                    return Promise.reject('email has not been validated');
+                }
             })
         } else {
             return Users.findByDisplayName(value).then(user => {
