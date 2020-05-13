@@ -19,6 +19,7 @@ router.post('/', [
         check('country','country name').optional().trim().notEmpty(),
         check('avatar_url','url for avatar image').optional().trim().notEmpty(),
         check('display_name', 'display name must be between 1 and 30 characters').optional().trim().isLength({ min: 1, max: 30}),
+        check('display_name', 'display name can only contain letters, numbers and underscores').optional().matches(/^\w+$/),
         body('display_name').optional().custom(value => {
             return Users.findByDisplayName(value).then(user => {
               if (user.length > 0) {
