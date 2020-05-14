@@ -9,15 +9,17 @@ const secrets = require('../config/secrets.js');
 
 
 router.post('/', [
-        check('email','Must be a valid email').isEmail(),
+        check('email','Must be a valid email').isEmail().normalizeEmail(),
         check('password','Must contain 8 characters - one uppercase, one lowercase, one number, one special').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, "i"),
         check('user_type','must be either author, fan or agent').isIn(['author', 'agent', 'fan']),
-        check('first_name','must contain first name').not().isEmpty(),
-        check('last_name','must contain last name').not().isEmpty(),
-        check('city','city name').optional(),
-        check('state','state name').optional(),
-        check('country','country name').optional(),
-        check('avatar_url','url for avatar image').optional(),
+        check('first_name','must contain first name').trim().notEmpty(),
+        check('last_name','must contain last name').trim().notEmpty(),
+        check('city','city name').optional().trim().notEmpty(),
+        check('state','state name').optional().trim().notEmpty(),
+        check('country','country name').optional().trim().notEmpty(),
+        check('avatar_url','url for avatar image').optional().trim().notEmpty(),
+        check('display_name', 'display name must be between 1 and 30 characters').optional().trim().isLength({ min: 1, max: 30}),
+        check('display_name', 'display name can only contain letters, numbers and underscores').optional().matches(/^\w+$/),
         body('display_name').optional().custom(value => {
             return Users.findByDisplayName(value).then(user => {
               if (user.length > 0) {
