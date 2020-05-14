@@ -4,38 +4,37 @@ const jwt = require('jsonwebtoken');
 const secrets = require('../config/secrets.js');
 
 const auth = {
-    auth: {
-      api_key: process.env.MAILGUN_API_KEY,
-      domain: process.env.MAILGUN_DOMAIN
-    },
-}
+  auth: {
+    api_key: process.env.MAILGUN_API_KEY,
+    domain: process.env.MAILGUN_DOMAIN,
+  },
+};
 
 const nodemailerMailgun = nodemailer.createTransport(mg(auth));
 
 const sendConfirmationEmail = (user) => {
+  function genToken(user) {
+    const payload = {
+      userid: user.id,
+      userType: [`${user.user_type}`],
+    };
 
-    function genToken(user) {
-        const payload = {
-            userid: user.id,
-            userType: [`${user.user_type}`]
-        }
-    
-        const options = {
-            expiresIn: "8h"
-        }
-    
-        const token = jwt.sign(payload, secrets.jwtSecret, options);
-    
-        return token;
-    }
-    const capName = `${user.first_name[0].toUpperCase()}${user.first_name.slice(1)}`;
-    const token = genToken(user);
-    const url = `http://localhost:4000/api/auth/register/confirmation/${token}`
-    nodemailerMailgun.sendMail({
-        from: process.env.EMAILADDRESS,
-        to: `${user.email}`,
-        subject: 'BookedUp',
-        html: `
+    const options = {
+      expiresIn: '8h',
+    };
+
+    const token = jwt.sign(payload, secrets.jwtSecret, options);
+
+    return token;
+  }
+  const capName = `${user.first_name[0].toUpperCase()}${user.first_name.slice(1)}`;
+  const token = genToken(user);
+  const url = `${process.env.MAIL_EMAIL}/api/auth/register/confirmation/${token}`;
+  nodemailerMailgun.sendMail({
+    from: process.env.EMAILADDRESS,
+    to: `${user.email}`,
+    subject: 'BookedUp',
+    html: `
         <html>
           <head>
             <meta name="viewport" content="width=device-width">
@@ -201,16 +200,14 @@ const sendConfirmationEmail = (user) => {
               </tr>
             </table>
           </body>
-        </html>`
+        </html>`,
 
+  }).then(() => {
+    console.log('email sent');
+  }).catch((err) => {
+    console.log(err.message);
+  });
+};
 
-      }).then(()=> {
-          console.log('email sent')
-      }).catch(err => {
-          console.log(err.message)
-      })
-    
-}
 
 exports.sendConfirmationEmail = sendConfirmationEmail;
-  

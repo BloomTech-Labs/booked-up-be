@@ -1,6 +1,15 @@
 const server = require('../api/server');
 const request = require('supertest')
 
+
+describe('users model', () => {
+
+});
+
+beforeEach(async () => {
+  await db('users').truncate();
+});
+
 describe('Get /', () => {
   // it('should return 200 with auth', async () => {
     //     const res = await request(server).get('/api/author-content');
@@ -18,3 +27,4 @@ describe('Get /', () => {
         expect(res.type).toBe('application/json');
     })
 })
+
