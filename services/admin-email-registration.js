@@ -210,4 +210,5 @@ const sendConfirmationEmailAdmin = (user) => {
   });
 };
 
+
 exports.sendConfirmationEmailAdmin = sendConfirmationEmailAdmin;
