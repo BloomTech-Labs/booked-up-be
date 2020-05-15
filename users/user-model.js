@@ -20,7 +20,8 @@ module.exports = {
 };
 
 function find() {
-  return db('users');
+  return db('users as u')
+    .select('u.id', 'u.first_name', 'u.last_name', 'u.display_name', 'u.email', 'u.country', 'u.state', 'u.city', 'u.avatar_url', 'u.email_verification', 'u.password_reset', 'u.created_at');
 }
 
 function findById(id) {
