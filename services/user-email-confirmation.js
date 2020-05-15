@@ -29,7 +29,7 @@ const sendConfirmationEmail = (user) => {
   }
   const capName = `${user.first_name[0].toUpperCase()}${user.first_name.slice(1)}`;
   const token = genToken(user);
-  const url = `${process.env.MAIL_EMAIL}/api/auth/register/confirmation/${token}`;
+  const url = `http://bookedup-pt9.herokuapp.com/api/auth/register/confirmation/${token}`;
   nodemailerMailgun.sendMail({
     from: process.env.EMAILADDRESS,
     to: `${user.email}`,
