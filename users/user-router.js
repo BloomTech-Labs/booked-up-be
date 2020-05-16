@@ -237,7 +237,7 @@ router.post('/:id/agent', [
   check('agent_type', 'please enter a valid type of agent').optional().trim().matches(/^[a-zA-Z-]+$/),
   check('agency_name', 'please enter a valid name of agency worked at').optional().trim().matches(/^[a-zA-Z0-9@&._-]+$/),
   check('agency_address', 'please enter a valid agency address').optional().trim().matches(/^[a-zA-Z0-9._-]+$/),
-  check('agency_phone_number', 'agency phone number').optional().trim().matches(/^[0-9._-]+$/),
+  check('agency_phone_number', 'agency phone number').optional().trim().matches(/^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/),
   check('agency_email', 'please enter a valid agency email').optional().isEmail(),
   check('id').exists().toInt().optional()
     .custom((value) => Users.findById(value).then((user) => {
@@ -281,7 +281,7 @@ router.patch('/:id/agent', [
   check('agent_type', 'please enter a valid type of agent').optional().trim().matches(/^[a-zA-Z-]+$/),
   check('agency_name', 'please enter a valid name of agency worked at').optional().trim().matches(/^[a-zA-Z0-9@&._-]+$/),
   check('agency_address', 'please enter a valid agency address').optional().trim().matches(/^[a-zA-Z0-9._-]+$/),
-  check('agency_phone_number', 'agency phone number').optional().trim().matches(/^[0-9._-]+$/),
+  check('agency_phone_number', 'agency phone number').optional().trim().matches(/^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/),
   check('agency_email', 'please enter a valid agency email').optional().isEmail(),
   check('id').exists().toInt().optional()
     .custom((value) => Agents.findByAgentInfoId(value).then((user) => {
