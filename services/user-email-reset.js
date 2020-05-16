@@ -30,7 +30,7 @@ const sendPasswordResetEmail = (user) => {
   }
   const capName = `${user.first_name[0].toUpperCase()}${user.first_name.slice(1)}`;
   const token = genToken(user);
-  const url = `http://bookedup-pt9.herokuapp.com/api/users/password/reset/${user.id}/${token}`;
+  const url = `http://localhost:4000/api/users/password/reset/${user.id}/${token}`;
   nodemailerMailgun.sendMail({
     from: process.env.EMAILADDRESS,
     to: `${user.email}`,

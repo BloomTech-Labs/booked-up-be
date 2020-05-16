@@ -65,11 +65,11 @@ router.get('/:id', [
 // UPDATE user
 
 router.patch('/:id/', [
-  check('first_name', 'must contain first name').not().isEmpty(),
-  check('last_name', 'must contain last name').not().isEmpty(),
-  check('city', 'city name').optional(),
-  check('state', 'state name').optional(),
-  check('country', 'country name').optional(),
+  check('first_name', 'first name must contain only letters or dashes').trim().matches(/^[a-zA-Z-]+$/),
+  check('last_name', 'first name must contain only letters or dashes').trim().matches(/^[a-zA-Z-]+$/),
+  check('city', 'please enter a valid city name').optional().trim().matches(/^[a-zA-Z-]+$/),
+  check('state', 'please enter a valid state name').optional().trim().matches(/^[a-zA-Z-]+$/),
+  check('country', 'please enter a valid country name').optional().trim().matches(/^[a-zA-Z-]+$/),
   check('avatar_url', 'url for avatar image').optional(),
 ], restricted, checkRole(),
 (req, res) => {
@@ -129,7 +129,8 @@ router.patch('/:id/email', [
 // UPDATE display name
 
 router.patch('/:id/displayName', [
-  check('display_name', 'display name').optional(),
+  check('display_name', 'display name must be between 1 and 30 characters').optional().trim().isLength({ min: 1, max: 30 }),
+  check('display_name', 'display name can only contain letters, numbers and underscores').optional().matches(/^\w+$/),
   body('display_name').custom((value, { req, loc, path }) => Users.findByDisplayName(value).then((user) => {
     if (user.length === 0) {
       return null;
@@ -233,11 +234,11 @@ router.get('/:id/agent', [
 // POST Agent Info
 
 router.post('/:id/agent', [
-  check('agent_type', 'type of agent').optional(),
-  check('agency_name', 'name of agency worked at').optional(),
-  check('agency_address', 'agency address').optional(),
-  check('agency_phone_number', 'agency phone number').optional(),
-  check('agency_email', 'agency email').optional(),
+  check('agent_type', 'please enter a valid type of agent').optional().trim().matches(/^[a-zA-Z-]+$/),
+  check('agency_name', 'please enter a valid name of agency worked at').optional().trim().matches(/^[a-zA-Z0-9@&._-]+$/),
+  check('agency_address', 'please enter a valid agency address').optional().trim().matches(/^[a-zA-Z0-9._-]+$/),
+  check('agency_phone_number', 'agency phone number').optional().trim().matches(/^[0-9._-]+$/),
+  check('agency_email', 'please enter a valid agency email').optional().isEmail(),
   check('id').exists().toInt().optional()
     .custom((value) => Users.findById(value).then((user) => {
       if (user === undefined) {
@@ -277,11 +278,11 @@ router.post('/:id/agent', [
 // UPDATE Agent Info
 
 router.patch('/:id/agent', [
-  check('agent_type', 'type of agent').optional(),
-  check('agency_name', 'name of agency worked at').optional(),
-  check('agency_address', 'agency address').optional(),
-  check('agency_phone_number', 'agency phone number').optional(),
-  check('agency_email', 'agency email').optional(),
+  check('agent_type', 'please enter a valid type of agent').optional().trim().matches(/^[a-zA-Z-]+$/),
+  check('agency_name', 'please enter a valid name of agency worked at').optional().trim().matches(/^[a-zA-Z0-9@&._-]+$/),
+  check('agency_address', 'please enter a valid agency address').optional().trim().matches(/^[a-zA-Z0-9._-]+$/),
+  check('agency_phone_number', 'agency phone number').optional().trim().matches(/^[0-9._-]+$/),
+  check('agency_email', 'please enter a valid agency email').optional().isEmail(),
   check('id').exists().toInt().optional()
     .custom((value) => Agents.findByAgentInfoId(value).then((user) => {
       if (user === undefined) {
