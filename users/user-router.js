@@ -234,10 +234,10 @@ router.get('/:id/agent', [
 // POST Agent Info
 
 router.post('/:id/agent', [
-  check('agent_type', 'please enter a valid type of agent').optional().trim().matches(/^[a-zA-Z-]+$/),
-  check('agency_name', 'please enter a valid name of agency worked at').optional().trim().matches(/^[a-zA-Z0-9@&._-]+$/),
-  check('agency_address', 'please enter a valid agency address').optional().trim().matches(/^[a-zA-Z0-9._-]+$/),
-  check('agency_phone_number', 'agency phone number').optional().trim().matches(/^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/),
+  check('agent_type', 'please enter a valid type of agent').optional().trim().matches(/^[a-zA-Z- .,/]+$/),
+  check('agency_name', 'please enter a valid name of agency worked at').optional().trim().matches(/^[a-zA-Z0-9@& ._-]+$/),
+  check('agency_address', 'please enter a valid agency address').optional().trim().matches(/^[a-zA-Z0-9 .,_-]+$/),
+  check('agency_phone_number', 'please enter a valid agency phone number').optional().trim().matches(/^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/),
   check('agency_email', 'please enter a valid agency email').optional().isEmail(),
   check('id').exists().toInt().optional()
     .custom((value) => Users.findById(value).then((user) => {
@@ -247,7 +247,6 @@ router.post('/:id/agent', [
     })),
   check('id').exists().toInt().optional()
     .custom((value) => Agents.findByAgentInfoId(value).then((user) => {
-      console.log(user);
       if (user) {
         return Promise.reject('Agent info already created');
       }
@@ -278,10 +277,10 @@ router.post('/:id/agent', [
 // UPDATE Agent Info
 
 router.patch('/:id/agent', [
-  check('agent_type', 'please enter a valid type of agent').optional().trim().matches(/^[a-zA-Z-]+$/),
-  check('agency_name', 'please enter a valid name of agency worked at').optional().trim().matches(/^[a-zA-Z0-9@&._-]+$/),
-  check('agency_address', 'please enter a valid agency address').optional().trim().matches(/^[a-zA-Z0-9._-]+$/),
-  check('agency_phone_number', 'agency phone number').optional().trim().matches(/^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/),
+  check('agent_type', 'please enter a valid type of agent').optional().trim().matches(/^[a-zA-Z- .,/]+$/),
+  check('agency_name', 'please enter a valid name of agency worked at').optional().trim().matches(/^[a-zA-Z0-9@& ._-]+$/),
+  check('agency_address', 'please enter a valid agency address').optional().trim().matches(/^[a-zA-Z0-9 .,_-]+$/),
+  check('agency_phone_number', 'please enter a valid agency phone number').optional().trim().matches(/^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/),
   check('agency_email', 'please enter a valid agency email').optional().isEmail(),
   check('id').exists().toInt().optional()
     .custom((value) => Agents.findByAgentInfoId(value).then((user) => {
@@ -303,12 +302,16 @@ router.patch('/:id/agent', [
   if (!errors.isEmpty()) {
     return res.status(422).jsonp(errors.array());
   }
-  Agents.update(req.params.id, updateAgentInfo)
-    .then((agent) => {
-      res.status(200).json(agent);
-    })
-    .catch((err) => {
-      res.status(500).json(err);
+  Agents.findByAgentInfoId(req.params.id)
+    .then((a) => {
+      const agentInfoId = a.id;
+      Agents.update(req.params.id, updateAgentInfo, agentInfoId)
+        .then((agent) => {
+          res.status(200).json(agent);
+        })
+        .catch((err) => {
+          res.status(500).json(err);
+        });
     });
 });
 

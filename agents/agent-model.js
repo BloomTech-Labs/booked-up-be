@@ -7,7 +7,7 @@ module.exports = {
   findById,
   findByAgentInfoId,
 
-  update
+  update,
 };
 
 function find() {
@@ -20,10 +20,8 @@ function findBy(filter) {
 
 function add(user) {
   return db('agent_info')
-      .insert(user, 'id')
-      .then(ids => {
-          return findById(ids[0]);
-        });
+    .insert(user, 'id')
+    .then((ids) => findById(ids[0]));
 }
 
 function findById(id) {
@@ -38,11 +36,9 @@ function findByAgentInfoId(id) {
     .first();
 }
 
-function update(id, changes) {
+function update(id, changes, agentInfoId) {
   return db('agent_info')
-    .where({ id })
+    .where('user_id', id)
     .update(changes)
-    .then(() => {
-      return findById(id);
-    });
+    .then(() => findById(agentInfoId));
 }
