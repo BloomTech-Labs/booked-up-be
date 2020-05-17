@@ -1,8 +1,8 @@
-const router = require('express').Router();
-const db = require('./library-model');
-const restricted = require('../auth/restricted');
+const router = require("express").Router();
+const db = require("./library-model");
+const restricted = require("../auth/restricted");
 
-router.get('/', restricted, (req, res) => {
+router.get("/", restricted, (req, res) => {
   db.get()
     .then((content_library) => {
       res.status(200).json(content_library);
@@ -12,7 +12,7 @@ router.get('/', restricted, (req, res) => {
     });
 });
 
-router.post('/', restricted, async (req, res) => {
+router.post("/", restricted, async (req, res) => {
   try {
     const favorite = req.body;
     const [newFavorite] = await db.add(favorite);
@@ -22,7 +22,7 @@ router.post('/', restricted, async (req, res) => {
   }
 });
 
-router.put('/:id', restricted, async (req, res) => {
+router.put("/:id", restricted, async (req, res) => {
   try {
     const { id } = req.params;
     const favorite = req.body;
@@ -33,7 +33,7 @@ router.put('/:id', restricted, async (req, res) => {
   }
 });
 
-router.delete('/:id', restricted, async (req, res) => {
+router.delete("/:id", restricted, async (req, res) => {
   try {
     const favoriteId = req.params.id;
     const deletedContent = await db.deleteFavorite(favoriteId);
@@ -41,12 +41,11 @@ router.delete('/:id', restricted, async (req, res) => {
       res.status(204).send();
     } else {
       console.log(deletedContent);
-      res.status(404).json({ message: 'Selection cannot be found.' });
+      res.status(404).json({ message: "Selection cannot be found." });
     }
   } catch (error) {
     res.status(500).json({ error });
   }
 });
-
 
 module.exports = router;

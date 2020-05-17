@@ -1,4 +1,4 @@
-const db = require('../data/dbConfig.js');
+const db = require("../data/dbConfig.js");
 
 module.exports = {
   get,
@@ -8,17 +8,17 @@ module.exports = {
 };
 
 function get() {
-  return db('author_content');
+  return db("author_content");
 }
 
 function add(newContent) {
-  return db('author_content').insert(newContent).returning('*');
+  return db("author_content").insert(newContent).returning("*");
 }
 
 function update(content, id) {
-  return db('author_content').where({ id }).update(content).returning('*');
+  return db("author_content").where({ id }).update(content).returning("*");
 }
 
 function deleteContent(id) {
-  return db('author_content').where({ id }).delete();
+  return db("author_content").where({ id }).delete();
 }
