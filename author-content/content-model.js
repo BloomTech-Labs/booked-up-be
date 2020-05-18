@@ -13,7 +13,7 @@ function get() {
 }
 
 function findById(id) {
-  return db("author_content").where("user_id", id).first();
+  return db("author_content").where("user_id", id);
 }
 
 function add(newContent) {
