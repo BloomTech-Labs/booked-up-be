@@ -18,3 +18,4 @@ describe('Get /', () => {
         expect(res.type).toBe('application/json');
     })
 })
+

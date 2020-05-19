@@ -147,7 +147,7 @@ router.post(
               });
             });
           } else {
-            res.status().json({ message: "Invalid Credentials" });
+            res.status(400).json({ message: "Invalid Credentials" });
           }
         });
     } else {
@@ -242,7 +242,7 @@ router.post(
               });
             });
           } else {
-            res.status().json({ message: "Invalid Credentials" });
+            res.status(400).json({ message: "Invalid Credentials" });
           }
         });
     }
