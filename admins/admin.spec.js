@@ -1,6 +1,7 @@
 const db = require('../data/dbConfig.js');
 const Admins = require('./admin-model.js');
 
+
 describe.skip('admins model', () => {
   describe('insert', () => {
     it('should insert the provided users into the db', async () => {
@@ -63,3 +64,4 @@ describe.skip('admins model', () => {
     });
   });
 });
+
