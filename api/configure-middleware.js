@@ -12,7 +12,7 @@ module.exports = (server) => {
   server.use(express.json());
   server.use(
     cors({
-      origin: "*",
+      origin: "https://bookedup.net",
       methods: "GET, PUT, PATCH, POST, DELETE",
     })
   );
