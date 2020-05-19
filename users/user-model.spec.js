@@ -1,12 +1,12 @@
-const db = require('../data/dbConfig.js');
-const Users = require('./user-model.js');
+const db = require("../data/dbConfig.js");
+const Users = require("./user-model.js");
 
-describe('users model', () => {
-//   describe('insert', () => {
-//     it('should insert the provided users into the db', async () => {
-//       await Users.add({
-//         first_name: 'mathew1', last_name: 'herm', password: 'Herman16&', email: 'herm@gmail.com', user_type: 'author',
-//       });
+describe.skip("users model", () => {
+  //   describe('insert', () => {
+  //     it('should insert the provided users into the db', async () => {
+  //       await Users.add({
+  //         first_name: 'mathew1', last_name: 'herm', password: 'Herman16&', email: 'herm@gmail.com', user_type: 'author',
+  //       });
 
   //       const users = await db('users');
   //       expect(users).toHaveLength(1);
@@ -25,7 +25,7 @@ describe('users model', () => {
   //       const res = await Users.find();
   //       expect(res).toHaveLength(1);
   //     });
-  it('find user by Id', async () => {
+  it("find user by Id", async () => {
     const res = await Users.findById(22);
     expect(res).toEqual(expect.anything());
   });
@@ -62,9 +62,9 @@ describe('users model', () => {
   //       expect(user.first_name).toBe('Christian');
   //     });
 
-  it('find agent info', () => {
+  it("find agent info", () => {
     const res = Users.findAgentInfoId(22);
-    expect(res).toBeDefined()
+    expect(res).toBeDefined();
   });
 });
 
