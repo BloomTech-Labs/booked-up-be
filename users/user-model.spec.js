@@ -1,5 +1,6 @@
-const db = require('../data/dbConfig.js');
-const Users = require('./user-model.js');
+const server = require('../api/server');
+const request = require('supertest')
+
 
 describe('users model', () => {
 //   describe('insert', () => {
@@ -71,6 +72,8 @@ describe('users model', () => {
 //   });
 // });
 
+
 // beforeEach(async () => {
 //   await db('users').truncate();
 // });
+
