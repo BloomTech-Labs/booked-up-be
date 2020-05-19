@@ -1,42 +1,45 @@
-const nodemailer = require('nodemailer');
-const mg = require('nodemailer-mailgun-transport');
-const jwt = require('jsonwebtoken');
-const secrets = require('../config/secrets.js');
+const nodemailer = require("nodemailer");
+const mg = require("nodemailer-mailgun-transport");
+const jwt = require("jsonwebtoken");
+const secrets = require("../config/secrets.js");
 
 const auth = {
-    auth: {
-      api_key: process.env.MAILGUN_API_KEY,
-      domain: process.env.MAILGUN_DOMAIN
-    },
-}
+  auth: {
+    api_key: process.env.MAILGUN_API_KEY,
+    domain: process.env.MAILGUN_DOMAIN,
+  },
+};
 
 const nodemailerMailgun = nodemailer.createTransport(mg(auth));
 
 const sendConfirmationEmailAdmin = (user) => {
+  function genToken(user) {
+    const payload = {
+      userid: user.id,
+      userName: user.first_name,
+      userType: user.user_type,
+    };
 
-    function genToken(user) {
-        const payload = {
-            userid: user.id,
-            userName: user.first_name,
-            userType: user.user_type
-        }
-    
-        const options = {
-            expiresIn: "1h"
-        }
-    
-        const token = jwt.sign(payload, secrets.jwtSecret, options);
-    
-        return token;
-    }
-    const capName = `${user.first_name[0].toUpperCase()}${user.first_name.slice(1)}`;
-    const token = genToken(user);
-    const url = `http://localhost:4000/api/auth/admin/register/reset/${user.id}/${token}`
-    nodemailerMailgun.sendMail({
-        from: process.env.EMAILADDRESS,
-        to: `${user.email}`, 
-        subject: 'BookedUp',
-        html: `<html>
+    const options = {
+      expiresIn: "1h",
+    };
+
+    const token = jwt.sign(payload, secrets.jwtSecret, options);
+
+    return token;
+  }
+
+  const capName = `${user.first_name[0].toUpperCase()}${user.first_name.slice(
+    1
+  )}`;
+  const token = genToken(user);
+  const url = `https://bookedup-pt9.herokuapp.com/api/auth/admin/register/reset/${user.id}/${token}`;
+  nodemailerMailgun
+    .sendMail({
+      from: process.env.EMAILADDRESS,
+      to: `${user.email}`,
+      subject: "BookedUp",
+      html: `<html>
         <head>
           <meta name="viewport" content="width=device-width">
           <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -201,15 +204,15 @@ const sendConfirmationEmailAdmin = (user) => {
             </tr>
           </table>
         </body>
-      </html>`
+      </html>`,
+    })
+    .then(() => {
+      console.log("email sent");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
-        
-      }).then(()=> {
-          console.log('email sent')
-      }).catch(err => {
-          console.log(err)
-      })
-    
-}
 
 exports.sendConfirmationEmailAdmin = sendConfirmationEmailAdmin;

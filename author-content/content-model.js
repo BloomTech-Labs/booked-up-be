@@ -1,30 +1,29 @@
-const db = require('../data/dbConfig.js');
+const db = require("../data/dbConfig.js");
 
 module.exports = {
-    get,
-    add,
-    update,
-    deleteContent
+  get,
+  findById,
+  add,
+  update,
+  deleteContent,
+};
+
+function get() {
+  return db("author_content");
 }
 
-function get(){
-    return db('author_content');
+function findById(id) {
+  return db("author_content").where("user_id", id);
 }
 
-function add(newContent){
-    return db('author_content').insert(newContent).returning("*");
+function add(newContent) {
+  return db("author_content").insert(newContent).returning("*");
 }
 
-function update(content, id){
-    return db('author_content').where({ id }).update(content).returning("*");
+function update(content, id) {
+  return db("author_content").where({ id }).update(content).returning("*");
 }
 
-function deleteContent(id){
-    return db('author_content').where({ id }).delete();
+function deleteContent(id) {
+  return db("author_content").where({ id }).delete();
 }
-
-
-
-
-
-
