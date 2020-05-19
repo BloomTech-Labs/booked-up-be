@@ -22,6 +22,7 @@ module.exports = {
 function find() {
   return db("users as u").select(
     "u.id",
+    "u.user_type",
     "u.first_name",
     "u.last_name",
     "u.display_name",
