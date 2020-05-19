@@ -1,4 +1,4 @@
-const db = require('../data/dbConfig.js');
+const db = require("../data/dbConfig.js");
 
 module.exports = {
   add,
@@ -7,47 +7,39 @@ module.exports = {
   findById,
   findByEmail,
   findByAdmin,
-  update
+  update,
 };
 
 function find() {
-  return db('admins').select('id', 'username', 'password');
+  return db("admins").select("id", "username", "password");
 }
 
 function findBy(filter) {
-  return db('admins').where(filter);
+  return db("admins").where(filter);
 }
-
 
 function findByEmail(search) {
-  return db('admins')
-    .where('email', search)
+  return db("admins").where("email", search);
 }
-
 
 function findByAdmin(search) {
-  return db('admins')
-    .where('user_type', 'admin')
-    .where('email', search)
+  return db("admins").where("user_type", "admin").where("email", search);
 }
 
-
 function add(user) {
-  return db('admins')
-      .insert(user, 'id')
-      .then(ids => {
-          return findById(ids[0]);
-        });
+  return db("admins")
+    .insert(user, "id")
+    .then((ids) => {
+      return findById(ids[0]);
+    });
 }
 
 function findById(id) {
-  return db('admins')
-    .where({ id })
-    .first();
+  return db("admins").where({ id }).first();
 }
 
 function update(id, changes) {
-  return db('admins')
+  return db("admins")
     .where({ id })
     .update(changes)
     .then(() => {

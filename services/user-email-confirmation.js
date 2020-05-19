@@ -1,7 +1,7 @@
-const nodemailer = require('nodemailer');
-const mg = require('nodemailer-mailgun-transport');
-const jwt = require('jsonwebtoken');
-const secrets = require('../config/secrets.js');
+const nodemailer = require("nodemailer");
+const mg = require("nodemailer-mailgun-transport");
+const jwt = require("jsonwebtoken");
+const secrets = require("../config/secrets.js");
 
 const auth = {
   auth: {
@@ -20,21 +20,24 @@ const sendConfirmationEmail = (user) => {
     };
 
     const options = {
-      expiresIn: '8h',
+      expiresIn: "1h",
     };
 
     const token = jwt.sign(payload, secrets.jwtSecret, options);
 
     return token;
   }
-  const capName = `${user.first_name[0].toUpperCase()}${user.first_name.slice(1)}`;
+  const capName = `${user.first_name[0].toUpperCase()}${user.first_name.slice(
+    1
+  )}`;
   const token = genToken(user);
-  const url = `http://bookedup-pt9.herokuapp.com/api/auth/register/confirmation/${token}`;
-  nodemailerMailgun.sendMail({
-    from: process.env.EMAILADDRESS,
-    to: `${user.email}`,
-    subject: 'BookedUp',
-    html: `
+  const url = `https://bookedup-pt9.herokuapp.com/api/auth/register/confirmation/${token}`;
+  nodemailerMailgun
+    .sendMail({
+      from: process.env.EMAILADDRESS,
+      to: `${user.email}`,
+      subject: "BookedUp",
+      html: `
         <html>
           <head>
             <meta name="viewport" content="width=device-width">
@@ -201,12 +204,13 @@ const sendConfirmationEmail = (user) => {
             </table>
           </body>
         </html>`,
-
-  }).then(() => {
-    console.log('email sent');
-  }).catch((err) => {
-    console.log(err.message);
-  });
+    })
+    .then(() => {
+      console.log("email sent");
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
 };
 
 
