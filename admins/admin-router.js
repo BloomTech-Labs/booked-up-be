@@ -1,5 +1,4 @@
 const router = require("express").Router();
-
 const bcrypt = require("bcryptjs");
 const { check, validationResult, body } = require("express-validator");
 const Admins = require("./admin-model");
@@ -90,5 +89,6 @@ router.patch(
       });
   }
 );
+
 
 module.exports = router;
