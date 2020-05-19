@@ -213,4 +213,5 @@ const sendConfirmationEmail = (user) => {
     });
 };
 
+
 exports.sendConfirmationEmail = sendConfirmationEmail;
