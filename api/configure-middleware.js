@@ -12,7 +12,7 @@ module.exports = (server) => {
   server.use(express.json());
   server.use(
     cors({
-      origin: "https://bookedup-pt9.herokuapp.com",
+      origin: "*",
       methods: "GET, PUT, PATCH, POST, DELETE",
     })
   );
