@@ -10,7 +10,12 @@ module.exports = (server) => {
   server.use("/public", express.static("public"));
   server.use(helmet());
   server.use(express.json());
-  server.use(cors());
+  server.use(
+    cors({
+      origin: "https://bookedup-pt9.herokuapp.com",
+      methods: "GET, PUT, PATCH, POST, DELETE",
+    })
+  );
   server.use(bodyParser.urlencoded({ extended: true }));
   server.use(cookieParser(process.env.COOKIE_SECRET));
   server.use(
@@ -22,10 +27,10 @@ module.exports = (server) => {
     })
   );
   server.use(flash());
-  server.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
-    res.header("Access-Control-Allow-Headers", "Content-Type");
-    next();
-  });
+  // server.use(function (req, res, next) {
+  //   res.header("Access-Control-Allow-Origin", "*");
+  //   res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
+  //   res.header("Access-Control-Allow-Headers", "Content-Type");
+  //   next();
+  // });
 };
