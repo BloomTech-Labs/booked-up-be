@@ -51,7 +51,7 @@ describe.skip("admins model", () => {
     it("should remove the admin from the db", async () => {
       await Admins.removeUser(1);
 
-      const users = await db("users");
+      const users = await db("admins");
       expect(users).toHaveLength(2);
     });
   });
