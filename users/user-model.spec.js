@@ -71,6 +71,8 @@ describe.skip("users model", () => {
 //   });
 // });
 
+
 // beforeEach(async () => {
 //   await db('users').truncate();
 // });
+
