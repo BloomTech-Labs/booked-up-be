@@ -88,12 +88,7 @@
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -105,10 +100,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -122,49 +115,41 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = <span class="cstat-no" title="statement not covered" >require('express')</span>
-const configureMiddleware = <span class="cstat-no" title="statement not covered" >require('./configure-middleware.js');</span>
-const registerRouter = <span class="cstat-no" title="statement not covered" >require('../auth/register-router');</span>
-const loginRouter = <span class="cstat-no" title="statement not covered" >require('../auth/login-router');</span>
-const usersRouter = <span class="cstat-no" title="statement not covered" >require('../users/user-router');</span>
-const contentRouter = <span class="cstat-no" title="statement not covered" >require('../author-content/content-router');</span>
-const libraryRouter = <span class="cstat-no" title="statement not covered" >require('../content-library/library-router');</span>
-const adminRegisterRouter = <span class="cstat-no" title="statement not covered" >require('../auth/admin-register-router');</span>
-const adminLoginRouter = <span class="cstat-no" title="statement not covered" >require('../auth/admin-login');</span>
-const adminRouter = <span class="cstat-no" title="statement not covered" >require('../admins/admin-router');</span>
-const userResetPassword = <span class="cstat-no" title="statement not covered" >require('../users/user-reset-password')</span>
-&nbsp;
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = <span class="cstat-no" title="statement not covered" >require("express");</span>
+const configureMiddleware = <span class="cstat-no" title="statement not covered" >require("./configure-middleware.js");</span>
+const registerRouter = <span class="cstat-no" title="statement not covered" >require("../auth/register-router");</span>
+const loginRouter = <span class="cstat-no" title="statement not covered" >require("../auth/login-router");</span>
+const usersRouter = <span class="cstat-no" title="statement not covered" >require("../users/user-router");</span>
+const contentRouter = <span class="cstat-no" title="statement not covered" >require("../author-content/content-router");</span>
+const libraryRouter = <span class="cstat-no" title="statement not covered" >require("../content-library/library-router");</span>
+const adminRegisterRouter = <span class="cstat-no" title="statement not covered" >require("../auth/admin-register-router");</span>
+const adminLoginRouter = <span class="cstat-no" title="statement not covered" >require("../auth/admin-login");</span>
+const adminRouter = <span class="cstat-no" title="statement not covered" >require("../admins/admin-router");</span>
+const userResetPassword = <span class="cstat-no" title="statement not covered" >require("../users/user-reset-password");</span>
 &nbsp;
 const server = <span class="cstat-no" title="statement not covered" >express();</span>
-<span class="cstat-no" title="statement not covered" >server.set('view engine', 'ejs');</span>
+<span class="cstat-no" title="statement not covered" >server.set("view engine", "ejs");</span>
 &nbsp;
+<span class="cstat-no" title="statement not covered" >configureMiddleware(server);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >configureMiddleware(server)</span>
+<span class="cstat-no" title="statement not covered" >server.use("/api/auth/register", registerRouter);</span>
+<span class="cstat-no" title="statement not covered" >server.use("/api/auth/login", loginRouter);</span>
+<span class="cstat-no" title="statement not covered" >server.use("/api/users", usersRouter);</span>
+<span class="cstat-no" title="statement not covered" >server.use("/api/author-content", contentRouter);</span>
+<span class="cstat-no" title="statement not covered" >server.use("/api/content-library", libraryRouter);</span>
+<span class="cstat-no" title="statement not covered" >server.use("/api/auth/admin/register", adminRegisterRouter);</span>
+<span class="cstat-no" title="statement not covered" >server.use("/api/auth/admin/login", adminLoginRouter);</span>
+<span class="cstat-no" title="statement not covered" >server.use("/api/admin", adminRouter);</span>
+<span class="cstat-no" title="statement not covered" >server.use("/api/users/password", userResetPassword);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >server.use('/api/auth/register', registerRouter);</span>
-<span class="cstat-no" title="statement not covered" >server.use('/api/auth/login', loginRouter);</span>
-<span class="cstat-no" title="statement not covered" >server.use('/api/users', usersRouter);</span>
-<span class="cstat-no" title="statement not covered" >server.use('/api/author-content', contentRouter);</span>
-<span class="cstat-no" title="statement not covered" >server.use('/api/content-library', libraryRouter);</span>
-<span class="cstat-no" title="statement not covered" >server.use('/api/auth/admin/register', adminRegisterRouter);</span>
-<span class="cstat-no" title="statement not covered" >server.use('/api/auth/admin/login', adminLoginRouter);</span>
-<span class="cstat-no" title="statement not covered" >server.use('/api/admin', adminRouter);</span>
-<span class="cstat-no" title="statement not covered" >server.use('/api/users/password', userResetPassword);</span>
-&nbsp;
-&nbsp;
-&nbsp;
-<span class="cstat-no" title="statement not covered" >server.get('/', <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    res.status(200).json({api: "Booked Up server live."})</span>
-})
+<span class="cstat-no" title="statement not covered" >server.get("/", <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  res.status(200).json({ api: "Booked Up server live." });</span>
+});
 <span class="cstat-no" title="statement not covered" >module.exports = server;</span>
-&nbsp;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -172,7 +157,7 @@ const server = <span class="cstat-no" title="statement not covered" >express();<
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu May 14 2020 20:23:55 GMT-0700 (Pacific Daylight Time)
+                at Tue May 19 2020 20:34:19 GMT-0700 (Pacific Daylight Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

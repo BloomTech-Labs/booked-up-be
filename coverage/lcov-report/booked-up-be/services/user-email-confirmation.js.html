@@ -269,7 +269,11 @@
 <a name='L210'></a><a href='#L210'>210</a>
 <a name='L211'></a><a href='#L211'>211</a>
 <a name='L212'></a><a href='#L212'>212</a>
-<a name='L213'></a><a href='#L213'>213</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -299,6 +303,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -474,17 +480,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const nodemailer = <span class="cstat-no" title="statement not covered" >require('nodemailer');</span>
-const mg = <span class="cstat-no" title="statement not covered" >require('nodemailer-mailgun-transport');</span>
-const jwt = <span class="cstat-no" title="statement not covered" >require('jsonwebtoken');</span>
-const secrets = <span class="cstat-no" title="statement not covered" >require('../config/secrets.js');</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const nodemailer = <span class="cstat-no" title="statement not covered" >require("nodemailer");</span>
+const mg = <span class="cstat-no" title="statement not covered" >require("nodemailer-mailgun-transport");</span>
+const jwt = <span class="cstat-no" title="statement not covered" >require("jsonwebtoken");</span>
+const secrets = <span class="cstat-no" title="statement not covered" >require("../config/secrets.js");</span>
 &nbsp;
 const auth = <span class="cstat-no" title="statement not covered" >{</span>
   auth: {
@@ -503,21 +511,24 @@ const sendConfirmationEmail = <span class="cstat-no" title="statement not covere
     };
 &nbsp;
     const options = <span class="cstat-no" title="statement not covered" >{</span>
-      expiresIn: '8h',
+      expiresIn: "1h",
     };
 &nbsp;
     const token = <span class="cstat-no" title="statement not covered" >jwt.sign(payload, secrets.jwtSecret, options);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return token;</span>
   }
-  const capName = <span class="cstat-no" title="statement not covered" >`${user.first_name[0].toUpperCase()}${user.first_name.slice(1)}`;</span>
+  const capName = <span class="cstat-no" title="statement not covered" >`${user.first_name[0].toUpperCase()}${user.first_name.slice(</span>
+    1
+  )}`;
   const token = <span class="cstat-no" title="statement not covered" >genToken(user);</span>
-  const url = <span class="cstat-no" title="statement not covered" >`http://bookedup-pt9.herokuapp.com/api/auth/register/confirmation/${token}`;</span>
-<span class="cstat-no" title="statement not covered" >  nodemailerMailgun.sendMail({</span>
-    from: process.env.EMAILADDRESS,
-    to: `${user.email}`,
-    subject: 'BookedUp',
-    html: `
+  const url = <span class="cstat-no" title="statement not covered" >`https://bookedup-pt9.herokuapp.com/api/auth/register/confirmation/${token}`;</span>
+<span class="cstat-no" title="statement not covered" >  nodemailerMailgun</span>
+    .sendMail({
+      from: process.env.EMAILADDRESS,
+      to: `${user.email}`,
+      subject: "BookedUp",
+      html: `
         &lt;html&gt;
           &lt;head&gt;
             &lt;meta name="viewport" content="width=device-width"&gt;
@@ -684,12 +695,13 @@ const sendConfirmationEmail = <span class="cstat-no" title="statement not covere
             &lt;/table&gt;
           &lt;/body&gt;
         &lt;/html&gt;`,
-&nbsp;
-  }).then(<span class="fstat-no" title="function not covered" >()</span> =&gt; {
-<span class="cstat-no" title="statement not covered" >    console.log('email sent');</span>
-  }).catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" >    console.log(err.message);</span>
-  });
+    })
+    .then(<span class="fstat-no" title="function not covered" >()</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >      console.log("email sent");</span>
+    })
+    .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
+<span class="cstat-no" title="statement not covered" >      console.log(err.message);</span>
+    });
 };
 &nbsp;
 <span class="cstat-no" title="statement not covered" >exports.sendConfirmationEmail = sendConfirmationEmail;</span>
@@ -700,7 +712,7 @@ const sendConfirmationEmail = <span class="cstat-no" title="statement not covere
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu May 14 2020 20:23:55 GMT-0700 (Pacific Daylight Time)
+                at Tue May 19 2020 20:34:19 GMT-0700 (Pacific Daylight Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
