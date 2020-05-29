@@ -9,7 +9,7 @@ const restricted = require("../auth/restricted");
 // POST message
 
 router.post(
-  "/",
+  "/:id",
   [
     body("recipient").custom((value, { req, loc, path }) => {
       if (value.indexOf("@") !== -1) {
@@ -52,7 +52,7 @@ router.post(
       "body",
       "please enter a body not exceeding 1020 characters"
     ).isLength({ max: 1020 }),
-    check("sender_id")
+    check("id")
       .exists()
       .toInt()
       .optional()
@@ -78,14 +78,20 @@ router.post(
   restricted,
   checkRole(),
   (req, res) => {
-    const newMessage = req.body;
+    const newMessage = {
+      subject: req.body.subject,
+      body: req.body.body,
+      sender_id: req.params.id,
+      recipient_id: req.body.recipient_id,
+      recipient: req.body.recipient,
+    };
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     }
     Messages.add(newMessage).then((message) => {
       const newInbox = {
-        user_id: req.body.sender_id,
+        user_id: req.params.id,
         recipient_id: req.body.recipient_id,
         message_id: message.id,
       };
