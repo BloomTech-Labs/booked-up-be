@@ -18,9 +18,11 @@ function getLibrary() {
   return db("content_library as cl")
     .join("author_content as ac", "cl.author_content_id", "ac.id")
     .select(
-      "cl.id",
+      "cl.user_id",
       "cl.author_content_id",
       "ac.title",
+      "ac.description",
+      "ac.img_url",
       "ac.content_url",
       "ac.created_at",
       "ac.last_updated",
@@ -36,9 +38,11 @@ function findByIdLibrary(id) {
   return db("content_library as cl")
     .join("author_content as ac", "cl.author_content_id", "ac.id")
     .select(
-      "cl.id",
+      "cl.user_id",
       "cl.author_content_id",
       "ac.title",
+      "ac.description",
+      "ac.img_url",
       "ac.content_url",
       "ac.created_at",
       "ac.last_updated",
