@@ -9,6 +9,8 @@ const adminRegisterRouter = require("../auth/admin-register-router");
 const adminLoginRouter = require("../auth/admin-login");
 const adminRouter = require("../admins/admin-router");
 const userResetPassword = require("../users/user-reset-password");
+const messageRouterAgent = require("../messaging/message-router-agent");
+const messageRouterAuthor = require("../messaging/message-router-author");
 
 const server = express();
 server.set("view engine", "ejs");
@@ -24,6 +26,8 @@ server.use("/api/auth/admin/register", adminRegisterRouter);
 server.use("/api/auth/admin/login", adminLoginRouter);
 server.use("/api/admin", adminRouter);
 server.use("/api/users/password", userResetPassword);
+server.use("/api/message/agent", messageRouterAgent);
+server.use("/api/message/author", messageRouterAuthor);
 
 server.get("/", (req, res) => {
   res.status(200).json({ api: "Booked Up server live." });

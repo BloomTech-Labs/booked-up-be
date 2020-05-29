@@ -78,7 +78,7 @@ router.post(
     }
     Users.add(user)
       .then((u) => {
-        sendConfirmationEmail(u);
+        // sendConfirmationEmail(u);
         res.status(201).json({ message: "email sent" });
       })
       .catch((err) => {
