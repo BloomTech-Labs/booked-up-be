@@ -121,7 +121,7 @@ router.get("/", restricted, checkRole(), (req, res) => {
 // Get all messages-inbox by agent ID
 
 router.get(
-  "/:id",
+  "/:id/inbox",
   [
     check("id")
       .exists()
@@ -146,6 +146,53 @@ router.get(
       .then((messages) => {
         res.status(200).json({
           Messages: messages,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json(err.message);
+      });
+  }
+);
+
+// Get message by message ID
+
+router.get(
+  "/:id/inbox/:messageId",
+  [
+    check("id")
+      .exists()
+      .toInt()
+      .optional()
+      .custom((value) =>
+        Users.findById(value).then((user) => {
+          if (user === undefined) {
+            return Promise.reject("User not found");
+          }
+        })
+      ),
+    check("messageId")
+      .exists()
+      .toInt()
+      .optional()
+      .custom((value) =>
+        MessageInbox.findByMessageId(value).then((user) => {
+          if (user === undefined) {
+            return Promise.reject("Message not found");
+          }
+        })
+      ),
+  ],
+  restricted,
+  checkRole(),
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).jsonp(errors.array());
+    }
+    MessageInbox.findByMessageId(req.params.messageId)
+      .then((message) => {
+        res.status(200).json({
+          Message: message,
         });
       })
       .catch((err) => {

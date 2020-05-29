@@ -5,7 +5,7 @@ module.exports = {
   find,
   findBy,
   findById,
-  findByUserId,
+  findByMessageId,
   removeMessage,
 };
 
@@ -20,6 +20,7 @@ function findById(id) {
     .select(
       "m.id",
       "u.email as sent by",
+      "m.sender_id",
       "m.subject",
       "m.body",
       "m.created_at",
@@ -30,8 +31,22 @@ function findById(id) {
     .orWhere("m.recipient_id", id);
 }
 
-function findByUserId(id) {
-  return db("message-inbox").where({ id }).first();
+function findByMessageId(id) {
+  return db("message-inbox as mi")
+    .join("messages as m", "mi.message_id", "m.id")
+    .join("users as u", "mi.user_id", "u.id")
+    .select(
+      "m.id",
+      "u.email as sent by",
+      "m.sender_id",
+      "m.subject",
+      "m.body",
+      "m.created_at",
+      "m.recipient_id",
+      "m.recipient"
+    )
+    .where("message_id", id)
+    .first();
 }
 
 function findBy(filter) {
