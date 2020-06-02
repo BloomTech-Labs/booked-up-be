@@ -53,7 +53,7 @@ router.delete("/:id", restricted, async (req, res) => {
     try {
         const commentId = req.params.id;
         const deletedComment = await db.deleteComment(commentId);
-        if (deletedContent > 0) {
+        if (deletedComment > 0) {
             res.status(204).send();
         } else {
             console.log(deletedComment);
