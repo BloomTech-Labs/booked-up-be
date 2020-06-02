@@ -12,6 +12,7 @@ const adminRouter = require("../admins/admin-router");
 const userResetPassword = require("../users/user-reset-password");
 const messageRouterAgent = require("../messaging/message-router-agent");
 const messageRouterAuthor = require("../messaging/message-router-author");
+const comments = require("../comments/comments-router");
 
 const server = express();
 server.set("view engine", "ejs");
@@ -29,9 +30,12 @@ server.use("/api/admin", adminRouter);
 server.use("/api/users/password", userResetPassword);
 server.use("/api/message/agent", messageRouterAgent);
 server.use("/api/message/author", messageRouterAuthor);
+server.use("/api/comments", comments);
 
 server.get("/", (req, res) => {
-  res.status(200).json({ api: "Booked Up server live." });
+  res.status(200).json({
+    api: "Booked Up server live."
+  });
 });
 
 server.get("/*", function (req, res) {
