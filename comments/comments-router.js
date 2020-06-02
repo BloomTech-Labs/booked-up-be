@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const db = require("./comments-model");
-const Users = require("../comments/comments-model");
+// const Users = require("../comments/comments-model");
 const {
     check,
     validationResult,
