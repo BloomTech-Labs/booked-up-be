@@ -1,11 +1,9 @@
-
 const jwt = require("jsonwebtoken");
 const secrets = require("../config/secrets.js");
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const { check, validationResult, body } = require("express-validator");
 const Users = require("../users/user-model.js");
-
 
 // Login using email or display_name
 
@@ -107,14 +105,20 @@ router.post(
                   .then((authorContent) => {
                     const authorContentList = authorContent.map((info) => {
                       const {
+                        id,
                         title,
                         content_url,
+                        description,
+                        img_url,
                         created_at,
                         last_updated,
                       } = info;
                       return {
+                        id,
                         title,
                         content_url,
+                        description,
+                        img_url,
                         created_at,
                         last_updated,
                       };
@@ -202,14 +206,20 @@ router.post(
                   .then((authorContent) => {
                     const authorContentList = authorContent.map((info) => {
                       const {
+                        id,
                         title,
                         content_url,
+                        description,
+                        img_url,
                         created_at,
                         last_updated,
                       } = info;
                       return {
+                        id,
                         title,
                         content_url,
+                        description,
+                        img_url,
                         created_at,
                         last_updated,
                       };

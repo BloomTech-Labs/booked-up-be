@@ -201,4 +201,76 @@ router.get(
   }
 );
 
+// Get sent messages by User ID
+
+router.get(
+  "/:id/sent",
+  [
+    check("id")
+      .exists()
+      .toInt()
+      .optional()
+      .custom((value) =>
+        Users.findById(value).then((user) => {
+          if (user === undefined) {
+            return Promise.reject("Agent not found");
+          }
+        })
+      ),
+  ],
+  restricted,
+  checkRole(),
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).jsonp(errors.array());
+    }
+    MessageInbox.findByIdSent(req.params.id)
+      .then((messages) => {
+        res.status(200).json({
+          Messages: messages,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json(err.message);
+      });
+  }
+);
+
+// Get recieved messages by user ID
+
+router.get(
+  "/:id/recieved",
+  [
+    check("id")
+      .exists()
+      .toInt()
+      .optional()
+      .custom((value) =>
+        Users.findById(value).then((user) => {
+          if (user === undefined) {
+            return Promise.reject("User not found");
+          }
+        })
+      ),
+  ],
+  restricted,
+  checkRole(),
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).jsonp(errors.array());
+    }
+    MessageInbox.findByIdRecieved(req.params.id)
+      .then((message) => {
+        res.status(200).json({
+          Message: message,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json(err.message);
+      });
+  }
+);
+
 module.exports = router;
