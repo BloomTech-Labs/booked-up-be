@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const configureMiddleware = require("./configure-middleware.js");
 const registerRouter = require("../auth/register-router");
 const loginRouter = require("../auth/login-router");
@@ -32,6 +33,7 @@ server.use("/api/message/author", messageRouterAuthor);
 server.get("/", (req, res) => {
   res.status(200).json({ api: "Booked Up server live." });
 });
+
 server.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
