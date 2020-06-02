@@ -45,6 +45,10 @@ describe.skip("admins model", () => {
       const res = await Admins.findByDisplayName("herm");
       expect(res).toEqual(expect.anything());
     });
+    it("find by admin user_type and email", async () => {
+      const res = await Admins.findByAdmin("herm");
+      expect(res).toEqual(expect.anything());
+    });
   });
 
   describe("remove", () => {
@@ -71,4 +75,3 @@ describe.skip("admins model", () => {
     });
   });
 });
-
