@@ -109,12 +109,12 @@ router.post(
 // Get all messages
 
 router.get("/", restricted, checkRole(), (req, res) => {
-  Messages.find()
+  MessageInbox.findByIdSearch(req.params.id)
     .then((messages) => {
       res.status(200).json(messages);
     })
     .catch((err) => {
-      res.status(500).json(err);
+      res.status(500).json(err.message);
     });
 });
 
@@ -225,7 +225,8 @@ router.get(
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     }
-    MessageInbox.findByIdSent(req.params.id)
+    const { body, subject, recipient } = req.query;
+    MessageInbox.findByIdSent(req.params.id, { body, subject, recipient })
       .then((messages) => {
         res.status(200).json({
           Messages: messages,
@@ -269,6 +270,144 @@ router.get(
       })
       .catch((err) => {
         res.status(500).json(err.message);
+      });
+  }
+);
+
+// Get all message subjects by User ID
+
+router.get(
+  "/:id/subject",
+  [
+    check("id")
+      .exists()
+      .toInt()
+      .optional()
+      .custom((value) =>
+        Users.findById(value).then((user) => {
+          if (user === undefined) {
+            return Promise.reject("User not found");
+          }
+        })
+      ),
+  ],
+  restricted,
+  checkRole(),
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).jsonp(errors.array());
+    }
+    MessageInbox.findByIdSubject(req.params.id)
+      .then((message) => {
+        res.status(200).json({
+          Message: message,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json(err.message);
+      });
+  }
+);
+
+// Get sent subject by User ID
+
+router.get(
+  "/:id/subject/sent",
+  [
+    check("id")
+      .exists()
+      .toInt()
+      .optional()
+      .custom((value) =>
+        Users.findById(value).then((user) => {
+          if (user === undefined) {
+            return Promise.reject("User not found");
+          }
+        })
+      ),
+  ],
+  restricted,
+  checkRole(),
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).jsonp(errors.array());
+    }
+    MessageInbox.findByIdSentSubject(req.params.id)
+      .then((message) => {
+        res.status(200).json({
+          Message: message,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json(err.message);
+      });
+  }
+);
+
+// Get recieved subject by User ID
+
+router.get(
+  "/:id/subject/recieved",
+  [
+    check("id")
+      .exists()
+      .toInt()
+      .optional()
+      .custom((value) =>
+        Users.findById(value).then((user) => {
+          if (user === undefined) {
+            return Promise.reject("User not found");
+          }
+        })
+      ),
+  ],
+  restricted,
+  checkRole(),
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).jsonp(errors.array());
+    }
+    MessageInbox.findByIdRecievedSubject(req.params.id)
+      .then((message) => {
+        res.status(200).json({
+          Message: message,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json(err.message);
+      });
+  }
+);
+
+// Delete message
+
+router.delete(
+  "/:id/",
+  [
+    check("id")
+      .exists()
+      .toInt()
+      .optional()
+      .custom((value) =>
+        MessageInbox.findByMessageId(value).then((user) => {
+          if (user === undefined) {
+            return Promise.reject("Message not found");
+          }
+        })
+      ),
+  ],
+  restricted,
+  checkRole(),
+  (req, res) => {
+    MessageInbox.removeMessage(req.params.id)
+      .then((post) => {
+        res.status(200).json(post);
+      })
+      .catch((err) => {
+        res.status(500).json(err);
       });
   }
 );

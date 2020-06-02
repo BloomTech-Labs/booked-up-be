@@ -7,6 +7,9 @@ module.exports = {
   findById,
   findByIdSent,
   findByIdRecieved,
+  findByIdSubject,
+  findByIdRecievedSubject,
+  findByIdSentSubject,
   findByMessageId,
   removeMessage,
 };
@@ -14,6 +17,31 @@ module.exports = {
 function find() {
   return db("message-inbox");
 }
+
+// function findById(id, query) {
+//   const knexQuery = db("message-inbox as mi");
+//   const knexQueryFinal = knexQuery
+//     .join("messages as m", "mi.message_id", "m.id")
+//     .join("users as u", "mi.user_id", "u.id")
+//     .select(
+//       "m.id",
+//       "u.email as sent by",
+//       "m.sender_id",
+//       "m.subject",
+//       "m.body",
+//       "m.created_at",
+//       "m.recipient_id",
+//       "m.recipient"
+//     )
+//     .where("m.sender_id", id);
+
+//   if (query.body) {
+//     knexQueryFinal
+//       .where("m.body", "like", `%${query.body}%`)
+//       .orWhere("m.subject", "like", `%${query.body}%`);
+//   }
+//   return knexQueryFinal;
+// }
 
 function findById(id) {
   return db("message-inbox as mi")
@@ -33,8 +61,8 @@ function findById(id) {
     .orWhere("m.recipient_id", id);
 }
 
-function findByIdSent(id) {
-  return db("message-inbox as mi")
+function findByIdSent(id, query) {
+  const knexQuery0 = db("message-inbox as mi")
     .join("messages as m", "mi.message_id", "m.id")
     .join("users as u", "mi.user_id", "u.id")
     .select(
@@ -47,7 +75,44 @@ function findByIdSent(id) {
       "m.recipient_id",
       "m.recipient"
     )
-    .where("m.sender_id", id);
+    .where({ "m.sender_id": id });
+  const knexQuery1 = db("message-inbox as mi")
+    .join("messages as m", "mi.message_id", "m.id")
+    .join("users as u", "mi.user_id", "u.id")
+    .select(
+      "m.id",
+      "u.email as sent by",
+      "m.sender_id",
+      "m.subject",
+      "m.body",
+      "m.created_at",
+      "m.recipient_id",
+      "m.recipient"
+    )
+    .where({ "m.sender_id": id });
+  const knexQuery = db("message-inbox as mi")
+    .join("messages as m", "mi.message_id", "m.id")
+    .join("users as u", "mi.user_id", "u.id")
+    .select(
+      "m.id",
+      "u.email as sent by",
+      "m.sender_id",
+      "m.subject",
+      "m.body",
+      "m.created_at",
+      "m.recipient_id",
+      "m.recipient"
+    )
+    .where({ "m.sender_id": id });
+
+  if (query.body) {
+    return knexQuery1.andWhere("m.body", "like", `%${query.body}%`);
+  }
+
+  if (query.subject) {
+    return knexQuery1.andWhere("m.subject", "like", `%${query.subject}%`);
+  }
+  return knexQuery;
 }
 
 function findByIdRecieved(id) {
@@ -65,6 +130,31 @@ function findByIdRecieved(id) {
       "m.recipient"
     )
     .where("m.recipient_id", id);
+}
+
+function findByIdSubject(id) {
+  return db("message-inbox as mi")
+    .join("messages as m", "mi.message_id", "m.id")
+    .join("users as u", "mi.user_id", "u.id")
+    .select("m.id", "u.email as sent by", "m.subject")
+    .where("m.sender_id", id)
+    .orWhere("m.recipient_id", id);
+}
+
+function findByIdRecievedSubject(id) {
+  return db("message-inbox as mi")
+    .join("messages as m", "mi.message_id", "m.id")
+    .join("users as u", "mi.user_id", "u.id")
+    .select("m.id", "m.subject")
+    .where("m.recipient_id", id);
+}
+
+function findByIdSentSubject(id) {
+  return db("message-inbox as mi")
+    .join("messages as m", "mi.message_id", "m.id")
+    .join("users as u", "mi.user_id", "u.id")
+    .select("m.id", "m.subject")
+    .where("m.sender_id", id);
 }
 
 function findByMessageId(id) {
@@ -95,5 +185,5 @@ function add(message) {
 }
 
 function removeMessage(id) {
-  return db("message-inbox").where("id", id).del();
+  return db("message-inbox as mi").where("mi.message_id", id).del();
 }
