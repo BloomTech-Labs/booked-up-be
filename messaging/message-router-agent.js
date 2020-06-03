@@ -262,7 +262,8 @@ router.get(
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     }
-    MessageInbox.findByIdRecieved(req.params.id)
+    const { body, subject, recipient } = req.query;
+    MessageInbox.findByIdRecieved(req.params.id, { body, subject, recipient })
       .then((message) => {
         res.status(200).json({
           Message: message,
