@@ -29,17 +29,16 @@ server.use("/api/auth/admin/login", adminLoginRouter);
 server.use("/api/admin", adminRouter);
 server.use("/api/users/password", userResetPassword);
 server.use("/api/message/", messageRouter);
-
 server.use("/api/comments", comments);
+
+server.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "../booked-up-fe/build/index.html"));
+});
 
 server.get("/", (req, res) => {
   res.status(200).json({
     api: "Booked Up server live.",
   });
-});
-
-server.get("/*", function (req, res) {
-  res.sendFile(path.join(__dirname, "../booked-up-fe/build/index.html"));
 });
 
 module.exports = server;
