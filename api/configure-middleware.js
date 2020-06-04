@@ -5,10 +5,8 @@ const bodyParser = require("body-parser");
 const flash = require("connect-flash");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-const path = require("path");
 
 module.exports = (server) => {
-  server.use(express.static(path.join(__dirname, "build")));
   server.use("/public", express.static("public"));
   server.use(helmet());
   server.use(express.json());

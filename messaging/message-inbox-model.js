@@ -87,7 +87,7 @@ function findByIdRecieved(id, query) {
   return knexQueryFinal;
 }
 
-// function (id, query) {
+// function (senderId, recieverId, query) {
 //   const knexQuery = db("message-inbox as mi");
 //   const knexQueryFinal = knexQuery
 //     .join("messages as m", "mi.message_id", "m.id")

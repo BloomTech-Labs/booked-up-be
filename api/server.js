@@ -14,6 +14,7 @@ const messageRouterAgent = require("../messaging/message-router");
 
 const server = express();
 server.set("view engine", "ejs");
+server.use(express.static(path.join(__dirname, "build")));
 
 configureMiddleware(server);
 
