@@ -50,7 +50,8 @@ function findById(id) {
       "m.recipient"
     )
     .where("m.sender_id", id)
-    .orWhere("m.recipient_id", id);
+    .orWhere("m.recipient_id", id)
+    .orderBy("u.email", "desc");
 }
 
 function findByIdRecieved(id, query) {
@@ -79,7 +80,9 @@ function findByIdRecieved(id, query) {
       if (query.body) {
         qb.orWhere("u.email", "like", `%${query.body}%`);
       }
-    });
+    })
+    .orderBy("m.recipient_id", `%${query.sort}%`);
+  console.log(query.sort);
 
   return knexQueryFinal;
 }

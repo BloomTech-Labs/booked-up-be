@@ -1,0 +1,3 @@
+[submodule "booked-up-fe"]
+	path = booked-up-fe
+	url = https://github.com/Lambda-School-Labs/booked-up-fe.git
