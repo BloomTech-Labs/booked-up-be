@@ -130,7 +130,7 @@ router.get(
       .custom((value) =>
         Users.findById(value).then((user) => {
           if (user === undefined) {
-            return Promise.reject("Agent not found");
+            return Promise.reject("User not found");
           }
         })
       ),
@@ -213,7 +213,7 @@ router.get(
       .custom((value) =>
         Users.findById(value).then((user) => {
           if (user === undefined) {
-            return Promise.reject("Agent not found");
+            return Promise.reject("User not found");
           }
         })
       ),
