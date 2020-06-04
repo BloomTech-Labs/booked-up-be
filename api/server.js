@@ -16,7 +16,7 @@ const comments = require("../comments/comments-router");
 
 const server = express();
 server.set("view engine", "ejs");
-// server.use(express.static(path.join(__dirname, "..", "booked-up-fe", "build")));
+server.use(express.static(path.join(__dirname, "../booked-up-fe/build")));
 configureMiddleware(server);
 
 server.use("/api/auth/register", registerRouter);
@@ -32,16 +32,16 @@ server.use("/api/message/", messageRouter);
 
 server.use("/api/comments", comments);
 
-// server.get("/*", function (req, res) {
-//   res.sendFile(
-//     path.join(__dirname, "..", "booked-up-fe", "build", "index.html")
-//   );
-// });
+server.get("/", (req, res) => {
+  res.status(200).json({
+    api: "Booked Up server live.",
+  });
+});
 
-// server.get("/", (req, res) => {
-//   res.status(200).json({
-//     api: "Booked Up server live.",
-//   });
-// });
+server.get("/*", function (req, res) {
+  res.sendFile(
+    path.join(__dirname, "..", "booked-up-fe", "build", "index.html")
+  );
+});
 
 module.exports = server;
