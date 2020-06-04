@@ -39,9 +39,7 @@ server.get("/", (req, res) => {
 });
 
 server.get("/*", function (req, res) {
-  res.sendFile(
-    path.join(__dirname, "..", "booked-up-fe", "build", "index.html")
-  );
+  res.sendFile(path.join(__dirname, "../booked-up-fe/build/index.html"));
 });
 
 module.exports = server;
