@@ -87,6 +87,39 @@ function findByIdRecieved(id, query) {
   return knexQueryFinal;
 }
 
+// function (id, query) {
+//   const knexQuery = db("message-inbox as mi");
+//   const knexQueryFinal = knexQuery
+//     .join("messages as m", "mi.message_id", "m.id")
+//     .join("users as u", "mi.user_id", "u.id")
+//     .select(
+//       "m.id",
+//       "u.email as sent by",
+//       "m.sender_id",
+//       "m.subject",
+//       "m.body",
+//       "m.created_at",
+//       "m.recipient_id",
+//       "m.recipient"
+//     )
+//     .where("m.recipient_id", id)
+//     .andWhere((qb) => {
+//       if (query.body) {
+//         qb.where("m.body", "like", `%${query.body}%`);
+//       }
+//       if (query.body) {
+//         qb.orWhere("m.subject", "like", `%${query.body}%`);
+//       }
+//       if (query.body) {
+//         qb.orWhere("u.email", "like", `%${query.body}%`);
+//       }
+//     })
+//     .orderBy("m.recipient_id", `%${query.sort}%`);
+//   console.log(query.sort);
+
+//   return knexQueryFinal;
+// }
+
 function findByIdSubject(id) {
   return db("message-inbox as mi")
     .join("messages as m", "mi.message_id", "m.id")

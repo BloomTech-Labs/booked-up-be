@@ -59,7 +59,7 @@ router.post(
       .custom((value) =>
         Users.findById(value).then((user) => {
           if (user === undefined) {
-            return Promise.reject("Agent not found");
+            return Promise.reject("User not found");
           }
         })
       ),
@@ -70,7 +70,7 @@ router.post(
       .custom((value) =>
         Users.findById(value).then((user) => {
           if (user === undefined) {
-            return Promise.reject("Author not found");
+            return Promise.reject("User not found");
           }
         })
       ),
@@ -118,7 +118,7 @@ router.get("/", restricted, checkRole(), (req, res) => {
     });
 });
 
-// Get all messages-inbox by agent ID
+// Get all messages-inbox by user ID
 
 router.get(
   "/:id/inbox",
@@ -130,7 +130,7 @@ router.get(
       .custom((value) =>
         Users.findById(value).then((user) => {
           if (user === undefined) {
-            return Promise.reject("Agent not found");
+            return Promise.reject("User not found");
           }
         })
       ),
@@ -279,6 +279,54 @@ router.get(
       });
   }
 );
+
+// Get messages by sent Id to recieved Id
+
+// router.get(
+//   "/:senderId/sent/:recieverId",
+//   [
+//     check("senderId")
+//       .exists()
+//       .toInt()
+//       .optional()
+//       .custom((value) =>
+//         Users.findById(value).then((user) => {
+//           if (user === undefined) {
+//             return Promise.reject("User not found");
+//           }
+//         })
+//       ),
+//     check("recieverId")
+//       .exists()
+//       .toInt()
+//       .optional()
+//       .custom((value) =>
+//         Users.findById(value).then((user) => {
+//           if (user === undefined) {
+//             return Promise.reject("User not found");
+//           }
+//         })
+//       ),
+//   ],
+//   restricted,
+//   checkRole(),
+//   (req, res) => {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       return res.status(422).jsonp(errors.array());
+//     }
+//     const { body, subject, recipient } = req.query;
+//     MessageInbox.findByIdSent(req.params.senderId, req.params.recieverId, { body, subject, recipient })
+//       .then((messages) => {
+//         res.status(200).json({
+//           Messages: messages,
+//         });
+//       })
+//       .catch((err) => {
+//         res.status(500).json(err.message);
+//       });
+//   }
+// );
 
 // Get all message subjects by User ID
 
