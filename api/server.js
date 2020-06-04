@@ -16,7 +16,7 @@ const comments = require("../comments/comments-router");
 
 const server = express();
 server.set("view engine", "ejs");
-server.use(express.static(path.join(__dirname, "build")));
+server.use(express.static(path.join(__dirname, "../booked-up-fe/build")));
 configureMiddleware(server);
 
 server.use("/api/auth/register", registerRouter);
