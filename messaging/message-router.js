@@ -142,6 +142,7 @@ router.get(
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     }
+    console.log(__dirname);
     MessageInbox.findById(req.params.id)
       .then((messages) => {
         res.status(200).json({
