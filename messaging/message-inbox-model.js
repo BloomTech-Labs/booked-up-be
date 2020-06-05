@@ -82,13 +82,11 @@ function findByIdRecieved(id, query) {
       }
     })
     .orderBy("m.recipient_id", `%${query.sort}%`);
-  console.log(query.sort);
 
   return knexQueryFinal;
 }
 
 function findByIdSentandRecieved(sentId, recievedId, query) {
-  console.log(isNumber(parseInt(query.sort));
   const knexQuery = db("message-inbox as mi");
   const knexQueryFinal = knexQuery
     .join("messages as m", "mi.message_id", "m.id")
@@ -116,7 +114,7 @@ function findByIdSentandRecieved(sentId, recievedId, query) {
         qb.orWhere("u.email", "like", `%${query.body}%`);
       }
     })
-    .limit(parseInt(`%${query.sort}%`));
+    .limit(`%${query.sort}%`);
 
   return knexQueryFinal;
 }
