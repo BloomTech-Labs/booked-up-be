@@ -2,7 +2,6 @@ const db = require("../data/dbConfig.js");
 
 module.exports = {
     get,
-    findById,
     add,
     update,
     deleteComment,
@@ -10,10 +9,6 @@ module.exports = {
 
 function get() {
     return db("comments");
-}
-
-function findById(id) {
-    return db("comments").where("user_id", id);
 }
 
 function add(newComments) {

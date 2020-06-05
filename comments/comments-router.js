@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const db = require("./comments-model");
-const Users = require("../users/user-model");
+// const Users = require("../comments/comments-model");
 const {
     check,
     validationResult,
@@ -18,37 +18,6 @@ router.get("/", restricted, (req, res) => {
         });
 });
 
-router.get(
-    "/:id",
-    [
-        check("id")
-        .exists()
-        .toInt()
-        .optional()
-        .custom((value) =>
-            Users.findById(value).then((user) => {
-                if (user === undefined) {
-                    return Promise.reject("User Id not found");
-                }
-            })
-        ),
-    ],
-    restricted,
-    (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(422).jsonp(errors.array());
-        }
-        db.findById(req.params.id)
-            .then((comment) => {
-                res.status(200).json(comment);
-            })
-            .catch((err) => {
-                res.status(500).json(err.message);
-            });
-    }
-);
-
 router.post("/", restricted, async (req, res) => {
     try {
         const comment = req.body;
@@ -59,7 +28,7 @@ router.post("/", restricted, async (req, res) => {
     } catch (error) {
         res.status(500).json({
             error
-        });
+        });k
     }
 });
 
