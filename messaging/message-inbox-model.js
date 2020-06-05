@@ -4,7 +4,53 @@ function find() {
   return db("message-inbox");
 }
 
+function findById(id, query) {
+  const sortByCreatedAt = query.sort;
+  const limitNum = parseInt(`${parseInt(query.limit)}`);
+  return db("message-inbox as mi")
+    .join("messages as m", "mi.message_id", "m.id")
+    .join("users as u", "mi.user_id", "u.id")
+    .select(
+      "m.id",
+      "u.email as sent by",
+      "m.sender_id",
+      "m.subject",
+      "m.body",
+      "m.created_at",
+      "m.recipient_id",
+      "m.recipient"
+    )
+    .where("m.sender_id", id)
+    .andWhere((qb) => {
+      if (query.body) {
+        qb.where("m.body", "like", `%${query.body}%`);
+      }
+      if (query.body) {
+        qb.orWhere("m.subject", "like", `%${query.body}%`);
+      }
+      if (query.body) {
+        qb.orWhere("u.email", "like", `%${query.body}%`);
+      }
+    })
+    .orWhere("m.recipient_id", id)
+    .andWhere((qb) => {
+      if (query.body) {
+        qb.where("m.body", "like", `%${query.body}%`);
+      }
+      if (query.body) {
+        qb.orWhere("m.subject", "like", `%${query.body}%`);
+      }
+      if (query.body) {
+        qb.orWhere("u.email", "like", `%${query.body}%`);
+      }
+    })
+    .limit(limitNum)
+    .orderBy("m.created_at", `${sortByCreatedAt}`);
+}
+
 function findByIdSent(id, query) {
+  const sortByCreatedAt = query.sort;
+  const limitNum = parseInt(`${parseInt(query.limit)}`);
   const knexQuery = db("message-inbox as mi");
   const knexQueryFinal = knexQuery
     .join("messages as m", "mi.message_id", "m.id")
@@ -30,31 +76,16 @@ function findByIdSent(id, query) {
       if (query.body) {
         qb.orWhere("m.recipient", "like", `%${query.body}%`);
       }
-    });
+    })
+    .limit(limitNum)
+    .orderBy("m.created_at", `${sortByCreatedAt}`);
 
   return knexQueryFinal;
 }
 
-function findById(id) {
-  return db("message-inbox as mi")
-    .join("messages as m", "mi.message_id", "m.id")
-    .join("users as u", "mi.user_id", "u.id")
-    .select(
-      "m.id",
-      "u.email as sent by",
-      "m.sender_id",
-      "m.subject",
-      "m.body",
-      "m.created_at",
-      "m.recipient_id",
-      "m.recipient"
-    )
-    .where("m.sender_id", id)
-    .orWhere("m.recipient_id", id)
-    .orderBy("u.email", "desc");
-}
-
 function findByIdRecieved(id, query) {
+  const sortByCreatedAt = query.sort;
+  const limitNum = parseInt(`${parseInt(query.limit)}`);
   const knexQuery = db("message-inbox as mi");
   const knexQueryFinal = knexQuery
     .join("messages as m", "mi.message_id", "m.id")
@@ -81,12 +112,16 @@ function findByIdRecieved(id, query) {
         qb.orWhere("u.email", "like", `%${query.body}%`);
       }
     })
-    .orderBy("m.recipient_id", `%${query.sort}%`);
+    .orderBy("m.recipient_id", `%${query.sort}%`)
+    .limit(limitNum)
+    .orderBy("m.created_at", `${sortByCreatedAt}`);
 
   return knexQueryFinal;
 }
 
 function findByIdSentandRecieved(sentId, recievedId, query) {
+  const sortByCreatedAt = query.sort;
+  const limitNum = parseInt(`${parseInt(query.limit)}`);
   const knexQuery = db("message-inbox as mi");
   const knexQueryFinal = knexQuery
     .join("messages as m", "mi.message_id", "m.id")
@@ -114,8 +149,8 @@ function findByIdSentandRecieved(sentId, recievedId, query) {
         qb.orWhere("u.email", "like", `%${query.body}%`);
       }
     })
-    .limit(`%${query.sort}%`);
-
+    .limit(limitNum)
+    .orderBy("m.created_at", `${sortByCreatedAt}`);
   return knexQueryFinal;
 }
 
