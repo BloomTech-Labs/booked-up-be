@@ -142,11 +142,9 @@ router.get(
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     }
-    const { body, subject, recipient, sort, limit } = req.query;
+    const { body, sort, limit } = req.query;
     MessageInbox.findById(req.params.id, {
       body,
-      subject,
-      recipient,
       sort,
       limit,
     })
@@ -232,11 +230,9 @@ router.get(
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     }
-    const { body, subject, recipient, sort, limit } = req.query;
+    const { body, sort, limit } = req.query;
     MessageInbox.findByIdSent(req.params.id, {
       body,
-      subject,
-      recipient,
       sort,
       limit,
     })
@@ -275,11 +271,9 @@ router.get(
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     }
-    const { body, subject, recipient, sort, limit } = req.query;
+    const { body, sort, limit } = req.query;
     MessageInbox.findByIdRecieved(req.params.id, {
       body,
-      subject,
-      recipient,
       sort,
       limit,
     })
@@ -329,7 +323,7 @@ router.get(
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     }
-    const { body, subject, recipient, sort, limit } = req.query;
+    const { body, sort, limit } = req.query;
     MessageInbox.findByIdSentandRecieved(
       req.params.sentId,
       req.params.recievedId,
