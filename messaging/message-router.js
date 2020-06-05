@@ -118,7 +118,7 @@ router.get("/", restricted, checkRole(), (req, res) => {
     });
 });
 
-// Get all messages-inbox by agent ID
+// Get all messages-inbox by User ID
 
 router.get(
   "/:id/inbox",
@@ -142,8 +142,14 @@ router.get(
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     }
-    console.log(__dirname);
-    MessageInbox.findById(req.params.id)
+    const { body, subject, recipient, sort, limit } = req.query;
+    MessageInbox.findById(req.params.id, {
+      body,
+      subject,
+      recipient,
+      sort,
+      limit,
+    })
       .then((messages) => {
         res.status(200).json({
           Messages: messages,
@@ -226,8 +232,14 @@ router.get(
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     }
-    const { body, subject, recipient } = req.query;
-    MessageInbox.findByIdSent(req.params.id, { body, subject, recipient })
+    const { body, subject, recipient, sort, limit } = req.query;
+    MessageInbox.findByIdSent(req.params.id, {
+      body,
+      subject,
+      recipient,
+      sort,
+      limit,
+    })
       .then((messages) => {
         res.status(200).json({
           Messages: messages,
@@ -263,12 +275,13 @@ router.get(
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     }
-    const { body, subject, recipient, sort } = req.query;
+    const { body, subject, recipient, sort, limit } = req.query;
     MessageInbox.findByIdRecieved(req.params.id, {
       body,
       subject,
       recipient,
       sort,
+      limit,
     })
       .then((message) => {
         res.status(200).json({
@@ -316,11 +329,11 @@ router.get(
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     }
-    const { body, subject, recipient, sort } = req.query;
+    const { body, subject, recipient, sort, limit } = req.query;
     MessageInbox.findByIdSentandRecieved(
       req.params.sentId,
       req.params.recievedId,
-      { body, subject, recipient, sort }
+      { body, subject, recipient, sort, limit }
     )
       .then((message) => {
         res.status(200).json({
@@ -336,7 +349,7 @@ router.get(
 // Get all message subjects by User ID
 
 router.get(
-  "/:id/subject",
+  "/:id/subject/all",
   [
     check("id")
       .exists()
