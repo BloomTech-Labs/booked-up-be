@@ -31,6 +31,9 @@ function findById(id, query) {
       if (query.body) {
         qb.orWhere("u.email", "like", `%${query.body}%`);
       }
+      if (query.body) {
+        qb.orWhere("m.recipient", "like", `%${query.body}%`);
+      }
     })
     .orWhere("m.recipient_id", id)
     .andWhere((qb) => {
@@ -42,6 +45,9 @@ function findById(id, query) {
       }
       if (query.body) {
         qb.orWhere("u.email", "like", `%${query.body}%`);
+      }
+      if (query.body) {
+        qb.orWhere("m.recipient", "like", `%${query.body}%`);
       }
     })
     .limit(limitNum)
@@ -147,6 +153,9 @@ function findByIdSentandRecieved(sentId, recievedId, query) {
       }
       if (query.body) {
         qb.orWhere("u.email", "like", `%${query.body}%`);
+      }
+      if (query.body) {
+        qb.orWhere("m.recipient", "like", `%${query.body}%`);
       }
     })
     .limit(limitNum)
