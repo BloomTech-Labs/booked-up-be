@@ -626,6 +626,10 @@ router.delete(
   restricted,
   checkRole(),
   (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).jsonp(errors.array());
+    }
     MessageInbox.removeMessage(req.params.id)
       .then((post) => {
         res.status(200).json(post);
