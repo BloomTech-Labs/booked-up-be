@@ -41,7 +41,12 @@ function findById(id, query) {
     .orderBy("m.created_at", `${sortByCreatedAt}`);
 }
 
+function removeMessage(id) {
+  return db("message_reply as mr").where("mr.message_id", id).del();
+}
+
 module.exports = {
   add,
   findById,
+  removeMessage,
 };
