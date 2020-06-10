@@ -12,6 +12,7 @@ function findById(id, query) {
     .join("users as u", "mi.user_id", "u.id")
     .select(
       "m.id",
+      "m.linking_id",
       "u.email as sent by",
       "m.sender_id",
       "m.subject",
@@ -63,6 +64,7 @@ function findByIdSent(id, query) {
     .join("users as u", "mi.user_id", "u.id")
     .select(
       "m.id",
+      "m.linking_id",
       "u.email as sent by",
       "m.sender_id",
       "m.subject",
@@ -98,6 +100,7 @@ function findByIdRecieved(id, query) {
     .join("users as u", "mi.user_id", "u.id")
     .select(
       "m.id",
+      "m.linking_id",
       "u.email as sent by",
       "m.sender_id",
       "m.subject",
@@ -134,6 +137,7 @@ function findByIdSentandRecieved(sentId, recievedId, query) {
     .join("users as u", "mi.user_id", "u.id")
     .select(
       "m.id",
+      "m.linking_id",
       "u.email as sent by",
       "m.sender_id",
       "m.subject",
@@ -194,6 +198,7 @@ function findByMessageId(id) {
     .join("users as u", "mi.user_id", "u.id")
     .select(
       "m.id",
+      "m.linking_id",
       "u.email as sent by",
       "m.sender_id",
       "m.subject",
