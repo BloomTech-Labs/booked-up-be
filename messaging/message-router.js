@@ -630,13 +630,15 @@ router.delete(
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     }
-    MessageInbox.removeMessage(req.params.id)
-      .then((post) => {
-        res.status(200).json(post);
-      })
-      .catch((err) => {
-        res.status(500).json(err);
-      });
+    MessageInbox.removeMessage(req.params.id).then((post) => {
+      MessageReply.removeMessage(req.params.id)
+        .then((mssg) => {
+          res.status(200).json(post);
+        })
+        .catch((err) => {
+          res.status(500).json(err);
+        });
+    });
   }
 );
 
