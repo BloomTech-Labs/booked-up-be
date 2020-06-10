@@ -1,8 +1,11 @@
 exports.up = async (knex) => {
   return knex.schema
+
+    .table("messages", (tbl) => {
+      tbl.string("linking_id", 255);
+    })
     .createTable("message_reply", (tbl) => {
       tbl.increments();
-      tbl.string("linking_id", 255);
       tbl
         .integer("message_id", 255)
         .unsigned()
@@ -56,5 +59,7 @@ exports.up = async (knex) => {
 exports.down = async (knex) => {
   return knex.schema
     .dropTableIfExists("message_reply")
+    .dropTableIfExists("message-inbox")
+    .dropTableIfExists("messages")
     .dropTableIfExists("genres");
 };

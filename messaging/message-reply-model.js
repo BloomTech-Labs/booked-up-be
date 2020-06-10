@@ -13,6 +13,7 @@ function findById(id, query) {
     .join("users as u", "mr.user_id", "u.id")
     .select(
       "m.id",
+      "m.linking_id",
       "u.email as sent by",
       "m.sender_id",
       "m.subject",
@@ -21,7 +22,7 @@ function findById(id, query) {
       "m.recipient_id",
       "m.recipient"
     )
-    .where("mr.linking_id", id)
+    .where("m.linking_id", id)
     .andWhere((qb) => {
       if (query.body) {
         qb.where("m.body", "like", `%${query.body}%`);
