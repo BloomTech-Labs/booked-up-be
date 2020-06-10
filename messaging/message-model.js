@@ -17,6 +17,7 @@ function findById(id) {
   return db("messages as m")
     .select(
       "m.id",
+      "m.linking_id",
       "m.sender_id",
       "m.subject",
       "m.body",

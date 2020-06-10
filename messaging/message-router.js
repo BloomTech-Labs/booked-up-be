@@ -200,6 +200,7 @@ router.post(
       sender_id: req.params.id,
       recipient_id: req.body.recipient_id,
       recipient: req.body.recipient,
+      linking_id: req.params.replyId,
     };
     Messages.add(newMessage).then((message) => {
       const newInbox = {
@@ -211,7 +212,6 @@ router.post(
         user_id: req.params.id,
         recipient_id: req.body.recipient_id,
         message_id: message.id,
-        linking_id: req.params.replyId,
       };
       MessageInbox.add(newInbox).then(() => {
         MessageReply.add(newReply)
@@ -355,7 +355,7 @@ router.get(
     MessageReply.findById(req.params.id, { body, sort, limit })
       .then((message) => {
         res.status(200).json({
-          Message: message,
+          Messages: message,
         });
       })
       .catch((err) => {
