@@ -97,6 +97,20 @@ router.delete(
           }
         })
       ),
+    check("cloudId").custom(
+      (value, { req, loc, path }) =>
+        new Promise((resolve, reject) => {
+          cloudinary.v2.api.resource(value, (error, success) => {
+            try {
+              if (error) {
+                reject(error);
+              }
+            } catch (err) {
+              reject(err);
+            }
+          });
+        })
+    ),
   ],
   restricted,
   async (req, res) => {
