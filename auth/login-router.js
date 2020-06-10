@@ -75,11 +75,21 @@ router.post(
             };
 
             Users.findByIdContentLibrary(u.id).then((content) => {
+              console.log(content);
               const contentLibraryList = content.map((info) => {
-                const { title, content_url, created_at, last_updated } = info;
+                const {
+                  title,
+                  content_url,
+                  created_at,
+                  last_updated,
+                  description,
+                  img_url,
+                } = info;
                 return {
                   title,
                   content_url,
+                  description,
+                  img_url,
                   created_at,
                   last_updated,
                 };
@@ -176,11 +186,21 @@ router.post(
             };
 
             Users.findByIdContentLibrary(u.id).then((content) => {
+              console.log(content);
               const contentLibraryList = content.map((info) => {
-                const { title, content_url, created_at, last_updated } = info;
+                const {
+                  title,
+                  content_url,
+                  created_at,
+                  last_updated,
+                  description,
+                  img_url,
+                } = info;
                 return {
                   title,
                   content_url,
+                  description,
+                  img_url,
                   created_at,
                   last_updated,
                 };
