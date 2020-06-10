@@ -281,6 +281,58 @@ router.get(
   }
 );
 
+// Get messages by sent id and recieved id
+
+router.get(
+  "/:sentId/:recievedId",
+  [
+    check("sentId")
+      .exists()
+      .toInt()
+      .optional()
+      .custom((value) =>
+        Users.findById(value).then((user) => {
+          if (user === undefined) {
+            return Promise.reject("Sending User not found");
+          }
+        })
+      ),
+    check("recievedId")
+      .exists()
+      .toInt()
+      .optional()
+      .custom((value) =>
+        Users.findById(value).then((user) => {
+          if (user === undefined) {
+            return Promise.reject("Recipient User not found");
+          }
+        })
+      ),
+  ],
+  restricted,
+  checkRole(),
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).jsonp(errors.array());
+    }
+    const { body, subject, recipient, sort } = req.query;
+    MessageInbox.findByIdSentandRecieved(
+      req.params.sentId,
+      req.params.recievedId,
+      { body, subject, recipient, sort }
+    )
+      .then((message) => {
+        res.status(200).json({
+          Message: message,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json(err.message);
+      });
+  }
+);
+
 // Get all message subjects by User ID
 
 router.get(
