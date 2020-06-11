@@ -1,8 +1,4 @@
 const router = require("express").Router();
-const bcrypt = require("bcryptjs");
-
-const Agents = require("../agents/agent-model.js");
-const Users = require("./user-model.js");
 
 const checkRoleAdmin = require("../check-role/check-role-admin.js");
 const restricted = require("../auth/restricted");
@@ -29,7 +25,7 @@ const {
   agentInfoById,
   postAgentInfo,
   updateAgentInfo,
-} = require("./user-router-controller");
+} = require("./user-controller");
 
 // GET all users
 

@@ -2,7 +2,6 @@ const { check, validationResult, body } = require("express-validator");
 const Agents = require("../agents/agent-model.js");
 const Users = require("./user-model.js");
 const checkRole = require("../check-role/check-role-user.js");
-const checkRoleAdmin = require("../check-role/check-role-admin.js");
 const checkRoleAgent = require("../check-role/check-role-agent.js");
 const restricted = require("../auth/restricted");
 const bcrypt = require("bcryptjs");
@@ -258,6 +257,69 @@ exports.validateAgentInfo = [
     const errors = validationResult(req);
     if (!errors.isEmpty())
       return res.status(422).json({ errors: errors.array() });
+    next();
+  },
+];
+
+// User password reset request POST
+
+exports.validateUserPasswordRequestReset = [
+  check("email", "email field is required").not().isEmpty(),
+  check("email", "a valid email is required").isEmail(),
+  body("email").custom((value) =>
+    Users.findByEmail(value).then((user) => {
+      const newUser = user.map((u) => u.email_verification);
+      if (user.length === 0) {
+        return Promise.reject("email not registered");
+      }
+      if (newUser[0] === false) {
+        return Promise.reject("email has not been validated");
+      }
+    })
+  ),
+  restricted,
+  checkRole(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(422).json({ errors: errors.array() });
+    next();
+  },
+];
+
+// User password reset POST
+
+exports.validateUserPasswordReset = [
+  check("password", "Please enter a password").custom(
+    (value, { req, loc, path }) => {
+      if (value !== req.body.confirmPassword) {
+        throw new Error("Passwords do not match");
+      } else {
+        return value;
+      }
+    }
+  ),
+  check(
+    "password",
+    "Must contain 8 characters - one uppercase, one lowercase, one number, one special"
+  ).matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, "i"),
+  body("password").custom((value, { req, loc, path }) =>
+    Users.findById(Number(req.body.id)).then((user) => {
+      if (user === undefined) {
+        throw new Error("User Id is not valid");
+      } else if (bcrypt.compareSync(req.body.password, user.password)) {
+        throw new Error("New password can not be previous password");
+      }
+    })
+  ),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    const errArr = errors.array();
+    const errMsg = errArr.map((err) => `  ${err.msg}`);
+    if (!errors.isEmpty()) {
+      req.flash("error", errMsg);
+      return res.redirect("back");
+    }
     next();
   },
 ];
