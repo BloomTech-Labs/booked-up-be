@@ -100,3 +100,4 @@ router.delete("/:id", restricted, async (req, res) => {
 });
 
 module.exports = router;
+

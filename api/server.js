@@ -33,6 +33,7 @@ server.use("/api/message/", messageRouter);
 server.use("/api/comments", commentsRouter);
 server.use("/api/genre", genreRouter);
 
+
 // server.get("/*", function (req, res) {
 //   res.sendFile(path.join(__dirname, "../booked-up-fe/build/index.html"));
 // });
