@@ -189,6 +189,7 @@ router.post(
               console.log(content);
               const contentLibraryList = content.map((info) => {
                 const {
+                  id,
                   title,
                   content_url,
                   created_at,
@@ -197,6 +198,7 @@ router.post(
                   img_url,
                 } = info;
                 return {
+                  id,
                   title,
                   content_url,
                   description,
