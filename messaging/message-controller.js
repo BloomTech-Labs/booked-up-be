@@ -1,7 +1,6 @@
 const Messages = require("./message-model.js");
 const MessageInbox = require("./message-inbox-model.js");
 const MessageReply = require("./message-reply-model");
-const Users = require("../users/user-model");
 
 // POST message
 
