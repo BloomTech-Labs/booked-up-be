@@ -1,6 +1,11 @@
 const Agents = require("../agents/agent-model.js");
 const Users = require("./user-model.js");
+const jwt = require("jsonwebtoken");
+const jwtDecode = require("jwt-decode");
+const secrets = require("../config/secrets.js");
 const bcrypt = require("bcryptjs");
+
+const { sendPasswordResetEmail } = require("../services/user-email-reset");
 
 // GET all users
 
@@ -201,6 +206,80 @@ exports.updateAgentInfo = [
         .catch((err) => {
           res.status(500).json(err);
         });
+    });
+  },
+];
+
+// User password request POST
+
+exports.passwordResetRequest = [
+  (req, res) => {
+    const { email, id } = req.body;
+    const updateUser = {
+      password_reset: true,
+    };
+    Users.findBy({ email })
+      .first()
+      .then((u) => {
+        Users.update(u.id, updateUser)
+          .then((user) => {
+            if (u) {
+              sendPasswordResetEmail(u);
+              res.status(200).json({ message: "email sent" });
+            }
+          })
+          .catch((err) => {
+            res.status(500).json(err.message);
+          });
+      });
+  },
+];
+
+// User password Get
+
+exports.passwordGet = [
+  async (req, res) => {
+    const decodedJwt = jwtDecode(req.params.token);
+
+    jwt.verify(req.params.token, secrets.jwtSecret, (err, verifiedJWT) => {
+      if (err) {
+        res.status(400).json(err);
+      } else {
+        res.render("user-password-reset", {
+          error: req.flash("error"),
+          data: {
+            id: decodedJwt.userid,
+            token: req.params.token,
+            type: decodedJwt.userType,
+          },
+        });
+      }
+    });
+  },
+];
+
+// Password reset POST
+
+exports.passwordReset = [
+  (req, res) => {
+    const hash = bcrypt.hashSync(req.body.password, 12);
+    const updateUser = {
+      password_reset: false,
+      password: hash,
+    };
+    jwt.verify(req.body.token, secrets.jwtSecret, (err, verifiedJWT) => {
+      if (err) {
+        res.status(400).json(err);
+      } else {
+        Users.update(req.body.id, updateUser)
+          .then((u) => {
+            console.log(u);
+            res.render("user-password-success");
+          })
+          .catch((err) => {
+            res.status(400).json(err.message);
+          });
+      }
     });
   },
 ];
