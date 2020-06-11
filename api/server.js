@@ -13,6 +13,7 @@ const adminRouter = require("../admins/admin-router");
 const userResetPassword = require("../users/user-reset-password");
 const messageRouter = require("../messaging/message-router");
 const comments = require("../comments/comments-router");
+const genre = require("../author-content/genre-router");
 
 const server = express();
 server.set("view engine", "ejs");
@@ -30,6 +31,7 @@ server.use("/api/admin", adminRouter);
 server.use("/api/users/password", userResetPassword);
 server.use("/api/message/", messageRouter);
 server.use("/api/comments", comments);
+server.use("/api/genre", genre);
 
 // server.get("/*", function (req, res) {
 //   res.sendFile(path.join(__dirname, "../booked-up-fe/build/index.html"));
