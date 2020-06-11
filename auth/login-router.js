@@ -78,6 +78,7 @@ router.post(
               console.log(content);
               const contentLibraryList = content.map((info) => {
                 const {
+                  author_content_id,
                   title,
                   content_url,
                   created_at,
@@ -86,6 +87,7 @@ router.post(
                   img_url,
                 } = info;
                 return {
+                  author_content_id,
                   title,
                   content_url,
                   description,
@@ -189,6 +191,7 @@ router.post(
               console.log(content);
               const contentLibraryList = content.map((info) => {
                 const {
+                  author_content_id,
                   title,
                   content_url,
                   created_at,
@@ -197,6 +200,7 @@ router.post(
                   img_url,
                 } = info;
                 return {
+                  author_content_id,
                   title,
                   content_url,
                   description,
