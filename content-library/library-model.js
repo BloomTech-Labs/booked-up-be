@@ -60,5 +60,5 @@ function update(favorite, id) {
 }
 
 function deleteFavorite(id) {
-  return db("content_library").where({ id }).delete();
+  return db("content_library").where("author_content_id", id).delete();
 }
