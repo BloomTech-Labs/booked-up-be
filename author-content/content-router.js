@@ -7,7 +7,7 @@ const Genres = require("./genres-model");
 const restricted = require("../auth/restricted");
 
 const { validateUserId } = require("./content-validation");
-const { postMessage } = require("./content-controller");
+const { postMessage, getContentById } = require("./content-controller");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -27,36 +27,7 @@ router.get("/", restricted, (req, res) => {
 
 // Get by user ID
 
-router.get(
-  "/:id",
-  [
-    check("id")
-      .exists()
-      .toInt()
-      .optional()
-      .custom((value) =>
-        Users.findById(value).then((user) => {
-          if (user === undefined) {
-            return Promise.reject("User Id not found");
-          }
-        })
-      ),
-  ],
-  restricted,
-  (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).jsonp(errors.array());
-    }
-    db.findById(req.params.id)
-      .then((content) => {
-        res.status(200).json(content);
-      })
-      .catch((err) => {
-        res.status(500).json(err);
-      });
-  }
-);
+router.get("/:id", validateUserId, getContentById);
 
 router.post("/:id", validateUserId, postMessage);
 

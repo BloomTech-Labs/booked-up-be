@@ -21,6 +21,13 @@ exports.up = async (knex) => {
       tbl.boolean("play").defaultTo(false).alter();
       tbl.boolean("musical").defaultTo(false).alter();
       tbl.boolean("theatre").defaultTo(false).alter();
+      tbl
+        .integer("user_id", 255)
+        .unsigned()
+        .notNullable()
+        .references("users.id")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
     });
 };
 
