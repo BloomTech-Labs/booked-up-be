@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 const express = require("express");
 const path = require("path");
 const configureMiddleware = require("./configure-middleware.js");
@@ -16,7 +15,6 @@ const commentsRouter = require("../comments/comments-router");
 
 const server = express();
 server.set("view engine", "ejs");
-// server.use(express.static(path.join(__dirname, "../booked-up-fe/build")));
 configureMiddleware(server);
 
 server.use("/api/auth/register", registerRouter);
@@ -30,10 +28,6 @@ server.use("/api/admin", adminRouter);
 server.use("/api/users/password", userResetPassword);
 server.use("/api/message/", messageRouter);
 server.use("/api/comments", commentsRouter);
-
-// server.get("/*", function (req, res) {
-//   res.sendFile(path.join(__dirname, "../booked-up-fe/build/index.html"));
-// });
 
 server.get("/", (req, res) => {
   res.status(200).json({
