@@ -3,6 +3,7 @@ const db = require("../data/dbConfig.js");
 module.exports = {
   get,
   findById,
+  findByIdContent,
   add,
   update,
   deleteContent,
@@ -14,6 +15,10 @@ function get() {
 
 function findById(id) {
   return db("author_content").where("user_id", id);
+}
+
+function findByIdContent(id) {
+  return db("author_content").where({ id });
 }
 
 function add(newContent) {

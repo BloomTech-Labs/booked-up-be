@@ -62,7 +62,8 @@ function findByEmailContentLibrary(search) {
 function findByIdContentLibrary(id) {
   return db("content_library as cl")
     .join("users as u", "u.id", "cl.user_id")
-    .select("cl.*")
+    .join("author_content as ac", "ac.id", "cl.author_content_id")
+    .select("cl.*", "ac.*")
     .where("cl.user_id", id);
 }
 
