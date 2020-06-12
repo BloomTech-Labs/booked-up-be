@@ -1,5 +1,9 @@
 const router = require("express").Router();
-const db = require("./content-model");
+const cloudinary = require("cloudinary");
+const Contents = require("./content-model");
+const { check, validationResult, body } = require("express-validator");
+
+const Genres = require("./genres-model");
 
 const restricted = require("../auth/restricted");
 
@@ -15,6 +19,12 @@ const {
   deleteContent,
   updateContent,
 } = require("./content-controller");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
 
 // Get all content
 

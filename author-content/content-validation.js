@@ -1,7 +1,6 @@
 const { check, validationResult, body } = require("express-validator");
 const Users = require("../users/user-model");
 const Contents = require("./content-model");
-const Genres = require("./genres-model");
 const checkRole = require("../check-role/check-role-user");
 const restricted = require("../auth/restricted");
 const cloudinary = require("cloudinary");
@@ -79,19 +78,14 @@ exports.validateDeleteContent = [
         }
       })
     ),
-  check("cloudId").custom(
-    (value, { req, loc, path }) =>
-      new Promise((resolve, reject) => {
-        cloudinary.v2.api.resource(value, (error, success) => {
-          try {
-            if (error) {
-              reject(error);
-            }
-          } catch (err) {
-            reject(err);
-          }
-        });
-      })
+  check("cloudId").custom((value, { req, loc, path }) =>
+    cloudinary.v2.api.resource(value, (error, success) => {
+      try {
+        Promise.resolve(success);
+      } catch (err) {
+        Promise.reject(error);
+      }
+    })
   ),
   restricted,
   (req, res, next) => {

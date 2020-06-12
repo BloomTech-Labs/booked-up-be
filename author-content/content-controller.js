@@ -259,14 +259,10 @@ exports.updateContent = [
 exports.deleteContent = [
   async (req, res) => {
     const { id, cloudId } = req.params;
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).jsonp(errors.array());
-    }
 
     async function func1() {
       const promise = new Promise((resolve, reject) => {
-        db.deleteContent(id)
+        Contents.deleteContent(id)
           .then(() => {
             resolve({ server: "content removed from server" });
           })
@@ -295,7 +291,7 @@ exports.deleteContent = [
     const promise1 = func1();
     const promise2 = func2();
 
-    return Promise.all([promise1, promise2]).then((results) =>
+    return Promise.all([promise2, promise1]).then((results) =>
       res.status(200).json(results)
     );
   },
