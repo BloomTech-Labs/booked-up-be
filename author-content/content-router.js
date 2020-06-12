@@ -1,9 +1,5 @@
 const router = require("express").Router();
 const cloudinary = require("cloudinary");
-const Contents = require("./content-model");
-const { check, validationResult, body } = require("express-validator");
-
-const Genres = require("./genres-model");
 
 const restricted = require("../auth/restricted");
 
