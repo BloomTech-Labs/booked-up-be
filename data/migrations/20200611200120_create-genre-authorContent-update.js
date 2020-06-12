@@ -6,26 +6,27 @@ exports.up = async (knex) => {
     })
 
     .table("genres", (tbl) => {
-      tbl.string("fantasy").defaultTo(false).alter();
-      tbl.string("science_fiction", 255).defaultTo(false).alter();
-      tbl.string("horror").defaultTo(false).alter();
-      tbl.string("western").defaultTo(false).alter();
-      tbl.string("romance").defaultTo(false).alter();
-      tbl.string("thriller").defaultTo(false).alter();
-      tbl.string("mystery").defaultTo(false).alter();
-      tbl.string("detective").defaultTo(false).alter();
-      tbl.string("dystopia").defaultTo(false).alter();
-      tbl.string("adventure").defaultTo(false).alter();
-      tbl.string("memoir").defaultTo(false).alter();
-      tbl.string("biography").defaultTo(false).alter();
-      tbl.string("play").defaultTo(false).alter();
-      tbl.string("musical").defaultTo(false).alter();
-      tbl.string("theatre").defaultTo(false).alter();
+      tbl.boolean("fantasy").defaultTo(false).alter();
+      tbl.boolean("science_fiction").defaultTo(false).alter();
+      tbl.boolean("horror").defaultTo(false).alter();
+      tbl.boolean("western").defaultTo(false).alter();
+      tbl.boolean("romance").defaultTo(false).alter();
+      tbl.boolean("thriller").defaultTo(false).alter();
+      tbl.boolean("mystery").defaultTo(false).alter();
+      tbl.boolean("detective").defaultTo(false).alter();
+      tbl.boolean("dystopia").defaultTo(false).alter();
+      tbl.boolean("adventure").defaultTo(false).alter();
+      tbl.boolean("memoir").defaultTo(false).alter();
+      tbl.boolean("biography").defaultTo(false).alter();
+      tbl.boolean("play").defaultTo(false).alter();
+      tbl.boolean("musical").defaultTo(false).alter();
+      tbl.boolean("theatre").defaultTo(false).alter();
     });
 };
 
 exports.down = async (knex) => {
   return knex.schema
-    .dropTableIfExists("author_content")
-    .dropTableIfExists("genres");
+    .dropTableIfExists("genres")
+    .dropTableIfExists("content_library")
+    .dropTableIfExists("author_content");
 };

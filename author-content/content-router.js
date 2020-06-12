@@ -3,7 +3,11 @@ const cloudinary = require("cloudinary");
 const { check, validationResult, body } = require("express-validator");
 const db = require("./content-model");
 const Users = require("../users/user-model");
+const Genres = require("./genres-model");
 const restricted = require("../auth/restricted");
+
+const { validateUserId } = require("./content-validation");
+const { postMessage } = require("./content-controller");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -54,19 +58,7 @@ router.get(
   }
 );
 
-router.post("/", restricted, async (req, res) => {
-  try {
-    const content = req.body;
-    const [newContent] = await db.add(content);
-    res.status(201).json({
-      newContent,
-    });
-  } catch (error) {
-    res.status(500).json({
-      error,
-    });
-  }
-});
+router.post("/:id", validateUserId, postMessage);
 
 router.put("/:id", restricted, async (req, res) => {
   try {
