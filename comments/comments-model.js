@@ -13,7 +13,7 @@ function get() {
 }
 
 function findById(id) {
-    return db("comments").where("user_id", id);
+    return db("comments").where("author_content_id", id);
 }
 
 function add(newComments) {
