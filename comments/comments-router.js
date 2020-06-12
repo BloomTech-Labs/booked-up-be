@@ -26,9 +26,9 @@ router.get(
         .toInt()
         .optional()
         .custom((value) =>
-            Users.findById(value).then((user) => {
-                if (user === undefined) {
-                    return Promise.reject("User Id not found");
+            db.findById(value).then((authId) => {
+                if (authId === undefined) {
+                    return Promise.reject("Author Content Id not found");
                 }
             })
         ),
