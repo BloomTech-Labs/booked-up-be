@@ -26,7 +26,10 @@ function add(newContent) {
 }
 
 function update(content, id) {
-  return db("genres").where({ id }).update(content).returning("*");
+  return db("genres")
+    .where("genres.author_content_id", id)
+    .update(content)
+    .returning("*");
 }
 
 function deleteGenre(id) {
