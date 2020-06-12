@@ -11,7 +11,7 @@ const adminLoginRouter = require("../auth/admin-login");
 const adminRouter = require("../admins/admin-router");
 const userResetPassword = require("../users/user-reset-password");
 const messageRouter = require("../messaging/message-router");
-const comments = require("../comments/comments-router");
+const commentsRouter = require("../comments/comments-router");
 
 const server = express();
 server.set("view engine", "ejs");
@@ -27,7 +27,7 @@ server.use("/api/auth/admin/login", adminLoginRouter);
 server.use("/api/admin", adminRouter);
 server.use("/api/users/password", userResetPassword);
 server.use("/api/message/", messageRouter);
-server.use("/api/comments", comments);
+server.use("/api/comments", commentsRouter);
 
 server.get("/", (req, res) => {
   res.status(200).json({
