@@ -1,5 +1,4 @@
 const express = require("express");
-const path = require("path");
 const configureMiddleware = require("./configure-middleware.js");
 const registerRouter = require("../auth/register-router");
 const loginRouter = require("../auth/login-router");

@@ -4,6 +4,7 @@ module.exports = {
   get,
   findById,
   findByIdContent,
+  findByIdGenre,
   add,
   update,
   deleteContent,
@@ -15,6 +16,13 @@ function get() {
 
 function findById(id) {
   return db("author_content").where("user_id", id);
+}
+
+function findByIdGenre(id) {
+  return db("author_content as ac")
+    .join("genres as g", "g.author_content_id", "ac.id")
+    .select("ac.*", "g.*")
+    .where("g.user_id", id);
 }
 
 function findByIdContent(id) {
