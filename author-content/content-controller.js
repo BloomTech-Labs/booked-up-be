@@ -2,6 +2,96 @@ const cloudinary = require("cloudinary");
 const Contents = require("./content-model");
 const Genres = require("./genres-model");
 
+exports.getContent = [
+  (req, res) => {
+    Genres.get()
+      .then((finalContent) => {
+        const contentGenre = finalContent.map((ele) => {
+          const genres = [];
+          const objectArray = Object.entries(ele);
+          objectArray.map(([key, value]) => {
+            if (value === true) {
+              return genres.push(key);
+            }
+          });
+          const {
+            id,
+            user_id,
+            title,
+            description,
+            img_url,
+            content_url,
+            created_at,
+            last_updated,
+            public_id,
+          } = ele;
+          const newObj = {
+            id,
+            user_id,
+            title,
+            description,
+            img_url,
+            content_url,
+            created_at,
+            last_updated,
+            public_id,
+            genres,
+          };
+          return newObj;
+        });
+        res.status(200).json(contentGenre);
+      })
+      .catch((err) => {
+        res.status(500).json(err.message);
+      });
+  },
+];
+
+exports.getContentById = [
+  (req, res) => {
+    Genres.findById(req.params.id)
+      .then((finalContent) => {
+        const contentGenre = finalContent.map((ele) => {
+          const genres = [];
+          const objectArray = Object.entries(ele);
+          objectArray.map(([key, value]) => {
+            if (value === true) {
+              return genres.push(key);
+            }
+          });
+          const {
+            id,
+            user_id,
+            title,
+            description,
+            img_url,
+            content_url,
+            created_at,
+            last_updated,
+            public_id,
+          } = ele;
+          const newObj = {
+            id,
+            user_id,
+            title,
+            description,
+            img_url,
+            content_url,
+            created_at,
+            last_updated,
+            public_id,
+            genres,
+          };
+          return newObj;
+        });
+        res.status(200).json(contentGenre);
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
+  },
+];
+
 exports.postMessage = [
   (req, res) => {
     const {
@@ -78,51 +168,6 @@ exports.postMessage = [
       })
       .catch((err) => {
         res.status(500).json(err.message);
-      });
-  },
-];
-
-exports.getContentById = [
-  (req, res) => {
-    Genres.findById(req.params.id)
-      .then((finalContent) => {
-        const contentGenre = finalContent.map((ele) => {
-          const genres = [];
-          const objectArray = Object.entries(ele);
-          objectArray.map(([key, value]) => {
-            if (value === true) {
-              return genres.push(key);
-            }
-          });
-          const {
-            id,
-            user_id,
-            title,
-            description,
-            img_url,
-            content_url,
-            created_at,
-            last_updated,
-            public_id,
-          } = ele;
-          const newObj = {
-            id,
-            user_id,
-            title,
-            description,
-            img_url,
-            content_url,
-            created_at,
-            last_updated,
-            public_id,
-            genres,
-          };
-          return newObj;
-        });
-        res.status(200).json(contentGenre);
-      })
-      .catch((err) => {
-        res.status(500).json(err);
       });
   },
 ];

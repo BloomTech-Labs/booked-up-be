@@ -1,7 +1,11 @@
 const db = require("../data/dbConfig.js");
 
 function get() {
-  return db("genres");
+  return db("genres as g").join(
+    "author_content as ac",
+    "g.author_content_id",
+    "ac.id"
+  );
 }
 
 function findById(id) {

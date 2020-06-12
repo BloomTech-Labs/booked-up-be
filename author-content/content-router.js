@@ -7,7 +7,11 @@ const Genres = require("./genres-model");
 const restricted = require("../auth/restricted");
 
 const { validateUserId } = require("./content-validation");
-const { postMessage, getContentById } = require("./content-controller");
+const {
+  postMessage,
+  getContentById,
+  getContent,
+} = require("./content-controller");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -15,21 +19,19 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-router.get("/", restricted, (req, res) => {
-  db.get()
-    .then((author_content) => {
-      res.status(200).json(author_content);
-    })
-    .catch((err) => {
-      res.status(500).json(err);
-    });
-});
+// Get all content
+
+router.get("/", restricted, getContent);
 
 // Get by user ID
 
 router.get("/:id", validateUserId, getContentById);
 
+// Post content
+
 router.post("/:id", validateUserId, postMessage);
+
+// Update content
 
 router.put("/:id", restricted, async (req, res) => {
   try {
@@ -45,6 +47,8 @@ router.put("/:id", restricted, async (req, res) => {
     });
   }
 });
+
+// Deete content
 
 router.delete(
   "/:id/:cloudId",
