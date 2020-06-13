@@ -45,8 +45,6 @@ exports.validateUpdateContent = [
         }
       })
     ),
-  restricted,
-  checkRole(),
   check("contentId")
     .exists()
     .toInt()
@@ -58,6 +56,8 @@ exports.validateUpdateContent = [
         }
       })
     ),
+  restricted,
+  checkRole(),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty())
