@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const Admins = require("./admin-model");
+
 // UPDATE password
 
 exports.updatePassword = [
