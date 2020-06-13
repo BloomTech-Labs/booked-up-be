@@ -15,15 +15,3 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CodeClimateReporterId }}
         with:
           coverageCommand: npm run coverage
-checks:
-  similar-code:
-    enabled: false
-
-    method-lines:
-      config:
-        threshold: 50
-
-exclude_patterns:
-  - "__tests__/"
-  - "**/*.spec.js"
-  - "**/node_modules/"
