@@ -1,102 +1,41 @@
 const router = require("express").Router();
-const db = require("./comments-model");
-// const Users = require("../comments/comments-model");
-const {
-    check,
-    validationResult,
-    body
-} = require("express-validator");
 const restricted = require("../auth/restricted");
 
-router.get("/", restricted, (req, res) => {
-    db.get()
-        .then((comments) => {
-            res.status(200).json(comments);
-        })
-        .catch((err) => {
-            res.status(500).json(err);
-        });
-});
+const {
+  validateAuthorContent,
+  validatePostComment,
+  validateUpdateComment,
+  validateDeleteComment,
+} = require("./comments-validation");
 
-router.get(
-    "/:id",
-    [
-        check("id")
-        .exists()
-        .toInt()
-        .optional()
-        .custom((value) =>
-            db.findById(value).then((authId) => {
-                if (authId === undefined) {
-                    return Promise.reject("Author Content Id not found");
-                }
-            })
-        ),
-    ],
-    restricted,
-    (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(422).jsonp(errors.array());
-        }
-        db.findById(req.params.id)
-            .then((comment) => {
-                res.status(200).json(comment);
-            })
-            .catch((err) => {
-                res.status(500).json(err);
-            });
-    }
-);
+const {
+  getAllComments,
+  CommentsByAuthorContentId,
+  PostComment,
+  updateComment,
+  deleteComment,
+} = require("./comments-controller");
 
-router.post("/", restricted, async (req, res) => {
-    try {
-        const comment = req.body;
-        const [newComments] = await db.add(comment);
-        res.status(201).json({
-            newComments
-        });
-    } catch (error) {
-        res.status(500).json({
-            error
-        });
-    }
-});
+// Get all comments
 
-router.put("/:id", restricted, async (req, res) => {
-    try {
-        const {
-            id
-        } = req.params;
-        const comment = req.body;
-        const updatedComment = await db.update(comment, id);
-        res.status(201).json({
-            updatedComment
-        });
-    } catch (error) {
-        res.status(500).json({
-            error
-        });
-    }
-});
+router.get("/", restricted, getAllComments);
 
-router.delete("/:id", restricted, async (req, res) => {
-    try {
-        const commentId = req.params.id;
-        const deletedComment = await db.deleteComment(commentId);
-        if (deletedComment > 0) {
-            res.status(204).send();
-        } else {
-            console.log(deletedComment);
-            res.status(404).json({
-                message: "Selection cannot be found."
-            });
-        }
-    } catch (error) {
-        res.status(500).json({
-            error
-        });
-    }
-});
+// Get comments by author_content_id
+
+router.get("/:id", validateAuthorContent, CommentsByAuthorContentId);
+
+// Get all comments by UserId *
+
+// Post comment by UserId on ContentId
+
+router.post("/:id/:contentId", validatePostComment, PostComment);
+
+// Update comment by UserId on CommentId
+
+router.patch("/:id/:commentId", validateUpdateComment, updateComment);
+
+// Delete Comment
+
+router.delete("/:id", validateDeleteComment, deleteComment);
 
 module.exports = router;
