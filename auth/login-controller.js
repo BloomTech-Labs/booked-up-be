@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 const secrets = require("../config/secrets.js");
-const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const Users = require("../users/user-model.js");
 const Genres = require("../author-content/genres-model");
+const Libraries = require("../content-library/library-model");
 
 exports.postLogin = [
   (req, res) => {
@@ -14,7 +14,6 @@ exports.postLogin = [
         .then((u) => {
           if (u && bcrypt.compareSync(password, u.password)) {
             const token = genToken(u);
-
             const userList = {
               id: u.id,
               userType: u.user_type,
@@ -28,27 +27,39 @@ exports.postLogin = [
               image: u.image,
               createdAt: u.created_at,
             };
-
-            Users.findByIdContentLibrary(u.id).then((content) => {
-              const contentLibraryList = content.map((info) => {
+            Libraries.findByIdLibrary(u.id).then((library) => {
+              const libraryContent = library.map((ele) => {
+                const genres = [];
+                const objectArray = Object.entries(ele);
+                objectArray.map(([key, value]) => {
+                  if (value === true) {
+                    return genres.push(key);
+                  }
+                });
                 const {
-                  author_content_id,
+                  id,
+                  user_id,
                   title,
+                  description,
+                  img_url,
                   content_url,
                   created_at,
                   last_updated,
-                  description,
-                  img_url,
-                } = info;
-                return {
-                  author_content_id,
+                  public_id,
+                } = ele;
+                const newObj = {
+                  id,
+                  user_id,
                   title,
-                  content_url,
                   description,
                   img_url,
+                  content_url,
                   created_at,
                   last_updated,
+                  public_id,
+                  genres,
                 };
+                return newObj;
               });
               Users.findAgentInfoId(u.id).then((agentInfo) => {
                 const agentInfoList = agentInfo.map((info) => {
@@ -106,20 +117,20 @@ exports.postLogin = [
                       res.status(200).json({
                         User: userList,
                         AuthorContent: contentGenre,
-                        ContentLibrary: contentLibraryList,
+                        ContentLibrary: libraryContent,
                         Token: token,
                       });
                     } else if (u.user_type === "agent") {
                       res.status(200).json({
                         User: userList,
                         AgentInfo: agentInfoList,
-                        contentLibrary: contentLibraryList,
+                        contentLibrary: libraryContent,
                         Token: token,
                       });
                     } else {
                       res.status(200).json({
                         User: userList,
-                        contentLibrary: contentLibraryList,
+                        contentLibrary: libraryContent,
                         Token: token,
                       });
                     }
@@ -139,7 +150,6 @@ exports.postLogin = [
         .then((u) => {
           if (u && bcrypt.compareSync(password, u.password)) {
             const token = genToken(u);
-
             const userList = {
               id: u.id,
               userType: u.user_type,
@@ -153,27 +163,39 @@ exports.postLogin = [
               image: u.image,
               createdAt: u.created_at,
             };
-
-            Users.findByIdContentLibrary(u.id).then((content) => {
-              const contentLibraryList = content.map((info) => {
+            Libraries.findByIdLibrary(u.id).then((library) => {
+              const libraryContent = library.map((ele) => {
+                const genres = [];
+                const objectArray = Object.entries(ele);
+                objectArray.map(([key, value]) => {
+                  if (value === true) {
+                    return genres.push(key);
+                  }
+                });
                 const {
-                  author_content_id,
+                  id,
+                  user_id,
                   title,
+                  description,
+                  img_url,
                   content_url,
                   created_at,
                   last_updated,
-                  description,
-                  img_url,
-                } = info;
-                return {
-                  author_content_id,
+                  public_id,
+                } = ele;
+                const newObj = {
+                  id,
+                  user_id,
                   title,
-                  content_url,
                   description,
                   img_url,
+                  content_url,
                   created_at,
                   last_updated,
+                  public_id,
+                  genres,
                 };
+                return newObj;
               });
               Users.findAgentInfoId(u.id).then((agentInfo) => {
                 const agentInfoList = agentInfo.map((info) => {
@@ -230,21 +252,21 @@ exports.postLogin = [
                     if (u.user_type === "author") {
                       res.status(200).json({
                         User: userList,
-                        AuthorContent: authorContentList,
-                        ContentLibrary: contentLibraryList,
+                        AuthorContent: contentGenre,
+                        ContentLibrary: libraryContent,
                         Token: token,
                       });
                     } else if (u.user_type === "agent") {
                       res.status(200).json({
                         User: userList,
                         AgentInfo: agentInfoList,
-                        contentLibrary: contentLibraryList,
+                        contentLibrary: libraryContent,
                         Token: token,
                       });
                     } else {
                       res.status(200).json({
                         User: userList,
-                        contentLibrary: contentLibraryList,
+                        contentLibrary: libraryContent,
                         Token: token,
                       });
                     }
