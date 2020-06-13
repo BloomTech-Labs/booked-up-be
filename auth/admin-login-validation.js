@@ -1,7 +1,3 @@
-const jwt = require("jsonwebtoken");
-const secrets = require("../config/secrets.js");
-const router = require("express").Router();
-const bcrypt = require("bcryptjs");
 const { check, validationResult, body } = require("express-validator");
 const Admins = require("../admins/admin-model");
 
