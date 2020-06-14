@@ -14,6 +14,7 @@ const {
   getContent,
   deleteContent,
   updateContent,
+  getContentByIdComments,
 } = require("./content-controller");
 
 cloudinary.config({
@@ -30,6 +31,10 @@ router.get("/", restricted, getContent);
 
 router.get("/:id", validateUserId, getContentById);
 
+// Get by user ID with comments ***
+
+router.get("/:id/comments", getContentByIdComments);
+
 // Post content
 
 router.post("/:id", validateUserId, postContent);
@@ -38,7 +43,7 @@ router.post("/:id", validateUserId, postContent);
 
 router.patch("/:id/:contentId", validateUpdateContent, updateContent);
 
-// Deete content
+// Delete content
 
 router.delete("/:id/:cloudId", validateDeleteContent, deleteContent);
 

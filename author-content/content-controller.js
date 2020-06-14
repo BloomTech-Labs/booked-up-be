@@ -1,6 +1,7 @@
 const cloudinary = require("cloudinary");
 const Contents = require("./content-model");
 const Genres = require("./genres-model");
+const Comments = require("../comments/comments-model");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -94,6 +95,61 @@ exports.getContentById = [
       })
       .catch((err) => {
         res.status(500).json(err);
+      });
+  },
+];
+
+exports.getContentByIdComments = [
+  (req, res) => {
+    Comments.findContentAndCommentsById(req.params.id)
+      .then((content) => {
+        const contentGenre = content.map((ele) => {
+          const genres = [];
+          const objectArray = Object.entries(ele);
+          objectArray.map(([key, value]) => {
+            if (value === true) {
+              return genres.push(key);
+            }
+          });
+          const commentsList = content.map((ele) => {
+            return {
+              commentId: ele.commentId,
+              userId: ele.commentUserId,
+              comment: ele.comment,
+              createdAt: ele.commentCreatedAt,
+              lastUpdated: ele.commentLastUpdated,
+            };
+          });
+          const {
+            id,
+            user_id,
+            title,
+            description,
+            img_url,
+            content_url,
+            created_at,
+            last_updated,
+            public_id,
+          } = ele;
+          const newObj = {
+            id,
+            user_id,
+            title,
+            description,
+            img_url,
+            content_url,
+            created_at,
+            last_updated,
+            public_id,
+            genres,
+            commentsList,
+          };
+          return newObj;
+        });
+        res.status(200).json(contentGenre[0]);
+      })
+      .catch((err) => {
+        res.status(500).json(err.message);
       });
   },
 ];
