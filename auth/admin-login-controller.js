@@ -1,7 +1,7 @@
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const secrets = require("../config/secrets.js");
 const Admins = require("../admins/admin-model");
+
+const { genToken } = require("./generate-token");
 
 exports.adminLogin = [
   (req, res) => {
@@ -25,18 +25,3 @@ exports.adminLogin = [
       });
   },
 ];
-
-function genToken(user) {
-  const payload = {
-    userid: user.id,
-    userType: [`${user.user_type}`],
-  };
-
-  const options = {
-    expiresIn: "8h",
-  };
-
-  const token = jwt.sign(payload, secrets.jwtSecret, options);
-
-  return token;
-}
