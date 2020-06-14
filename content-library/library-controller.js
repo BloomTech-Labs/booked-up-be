@@ -1,8 +1,4 @@
-const router = require("express").Router();
 const db = require("./library-model");
-const Users = require("../users/user-model");
-const restricted = require("../auth/restricted");
-const { check, validationResult, body } = require("express-validator");
 
 exports.getAllLibraries = [
   (req, res) => {
