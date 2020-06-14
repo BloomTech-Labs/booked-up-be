@@ -1,8 +1,8 @@
-const db = require("./library-model");
+const Library = require("./library-model");
 
 exports.getAllLibraries = [
   (req, res) => {
-    db.getLibrary()
+    Library.getLibrary()
       .then((content_library) => {
         res.status(200).json(content_library);
       })
@@ -14,7 +14,7 @@ exports.getAllLibraries = [
 
 exports.getLibraryById = [
   (req, res) => {
-    db.findByIdLibrary(req.params.id)
+    Library.findByIdLibrary(req.params.id)
       .then((library) => {
         const contentGenre = library.map((ele) => {
           const genres = [];
@@ -64,7 +64,7 @@ exports.postLibrary = [
         user_id: req.params.id,
         author_content_id: req.body.author_content_id,
       };
-      const [newFavorite] = await db.add(favorite);
+      const [newFavorite] = await Library.add(favorite);
       res.status(201).json({ newFavorite });
     } catch (error) {
       res.status(500).json({ error });
@@ -77,7 +77,7 @@ exports.deleteLibrary = [
     try {
       const { contentId } = req.params;
       const { id } = req.params;
-      const deletedContent = await db.deleteFavorite(id, contentId);
+      const deletedContent = await Library.deleteFavorite(id, contentId);
       if (deletedContent > 0) {
         res.status(204).send();
       } else {

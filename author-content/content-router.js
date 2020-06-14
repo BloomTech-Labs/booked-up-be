@@ -25,7 +25,7 @@ router.get("/", restricted, getContent);
 
 router.get("/:id", validateUserId, getContentById);
 
-// Get by user ID with comments ***
+// Get by user ID with comments
 
 router.get("/:id/comments", getContentByIdComments);
 
