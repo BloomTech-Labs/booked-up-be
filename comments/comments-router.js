@@ -24,7 +24,9 @@ router.get("/", restricted, getAllComments);
 
 router.get("/:id", validateAuthorContent, CommentsByAuthorContentId);
 
-// Get all comments by UserId *
+// Get comment by CommentId ***
+
+// Get all comments by UserId ***
 
 // Post comment by UserId on ContentId
 
