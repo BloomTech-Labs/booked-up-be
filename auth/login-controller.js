@@ -1,9 +1,9 @@
-const jwt = require("jsonwebtoken");
-const secrets = require("../config/secrets.js");
 const bcrypt = require("bcryptjs");
 const Users = require("../users/user-model.js");
 const Genres = require("../author-content/genres-model");
 const Libraries = require("../content-library/library-model");
+
+const { genToken } = require("./generate-token");
 
 exports.postLogin = [
   (req, res) => {
@@ -283,18 +283,3 @@ exports.postLogin = [
     }
   },
 ];
-
-function genToken(user) {
-  const payload = {
-    userid: user.id,
-    userType: [`${user.user_type}`],
-  };
-
-  const options = {
-    expiresIn: "8h",
-  };
-
-  const token = jwt.sign(payload, secrets.jwtSecret, options);
-
-  return token;
-}
