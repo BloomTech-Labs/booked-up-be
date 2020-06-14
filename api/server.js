@@ -4,7 +4,6 @@ const configureMiddleware = require("./configure-middleware.js");
 
 const server = express();
 
-server.set("view engine", "ejs");
 configureMiddleware(server);
 
 server.use("/api", bookedUpRouter);

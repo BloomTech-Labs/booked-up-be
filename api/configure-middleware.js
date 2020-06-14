@@ -5,9 +5,9 @@ const bodyParser = require("body-parser");
 const flash = require("connect-flash");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-const path = require("path");
 
 module.exports = (server) => {
+  server.set("view engine", "ejs");
   server.use("/public", express.static("public"));
   server.use(helmet());
   server.use(express.json());
