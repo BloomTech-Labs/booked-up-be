@@ -39,6 +39,6 @@ router.patch("/:id/:contentId", validateUpdateContent, updateContent);
 
 // Delete content
 
-router.delete("/:id/:cloudId", validateDeleteContent, deleteContent);
+router.delete("/:id/:cloudId/:imgId", validateDeleteContent, deleteContent);
 
 module.exports = router;

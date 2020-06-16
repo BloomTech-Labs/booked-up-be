@@ -314,7 +314,7 @@ exports.updateContent = [
 
 exports.deleteContent = [
   async (req, res) => {
-    const { id, cloudId } = req.params;
+    const { id, cloudId, imgId } = req.params;
 
     async function func1() {
       const promise = new Promise((resolve, reject) => {
@@ -344,10 +344,26 @@ exports.deleteContent = [
       });
     }
 
+    async function func3() {
+      return cloudinary.v2.uploader.destroy(`${imgId}`, (error, success) => {
+        const promise = new Promise((resolve, reject) => {
+          try {
+            if (success) {
+              resolve(success);
+            }
+          } catch (err) {
+            reject(error);
+          }
+        });
+        return promise;
+      });
+    }
+
     const promise1 = func1();
     const promise2 = func2();
+    const promise3 = func3();
 
-    return Promise.all([promise2, promise1]).then((results) =>
+    return Promise.all([promise2, promise1, promise3]).then((results) =>
       res.status(200).json(results)
     );
   },
