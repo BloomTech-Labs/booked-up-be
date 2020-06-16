@@ -31,6 +31,7 @@ exports.getContent = [
             created_at,
             last_updated,
             public_id,
+            img_public_id,
           } = ele;
           const newObj = {
             id,
@@ -42,6 +43,7 @@ exports.getContent = [
             created_at,
             last_updated,
             public_id,
+            img_public_id,
             genres,
           };
           return newObj;
@@ -161,6 +163,8 @@ exports.postContent = [
       content_url,
       description,
       public_id,
+      img_url,
+      img_public_id,
       fantasy,
       science_fiction,
       horror,
@@ -183,6 +187,8 @@ exports.postContent = [
       user_id: req.params.id,
       description,
       public_id,
+      img_url,
+      img_public_id,
     };
     Contents.add(newContent)
       .then((content) => {
@@ -241,6 +247,8 @@ exports.updateContent = [
       content_url,
       description,
       public_id,
+      img_url,
+      img_public_id,
       fantasy,
       science_fiction,
       horror,
@@ -263,6 +271,8 @@ exports.updateContent = [
       user_id: req.params.id,
       description,
       public_id,
+      img_url,
+      img_public_id,
     };
     Contents.update(newContent, req.params.contentId)
       .then((content) => {
