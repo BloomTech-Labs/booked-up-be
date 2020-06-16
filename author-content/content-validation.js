@@ -87,6 +87,15 @@ exports.validateDeleteContent = [
       }
     })
   ),
+  check("imgId").custom((value, { req, loc, path }) =>
+    cloudinary.v2.api.resource(value, (error, success) => {
+      try {
+        Promise.resolve(success);
+      } catch (err) {
+        Promise.reject(error);
+      }
+    })
+  ),
   restricted,
   (req, res, next) => {
     const errors = validationResult(req);
