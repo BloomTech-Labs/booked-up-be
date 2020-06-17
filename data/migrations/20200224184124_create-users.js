@@ -99,8 +99,6 @@ exports.up = function (knex, Promise) {
 
 exports.down = function (knex) {
   return knex.schema
-    .dropTableIfExists("message-inbox")
-    .dropTableIfExists("messages")
     .dropTableIfExists("agent_info")
     .dropTableIfExists("admins")
     .dropTableIfExists("users");

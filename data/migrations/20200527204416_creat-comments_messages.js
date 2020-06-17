@@ -90,15 +90,7 @@ exports.up = async (knex) => {
 exports.down = async (knex) => {
   return (
     knex.schema
-      // .table("content_library", (tbl) => {
-      //   tbl.dropColumn(["user_id", "author_content_id"]);
-      // })
-      .table("author_content", (tbl) => {
-        tbl.dropColumn("description");
-        tbl.dropColumn("img_url");
-      })
       .dropTableIfExists("message-inbox")
       .dropTableIfExists("messages")
-      .dropTableIfExists("comments")
   );
 };
