@@ -92,6 +92,11 @@ exports.down = async (knex) => {
     .dropTableIfExists("message-inbox")
     .dropTableIfExists("messages")
     .dropTableIfExists("comments")
-    .dropTableIfExists("content_library")
-    .dropTableIfExists("author_content");
+    .table("content_library", (tbl) => {
+      tbl.dropColumn(["user_id", "author_content_id"]);
+    })
+    .table("author_content", (tbl) => {
+      tbl.dropColumn("description");
+      tbl.dropColumn("img_url");
+    });
 };

@@ -58,8 +58,9 @@ exports.up = async (knex) => {
 
 exports.down = async (knex) => {
   return knex.schema
+    .table("messages", (tbl) => {
+      tbl.dropColumn("linking_id");
+    })
     .dropTableIfExists("message_reply")
-    .dropTableIfExists("message-inbox")
-    .dropTableIfExists("messages")
     .dropTableIfExists("genres");
 };

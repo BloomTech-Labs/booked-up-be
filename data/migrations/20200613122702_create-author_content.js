@@ -19,8 +19,10 @@ exports.up = async (knex) => {
 
 exports.down = async (knex) => {
   return knex.schema
-    .dropTableIfExists("genres")
-    .dropTableIfExists("content_library")
-    .dropTableIfExists("comments")
-    .dropTableIfExists("author_content");
+    .table("author_content", (tbl) => {
+      tbl.dropColumn("img_public_id");
+    })
+    .table("comments", (tbl) => {
+      tbl.dropColumn("author_content_id");
+    });
 };
