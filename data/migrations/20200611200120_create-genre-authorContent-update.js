@@ -33,7 +33,25 @@ exports.up = async (knex) => {
 
 exports.down = async (knex) => {
   return knex.schema
-    .dropTableIfExists("genres")
-    .dropTableIfExists("content_library")
-    .dropTableIfExists("author_content");
+    .table("author_content", (tbl) => {
+      tbl.dropColumn("public_id");
+    })
+    .table("genres", (tbl) => {
+      tbl.dropColumn("fantasy");
+      tbl.dropColumn("science_fiction");
+      tbl.dropColumn("horror");
+      tbl.dropColumn("western");
+      tbl.dropColumn("romance");
+      tbl.dropColumn("thriller");
+      tbl.dropColumn("mystery");
+      tbl.dropColumn("detective");
+      tbl.dropColumn("dystopia");
+      tbl.dropColumn("adventure");
+      tbl.dropColumn("memoir");
+      tbl.dropColumn("biography");
+      tbl.dropColumn("play");
+      tbl.dropColumn("musical");
+      tbl.dropColumn("theatre");
+      tbl.dropColumn("user_id");
+    });
 };

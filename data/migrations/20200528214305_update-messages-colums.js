@@ -15,8 +15,11 @@ exports.up = async (knex) => {
 };
 
 exports.down = async (knex) => {
-  knex.schema.table("messages", (tbl) => {
-    tbl.dropTableIfExists("message-inbox");
-    tbl.dropTableIfExists("messages");
-  });
+  return knex.schema
+    .table("message-inbox", (tbl) => {
+      tbl.dropColumn("recipient_id");
+    })
+    .table("messages", (tbl) => {
+      tbl.dropColumn("recipient");
+    });
 };
