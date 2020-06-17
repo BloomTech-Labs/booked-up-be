@@ -61,6 +61,6 @@ exports.down = async (knex) => {
     .table("messages", (tbl) => {
       tbl.dropColumn("linking_id");
     })
-    .dropTableIfExists("message_reply")
-    .dropTableIfExists("genres");
+    .dropTableIfExists("genres")
+    .dropTableIfExists("message_reply");
 };
