@@ -99,6 +99,8 @@ exports.up = function (knex, Promise) {
 
 exports.down = function (knex) {
   return knex.schema
+    .dropTableIfExists("content_library")
+    .dropTableIfExists("author_content")
     .dropTableIfExists("agent_info")
     .dropTableIfExists("admins")
     .dropTableIfExists("users");
