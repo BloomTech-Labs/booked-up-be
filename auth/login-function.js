@@ -124,13 +124,13 @@ const LoginFuncDisplay = (req, res) => {
                   res.status(200).json({
                     User: userList,
                     AgentInfo: agentInfoList,
-                    contentLibrary: libraryContent,
+                    ContentLibrary: libraryContent,
                     Token: token,
                   });
                 } else {
                   res.status(200).json({
                     User: userList,
-                    contentLibrary: libraryContent,
+                    ContentLibrary: libraryContent,
                     Token: token,
                   });
                 }
@@ -265,13 +265,13 @@ const loginFuncEmail = (req, res) => {
                   res.status(200).json({
                     User: userList,
                     AgentInfo: agentInfoList,
-                    contentLibrary: libraryContent,
+                    ContentLibrary: libraryContent,
                     Token: token,
                   });
                 } else {
                   res.status(200).json({
                     User: userList,
-                    contentLibrary: libraryContent,
+                    ContentLibrary: libraryContent,
                     Token: token,
                   });
                 }
