@@ -5,6 +5,7 @@ const restricted = require("../auth/restricted");
 
 const {
   validateUserId,
+  validatePostContent,
   validateDeleteContent,
   validateUpdateContent,
 } = require("./content-validation");
@@ -31,7 +32,7 @@ router.get("/:id/comments", getContentByIdComments);
 
 // Post content
 
-router.post("/:id", validateUserId, postContent);
+router.post("/:id", validatePostContent, postContent);
 
 // Update content
 
