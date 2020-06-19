@@ -12,9 +12,9 @@ Code Climate Badge
 
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+Backend delpoyed at Heroku.https://bookedup-pt9.herokuapp.com/ <br>
 
-## 1️⃣ Getting started
+Getting started
 
 To get the server running locally:
 
