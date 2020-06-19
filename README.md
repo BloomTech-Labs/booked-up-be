@@ -12,7 +12,7 @@ Code Climate Badge
 
 # API Documentation
 
-Backend delpoyed at Heroku.https://bookedup-pt9.herokuapp.com/ <br>
+Backend delpoyed on Heroku. https://bookedup-pt9.herokuapp.com/ <br>
 
 Getting started
 
