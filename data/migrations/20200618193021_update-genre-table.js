@@ -5,7 +5,6 @@ exports.up = async (knex) => {
     tbl.dropColumn("dystopia");
     tbl.dropColumn("adventure");
     tbl.dropColumn("memoir");
-    tbl.dropColumn("biography");
     tbl.dropColumn("play");
     tbl.dropColumn("musical");
     tbl.dropColumn("theatre");
@@ -53,7 +52,7 @@ exports.down = async (knex) => {
     tbl.dropColumn("mythopoeia");
     tbl.dropColumn("pictureBook");
     tbl.dropColumn("realisticFiction");
-    tbl.dropColumn("science_fiction", "scienceFiction");
+    tbl.dropColumn("scienceFiction");
     tbl.dropColumn("shortStory");
     tbl.dropColumn("suspenseThriller");
     tbl.dropColumn("swashbuckler");
