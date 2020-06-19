@@ -78,6 +78,7 @@ exports.getContentById = [
             created_at,
             last_updated,
             public_id,
+            img_public_id,
           } = ele;
           const newObj = {
             id,
@@ -89,6 +90,7 @@ exports.getContentById = [
             created_at,
             last_updated,
             public_id,
+            img_public_id,
             genres,
           };
           return newObj;
@@ -132,6 +134,7 @@ exports.getContentByIdComments = [
             created_at,
             last_updated,
             public_id,
+            img_public_id,
           } = ele;
           const newObj = {
             id,
@@ -143,6 +146,7 @@ exports.getContentByIdComments = [
             created_at,
             last_updated,
             public_id,
+            img_public_id,
             genres,
             commentsList,
           };

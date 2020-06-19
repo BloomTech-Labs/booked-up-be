@@ -1,7 +1,11 @@
 const router = require("express").Router();
 const restricted = require("../auth/restricted");
 
-const { validateUserId, validateDelete } = require("./library-validation");
+const {
+  validateUserId,
+  validatePost,
+  validateDelete,
+} = require("./library-validation");
 
 const {
   getLibraryById,
@@ -20,7 +24,7 @@ router.get("/:id", validateUserId, getLibraryById);
 
 // Post library
 
-router.post("/:id", validateUserId, postLibrary);
+router.post("/:id", validatePost, postLibrary);
 
 // Delete Library
 

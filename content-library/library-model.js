@@ -4,6 +4,7 @@ module.exports = {
   get,
   getLibrary,
   findById,
+  findByUserIdContentId,
   findByIdLibrary,
   add,
   deleteFavorite,
@@ -31,6 +32,12 @@ function getLibrary() {
 
 function findById(id) {
   return db("content_library").where("user_id", id);
+}
+
+function findByUserIdContentId(id, contentId) {
+  return db("content_library")
+    .where("user_id", id)
+    .andWhere("author_content_id", contentId);
 }
 
 function findByIdLibrary(id) {
