@@ -11,12 +11,22 @@ module.exports = (server) => {
   server.use("/public", express.static("public"));
   server.use(helmet());
   server.use(express.json());
-  server.use(
-    cors({
-      origin: "*",
-      methods: "GET, PUT, PATCH, POST, DELETE",
-    })
-  );
+  server.use(cors());
+  // server.use(
+  //   cors({
+  //     origin: "*",
+  //     methods: "GET, PUT, PATCH, POST, DELETE",
+  //   })
+  // );
+  server.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "DELETE, PUT, GET, POST");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+  });
   server.use(bodyParser.urlencoded({ extended: true }));
   server.use(cookieParser(process.env.COOKIE_SECRET));
   server.use(
