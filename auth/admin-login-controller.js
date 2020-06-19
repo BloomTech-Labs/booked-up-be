@@ -3,15 +3,13 @@ const Admins = require("../admins/admin-model");
 
 const { genToken } = require("./generate-token");
 
-// (u && bcrypt.compareSync(password, u.password))
-
 exports.adminLogin = [
   (req, res) => {
     const { email, password } = req.body;
     Admins.findBy({ email })
       .first()
       .then((u) => {
-        if (password) {
+        if (u && bcrypt.compareSync(password, u.password)) {
           const token = genToken(u);
 
           res.status(200).json({

@@ -34,6 +34,7 @@ exports.getLibraryById = [
             created_at,
             last_updated,
             public_id,
+            img_public_id,
           } = ele;
           const newObj = {
             id,
@@ -45,6 +46,7 @@ exports.getLibraryById = [
             created_at,
             last_updated,
             public_id,
+            img_public_id,
             genres,
           };
           return newObj;
