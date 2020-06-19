@@ -36,8 +36,6 @@ To get the server running locally:
 
 ## 2️⃣ Endpoints
 
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
-
 #### Organization Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
