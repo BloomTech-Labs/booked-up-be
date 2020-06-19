@@ -4,9 +4,9 @@ Code Climate Badge
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/a7102654cee73af9a6e2/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/booked-up-be/test_coverage)
 
-# Project Documentation
+#  Booked Up
 
-https://www.notion.so/Vision-Problem-Objectives-fe806f460861498d92169d4a28a8cbe6
+You can find the deployed project at [BookedUp.net](https://bookedup.net).
 
 # API Documentation
 
