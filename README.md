@@ -23,7 +23,7 @@ To get the server running locally:
 - **npm run server** to start the local server
 - **npm run test** to start server using testing environment
 
-### Backend framework goes here
+Node.js
 
 🚫 Why did you choose this framework?
 
