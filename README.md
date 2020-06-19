@@ -8,6 +8,10 @@ Code Climate Badge
 
 You can find the deployed project at [BookedUp.net](https://bookedup.net).
 
+# Documentation
+
+See [Frontend Documentation](https://github.com/Lambda-School-Labs/booked-up-fe/blob/master/README.md) for details on the fronend of our project.
+
 # API Documentation
 
 Backend delpoyed on Heroku. https://bookedup-pt9.herokuapp.com/ <br>
@@ -167,7 +171,3 @@ Remember that this project is licensed under the MIT license, and by submitting 
 ### Attribution
 
 These contribution guidelines have been adapted from [this good-Contributing.md-template](https://gist.github.com/PurpleBooth/b24679402957c63ec426).
-
-## Documentation
-
-See [Frontend Documentation](https://github.com/Lambda-School-Labs/booked-up-fe/blob/master/README.md) for details on the fronend of our project.
