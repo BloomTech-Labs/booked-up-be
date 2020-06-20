@@ -38,7 +38,7 @@ We chose this framework becuase
 
 Postman was used for local and deployed enpoint testing. It also creates great endpoint documentation!
 
-(https://documenter.getpostman.com/view/10085035/SzmcbzVS?version=latest)
+[Postman Enpoing Documentation](https://documenter.getpostman.com/view/10085035/SzmcbzVS?version=latest)
 
 #### Organization Routes
 
