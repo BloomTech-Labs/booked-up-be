@@ -23,18 +23,18 @@ To get the server running locally:
 - Clone this repo
 - **npm install** to install all required dependencies
 - **npm run server** to start the local server
-- **npm run test** to start server using testing environment
+- **npm test** to start server using testing environment
 
 # Node.js
 
-🚫 Why did you choose this framework?
+We chose this framework becuase
 
--    Point One
--    Point Two
--    Point Three
--    Point Four
+-    Familiarity. 
+-    Plays nicely with PostgreSQL.
+-    Very wide library selection with very active communities and support. 
+-    Performance and scalability.
 
-## 2️⃣ Endpoints
+## Endpoints
 
 #### Organization Routes
 
