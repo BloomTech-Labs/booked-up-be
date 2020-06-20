@@ -151,37 +151,23 @@ Postman was used for local and deployed enpoint testing. It also creates great e
 }
 ```
 
-## 2️⃣ Actions
+## Actions
 
-🚫 This is an example, replace this with the actions that pertain to your backend
+These are some of the basic actions used in this project. For specific actions, see respective models. 
 
-`getOrgs()` -> Returns all organizations
+`get()` -> Returns all users, author works, messages
+`find()` -> Returns all users, author works, messages
+`findById(id)` -> Returns a single user/work/message by ID
+`add()` -> Adds user, work, message
+`update(id)` -> Update a user, work, message by ID
+`delete(id)` -> Delete a user, work , message by ID
 
-`getOrg(orgId)` -> Returns a single organization by ID
-
-`addOrg(org)` -> Returns the created org
-
-`updateOrg(orgId)` -> Update an organization by ID
-
-`deleteOrg(orgId)` -> Delete an organization by ID
-<br>
-<br>
-<br>
-`getUsers(orgId)` -> if no param all users
-
-`getUser(userId)` -> Returns a single user by user ID
-
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
-
-`updateUser(userId, changes object)` -> Updates a single user by ID.
-
-`deleteUser(userId)` -> deletes everything dependent on the user
 
 ## Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
-create a .env file that includes the following:
+Create a .env file that includes the following:
 
     *  JWT_SECRET - set for local auth testing
     *  DB_ENV - production
