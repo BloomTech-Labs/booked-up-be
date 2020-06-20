@@ -72,20 +72,28 @@ Postman was used for local and deployed enpoint testing. It also creates great e
 
 # Data Model
 
-🚫This is just an example. Replace this with your data model
-
-#### 2️⃣ ORGANIZATIONS
+#### REGISTER
 
 ---
 
 ```
 {
-  id: UUID
-  name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
+	"user_type": "fan, agent, author",
+	"first_name": "YourFirstName",
+	"last_name": "YourLastName",
+	"email": "sample@hotmail.com",
+	"password": "SamplePassword"
+}
+```
+
+#### LOGIN
+
+---
+
+```
+{
+	"login": "username or display name",
+	"password": "Christian10000%"
 }
 ```
 
@@ -95,17 +103,19 @@ Postman was used for local and deployed enpoint testing. It also creates great e
 
 ```
 {
-  id: UUID
-  organization_id: UUID foreign key in ORGANIZATIONS table
-  first_name: STRING
-  last_name: STRING
-  role: STRING [ 'owner', 'supervisor', 'employee' ]
-  email: STRING
-  phone: STRING
-  cal_visit: BOOLEAN
-  emp_visit: BOOLEAN
-  emailpref: BOOLEAN
-  phonepref: BOOLEAN
+  "user_type": string [fan, author, agent, admin]
+  "first_name": string
+  "last_name": string
+  "display_name": string
+  "password": string, not nullable
+  "email": string, not nullable
+  "city": string
+  "state": string
+  "country": string
+  "avatar_url": string
+  "email_verification": boolean, default to true
+  "password_reset:" boolean, defaut to false
+  "created_at": timestamp
 }
 ```
 
