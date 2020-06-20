@@ -47,23 +47,28 @@ Postman was used for local and deployed enpoint testing. It also creates great e
 | POST   | `/auth/register       ` | all users      | Registration page. Confirmation email sent to registered email. Must be verified.
 | POST   | `/auth/login          ` | all users      | Login page.                                  |
 
-#### Administrator Routes
+#### Administrator Routes (see Postman docs for more routes)
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| POST   | `/auth/admin/register ` | admin users    | Admin users register with email, verification link sent to registered email. Must be verified.
-| POST   | `/auth/admin/login    ` | admin users    | Admin login page.                            |
+| POST   | `/auth/admin/register`  | admin users    | Admin users register with email, verification link sent to registered email. Must be verified.
+| POST   | `/auth/admin/login`     | admin users    | Admin login page.                            |
 
-#### User Routes
+#### User Routes (see Postman docs for more routes)
 
 | Method | Endpoint                | Access Control      | Description                                        |
 | ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
+| GET    | `/users`                | all users           | Returns info for the logged in user.               |
+| GET    | `/users/:id`            | all users           | Returns info for a single user.                    |
 | GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
+
+#### Author Content / Content Library (see Postman docs for more routes)
+
+| Method | Endpoint                | Access Control      | Description                                        |
+| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
+| POST   | `/author-content`       | all users           | Create author content.                             |
+| GET    | `/content-library`      | all users           | Returns info for all works.                        |
+| GET    | `/content-library/:id`  | all users           | Returns info for single work.                      |
 
 # Data Model
 
