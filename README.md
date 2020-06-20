@@ -94,7 +94,7 @@ Postman was used for local and deployed enpoint testing. It also creates great e
 }
 ```
 
-#### ADMIN
+#### Admin
 
 ---
 
@@ -111,7 +111,7 @@ Postman was used for local and deployed enpoint testing. It also creates great e
 }
 ```
 
-#### AGENT
+#### Agent
 
 ---
 
@@ -126,7 +126,7 @@ Postman was used for local and deployed enpoint testing. It also creates great e
 }
 ```
 
-#### AUTHOR CONTENT
+#### Author Content
 
 ---
 
@@ -140,7 +140,7 @@ Postman was used for local and deployed enpoint testing. It also creates great e
 }
 ```
 
-#### CONTENT LIBRARY 
+#### Content Library 
 
 ---
 
@@ -177,19 +177,25 @@ Postman was used for local and deployed enpoint testing. It also creates great e
 
 `deleteUser(userId)` -> deletes everything dependent on the user
 
-## 3️⃣ Environment Variables
+## Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
 
-🚫 These are just examples, replace them with the specifics for your app
-    
-    *  STAGING_DB - optional development db for using functionality not available in SQLite
-    *  NODE_ENV - set to "development" until ready for "production"
-    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
-    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
-    *  stripe_secret - this is generated in the Stripe dashboard
+    *  JWT_SECRET - set for local auth testing
+    *  DB_ENV - production
+    *  DATABASE_URL - can get from Heroku deployed backend ("settings" --> "Config Vars")
+    *  DATABASE_URL_DEV - for local testing of endpoint
+    *  DATABASE_URL_TEST - for local testing of endpoint
+    *  MAILGUN_API_KEY - can get from Heroku deployed backend ("settings" --> "Config Vars")
+    *  MAILGUN_DOMAIN - can get from Heroku deployed backend ("settings" --> "Config Vars")
+    *  EMAILADDRESS='bookedup.pt9@gmail.com'
+    *  COOKIE_SECRET - can get from Heroku deployed backend ("settings" --> "Config Vars")
+    *  SESSION_SECRET - can get from Heroku deployed backend ("settings" --> "Config Vars")
+    *  CLOUDINARY_API - can get from Heroku deployed backend ("settings" --> "Config Vars")
+    *  CLOUDINARY_SECRET - can get from Heroku deployed backend ("settings" --> "Config Vars")
+    *  CLOUDINARY_NAME - can get from Heroku deployed backend ("settings" --> "Config Vars")
     
 ## Contributing
 
