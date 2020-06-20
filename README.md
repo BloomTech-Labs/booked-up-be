@@ -156,10 +156,15 @@ Postman was used for local and deployed enpoint testing. It also creates great e
 These are some of the basic actions used in this project. For specific actions, see respective models. 
 
 `get()` -> Returns all users, author works, messages
+
 `find()` -> Returns all users, author works, messages
+
 `findById(id)` -> Returns a single user/work/message by ID
+
 `add()` -> Adds user, work, message
+
 `update(id)` -> Update a user, work, message by ID
+
 `delete(id)` -> Delete a user, work , message by ID
 
 
