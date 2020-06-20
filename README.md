@@ -30,11 +30,15 @@ To get the server running locally:
 We chose this framework becuase
 
 -    Familiarity. 
--    Plays nicely with PostgreSQL.
+-    Integration with PostgreSQL.
 -    Very wide library selection with very active communities and support. 
 -    Performance and scalability.
 
 ## Endpoints
+
+Postman was used for local and deployed enpoint testing. It also creates great endpoint documentation!
+
+(https://documenter.getpostman.com/view/10085035/SzmcbzVS?version=latest)
 
 #### Organization Routes
 
