@@ -44,7 +44,7 @@ Postman was used for local and deployed enpoint testing. It also creates great e
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| POST   | `/auth/register       ` | all users      | Registration page.                           |
+| POST   | `/auth/register       ` | all users      | Registration page. Confirmation email sent to registered email. Must be verified.
 | POST   | `/auth/login          ` | all users      | Login page.                                  |
 
 #### User Routes
