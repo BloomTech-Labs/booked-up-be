@@ -47,6 +47,13 @@ Postman was used for local and deployed enpoint testing. It also creates great e
 | POST   | `/auth/register       ` | all users      | Registration page. Confirmation email sent to registered email. Must be verified.
 | POST   | `/auth/login          ` | all users      | Login page.                                  |
 
+#### Administrator Routes
+
+| Method | Endpoint                | Access Control | Description                                  |
+| ------ | ----------------------- | -------------- | -------------------------------------------- |
+| POST   | `/auth/admin/register ` | admin users    | Admin users register with email, verification link sent to registered email. Must be verified.
+| POST   | `/auth/admin/login    ` | admin users    | Admin login page.                            |
+
 #### User Routes
 
 | Method | Endpoint                | Access Control      | Description                                        |
