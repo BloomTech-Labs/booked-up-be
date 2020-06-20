@@ -31,7 +31,7 @@ We chose this framework because
 
 -    Familiarity. 
 -    Integration with PostgreSQL.
--    Very wide library selection with very active communities and support. 
+-    Wide library selection with very active communities and support. 
 -    Performance and scalability.
 
 # Endpoints
