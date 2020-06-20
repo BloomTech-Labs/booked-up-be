@@ -38,15 +38,14 @@ We chose this framework becuase
 
 Postman was used for local and deployed enpoint testing. It also creates great endpoint documentation!
 
-[Postman Enpoing Documentation](https://documenter.getpostman.com/view/10085035/SzmcbzVS?version=latest)
+[Postman Enpoint Documentation](https://documenter.getpostman.com/view/10085035/SzmcbzVS?version=latest)
 
-#### Organization Routes
+#### Register/Login Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
+| POST   | `/auth/register       ` | all users      | Registration page.                           |
+| POST   | `/auth/login          ` | all users      | Login page.                                  |
 
 #### User Routes
 
