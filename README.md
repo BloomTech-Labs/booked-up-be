@@ -31,12 +31,12 @@ We chose this framework because
 
 -    Familiarity. 
 -    Integration with PostgreSQL.
--    Wide library selection with very active communities and support. 
+-    Wide library selection with active communities and support. 
 -    Performance and scalability.
 
 # Endpoints
 
-Postman was used for local and deployed enpoint testing. It also creates great endpoint documentation!
+Postman was used for both local and deployed enpoint testing. It also creates great endpoint documentation!
 
 [Postman Enpoint Documentation](https://documenter.getpostman.com/view/10085035/SzmcbzVS?version=latest)
 
