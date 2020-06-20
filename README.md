@@ -34,7 +34,7 @@ We chose this framework becuase
 -    Very wide library selection with very active communities and support. 
 -    Performance and scalability.
 
-## Endpoints
+# Endpoints
 
 Postman was used for local and deployed enpoint testing. It also creates great endpoint documentation!
 
