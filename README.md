@@ -72,31 +72,6 @@ Postman was used for local and deployed enpoint testing. It also creates great e
 
 # Data Model
 
-#### REGISTER
-
----
-
-```
-{
-	"user_type": "fan, agent, author",
-	"first_name": "YourFirstName",
-	"last_name": "YourLastName",
-	"email": "sample@hotmail.com",
-	"password": "SamplePassword"
-}
-```
-
-#### LOGIN
-
----
-
-```
-{
-	"login": "username or display name",
-	"password": "Christian10000%"
-}
-```
-
 #### USERS
 
 ---
