@@ -16,7 +16,7 @@ See [Frontend Documentation](https://github.com/Lambda-School-Labs/booked-up-fe/
 
 Backend delpoyed on Heroku. https://bookedup-pt9.herokuapp.com/ <br>
 
-####Getting started
+#### Getting Started
 
 To get the server running locally:
 
