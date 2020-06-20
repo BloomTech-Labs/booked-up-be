@@ -27,7 +27,7 @@ To get the server running locally:
 
 # Node.js
 
-We chose this framework becuase
+We chose this framework because
 
 -    Familiarity. 
 -    Integration with PostgreSQL.
