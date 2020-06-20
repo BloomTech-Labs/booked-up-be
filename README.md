@@ -103,12 +103,12 @@ Postman was used for local and deployed enpoint testing. It also creates great e
 
 ```
 {
-  "user_type": string [fan, author, agent, admin]
-  "first_name": string
-  "last_name": string
-  "display_name": string
+  "user_type": string [fan, author, agent], not nullable
+  "first_name": string, not nullable
+  "last_name": string, not nullable
+  "display_name": string, not nullable
   "password": string, not nullable
-  "email": string, not nullable
+  "email": string, not nullable, unique
   "city": string
   "state": string
   "country": string
@@ -116,6 +116,63 @@ Postman was used for local and deployed enpoint testing. It also creates great e
   "email_verification": boolean, default to true
   "password_reset:" boolean, defaut to false
   "created_at": timestamp
+}
+```
+
+#### ADMIN
+
+---
+
+```
+{
+  "user_type": string [admin], not nullable
+  "first_name": string, not nullable
+  "last_name": string, not nullable
+  "password": string, not nullable
+  "email": string, not nullable
+  "email_verification": boolean, default to true
+  "password_reset:" boolean, defaut to false
+  "created_at": timestamp
+}
+```
+
+#### AGENT
+
+---
+
+```
+{
+  "agent_type": string
+  "agency_name": string
+  "agency_address": string
+  "agency_phone_number": string
+  "agency_email": string
+  "user_id": integer, references id in user table
+}
+```
+
+#### AUTHOR CONTENT
+
+---
+
+```
+{
+  "title": string
+  "content_url": string
+  "created_at": timestamp
+  "last_updated": timestamp
+  "user_id": integer, references id in user table
+}
+```
+
+#### CONTENT LIBRARY 
+
+---
+
+```
+{
+  "user_id": integer, not nullable, references id in user table
+  "author_content_id": integer, not nullable, references id in author_content table
 }
 ```
 
