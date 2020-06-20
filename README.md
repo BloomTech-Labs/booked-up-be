@@ -153,7 +153,7 @@ Postman was used for local and deployed enpoint testing. It also creates great e
 
 ## Actions
 
-These are some of the basic actions used in this project. For specific actions, see respective models. 
+Basic actions used in this project. For specific actions, see respective models. 
 
 `get()` -> Returns all users, author works, messages
 
