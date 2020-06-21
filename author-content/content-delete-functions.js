@@ -1,11 +1,9 @@
 const cloudinary = require("cloudinary");
 const Contents = require("./content-model");
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_API,
-  api_secret: process.env.CLOUDINARY_SECRET,
-});
+const cloudinaryConfig = require("../config/cloudinary");
+
+cloudinaryConfig;
 
 async function deleteServer(req, res) {
   const { id } = req.params;
