@@ -390,3 +390,24 @@ exports.deleteContent = [
     ]).then((results) => res.status(200).json(results));
   },
 ];
+
+exports.deleteServerPublicId = [
+  async (req, res) => {
+    const deleteServerPromise = deleteServer(req, res);
+    const deletePublicPromise = deletePublic(req, res);
+
+    return Promise.all([
+      deleteServerPromise,
+      deletePublicPromise,
+    ]).then((results) => res.status(200).json(results));
+  },
+];
+
+exports.deletePublicImage = [
+  (req, res) => {
+    const deletePublicImage = deleteImage(req, res);
+    return Promise.resolve(deletePublicImage).then((results) =>
+      res.status(200).json(results)
+    );
+  },
+];

@@ -8,6 +8,8 @@ const {
   validatePostContent,
   validateDeleteContent,
   validateUpdateContent,
+  validateDeleteServerPublicId,
+  validateDeleteImageId,
 } = require("./content-validation");
 const {
   postContent,
@@ -16,6 +18,8 @@ const {
   deleteContent,
   updateContent,
   getContentByIdComments,
+  deleteServerPublicId,
+  deletePublicImage,
 } = require("./content-controller");
 
 // Get all content
@@ -38,8 +42,20 @@ router.post("/:id", validatePostContent, postContent);
 
 router.patch("/:id/:contentId", validateUpdateContent, updateContent);
 
+// Delete public image
+
+router.delete("/publicImage/:imgId/", validateDeleteImageId, deletePublicImage);
+
 // Delete content
 
 router.delete("/:id/:cloudId/:imgId", validateDeleteContent, deleteContent);
+
+// Delete Id and public Id
+
+router.delete(
+  "/:id/:cloudId",
+  validateDeleteServerPublicId,
+  deleteServerPublicId
+);
 
 module.exports = router;

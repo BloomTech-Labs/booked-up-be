@@ -171,3 +171,52 @@ exports.validateDeleteContent = [
     next();
   },
 ];
+
+exports.validateDeleteServerPublicId = [
+  check("id")
+    .exists()
+    .toInt()
+    .optional()
+    .custom((value) =>
+      Contents.findByIdContent(value).then((user) => {
+        if (user.length === 0) {
+          return Promise.reject("Content not found on server");
+        }
+      })
+    ),
+  check("cloudId").custom((value, { req, loc, path }) =>
+    cloudinary.v2.api.resource(value, (error, success) => {
+      try {
+        Promise.resolve(success);
+      } catch (err) {
+        Promise.reject(error);
+      }
+    })
+  ),
+  restricted,
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(422).json({ errors: errors.array() });
+    next();
+  },
+];
+
+exports.validateDeleteImageId = [
+  check("imgId").custom((value, { req, loc, path }) =>
+    cloudinary.v2.api.resource(value, (error, success) => {
+      try {
+        Promise.resolve(success);
+      } catch (err) {
+        Promise.reject(error);
+      }
+    })
+  ),
+  restricted,
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(422).json({ errors: errors.array() });
+    next();
+  },
+];

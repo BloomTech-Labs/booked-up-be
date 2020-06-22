@@ -1,6 +1,5 @@
 const cloudinary = require("cloudinary");
 const Contents = require("./content-model");
-
 const cloudinaryConfig = require("../config/cloudinary");
 
 cloudinaryConfig;
