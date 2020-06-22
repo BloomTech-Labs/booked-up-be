@@ -1,13 +1,12 @@
-const cloudinary = require("cloudinary");
 const Contents = require("./content-model");
 const Genres = require("./genres-model");
 const Comments = require("../comments/comments-model");
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_API,
-  api_secret: process.env.CLOUDINARY_SECRET,
-});
+const {
+  deleteServer,
+  deletePublic,
+  deleteImage,
+} = require("./content-delete-functions");
 
 exports.getContent = [
   (req, res) => {
@@ -380,56 +379,34 @@ exports.updateContent = [
 
 exports.deleteContent = [
   async (req, res) => {
-    const { id, cloudId, imgId } = req.params;
+    const deleteServerPromise = deleteServer(req, res);
+    const deletePublicPromise = deletePublic(req, res);
+    const deleteImagePromise = deleteImage(req, res);
 
-    async function func1() {
-      const promise = new Promise((resolve, reject) => {
-        Contents.deleteContent(id)
-          .then(() => {
-            resolve({ server: "content removed from server" });
-          })
-          .catch((err) => {
-            reject(err);
-          });
-      });
-      return promise;
-    }
+    return Promise.all([
+      deleteServerPromise,
+      deletePublicPromise,
+      deleteImagePromise,
+    ]).then((results) => res.status(200).json(results));
+  },
+];
 
-    async function func2() {
-      return cloudinary.v2.uploader.destroy(`${cloudId}`, (error, success) => {
-        const promise = new Promise((resolve, reject) => {
-          try {
-            if (success) {
-              resolve(success);
-            }
-          } catch (err) {
-            reject(error);
-          }
-        });
-        return promise;
-      });
-    }
+exports.deleteServerPublicId = [
+  async (req, res) => {
+    const deleteServerPromise = deleteServer(req, res);
+    const deletePublicPromise = deletePublic(req, res);
 
-    async function func3() {
-      return cloudinary.v2.uploader.destroy(`${imgId}`, (error, success) => {
-        const promise = new Promise((resolve, reject) => {
-          try {
-            if (success) {
-              resolve(success);
-            }
-          } catch (err) {
-            reject(error);
-          }
-        });
-        return promise;
-      });
-    }
+    return Promise.all([
+      deleteServerPromise,
+      deletePublicPromise,
+    ]).then((results) => res.status(200).json(results));
+  },
+];
 
-    const promise1 = func1();
-    const promise2 = func2();
-    const promise3 = func3();
-
-    return Promise.all([promise2, promise1, promise3]).then((results) =>
+exports.deletePublicImage = [
+  (req, res) => {
+    const deletePublicImage = deleteImage(req, res);
+    return Promise.resolve(deletePublicImage).then((results) =>
       res.status(200).json(results)
     );
   },

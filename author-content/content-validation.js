@@ -1,15 +1,12 @@
 const { check, validationResult, body } = require("express-validator");
+const cloudinary = require("cloudinary");
 const Users = require("../users/user-model");
 const Contents = require("./content-model");
 const checkRole = require("../check-role/check-role-user");
 const restricted = require("../auth/restricted");
-const cloudinary = require("cloudinary");
+const cloudinaryConfig = require("../config/cloudinary");
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_API,
-  api_secret: process.env.CLOUDINARY_SECRET,
-});
+cloudinaryConfig;
 
 exports.validateUserId = [
   check("id")
@@ -157,6 +154,55 @@ exports.validateDeleteContent = [
       }
     })
   ),
+  check("imgId").custom((value, { req, loc, path }) =>
+    cloudinary.v2.api.resource(value, (error, success) => {
+      try {
+        Promise.resolve(success);
+      } catch (err) {
+        Promise.reject(error);
+      }
+    })
+  ),
+  restricted,
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(422).json({ errors: errors.array() });
+    next();
+  },
+];
+
+exports.validateDeleteServerPublicId = [
+  check("id")
+    .exists()
+    .toInt()
+    .optional()
+    .custom((value) =>
+      Contents.findByIdContent(value).then((user) => {
+        if (user.length === 0) {
+          return Promise.reject("Content not found on server");
+        }
+      })
+    ),
+  check("cloudId").custom((value, { req, loc, path }) =>
+    cloudinary.v2.api.resource(value, (error, success) => {
+      try {
+        Promise.resolve(success);
+      } catch (err) {
+        Promise.reject(error);
+      }
+    })
+  ),
+  restricted,
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(422).json({ errors: errors.array() });
+    next();
+  },
+];
+
+exports.validateDeleteImageId = [
   check("imgId").custom((value, { req, loc, path }) =>
     cloudinary.v2.api.resource(value, (error, success) => {
       try {
