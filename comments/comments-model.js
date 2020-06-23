@@ -26,6 +26,7 @@ function findContentAndCommentsById(id) {
   return db("comments as c")
     .join("author_content as ac", "c.author_content_id", "ac.id")
     .join("genres as g", "c.author_content_id", "g.author_content_id")
+    .join("users as u", "c.user_id", "u.id")
     .select(
       "ac.id as authorContentId",
       "ac.user_id as contentUserId",
@@ -45,6 +46,7 @@ function findContentAndCommentsById(id) {
       "c.last_updated as commentLastUpdated",
       "c.user_id as commentUserId"
     )
+    .select("u.first_name", "u.last_name")
     .where("c.author_content_id", id);
 }
 

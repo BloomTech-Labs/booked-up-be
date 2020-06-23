@@ -30,13 +30,15 @@ const LoginFuncDisplay = (req, res) => {
             const genres = [];
             const objectArray = Object.entries(ele);
             objectArray.map(([key, value]) => {
-              if (value === true) {
+              if (value === true && key !== "email_verification") {
                 return genres.push(key);
               }
             });
             const {
               id,
               user_id,
+              first_name,
+              last_name,
               title,
               description,
               img_url,
@@ -49,6 +51,8 @@ const LoginFuncDisplay = (req, res) => {
             const newObj = {
               id,
               user_id,
+              first_name,
+              last_name,
               title,
               description,
               img_url,
@@ -84,13 +88,15 @@ const LoginFuncDisplay = (req, res) => {
                   const genres = [];
                   const objectArray = Object.entries(ele);
                   objectArray.map(([key, value]) => {
-                    if (value === true) {
+                    if (value === true && key !== "email_verification") {
                       return genres.push(key);
                     }
                   });
                   const {
-                    id,
+                    author_content_id,
                     user_id,
+                    first_name,
+                    last_name,
                     title,
                     description,
                     img_url,
@@ -100,8 +106,10 @@ const LoginFuncDisplay = (req, res) => {
                     public_id,
                   } = ele;
                   const newObj = {
-                    id,
+                    author_content_id,
                     user_id,
+                    first_name,
+                    last_name,
                     title,
                     description,
                     img_url,
@@ -171,13 +179,15 @@ const loginFuncEmail = (req, res) => {
             const genres = [];
             const objectArray = Object.entries(ele);
             objectArray.map(([key, value]) => {
-              if (value === true) {
+              if (value === true && key !== "email_verification") {
                 return genres.push(key);
               }
             });
             const {
               id,
               user_id,
+              first_name,
+              last_name,
               title,
               description,
               img_url,
@@ -189,6 +199,8 @@ const loginFuncEmail = (req, res) => {
             const newObj = {
               id,
               user_id,
+              first_name,
+              last_name,
               title,
               description,
               img_url,
@@ -223,13 +235,15 @@ const loginFuncEmail = (req, res) => {
                   const genres = [];
                   const objectArray = Object.entries(ele);
                   objectArray.map(([key, value]) => {
-                    if (value === true) {
+                    if (value === true && key !== "email_verification") {
                       return genres.push(key);
                     }
                   });
                   const {
                     id,
                     user_id,
+                    first_name,
+                    last_name,
                     title,
                     description,
                     img_url,
@@ -242,6 +256,8 @@ const loginFuncEmail = (req, res) => {
                   const newObj = {
                     id,
                     user_id,
+                    first_name,
+                    last_name,
                     title,
                     description,
                     img_url,
