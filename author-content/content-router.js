@@ -4,6 +4,7 @@ const cloudinary = require("cloudinary");
 const restricted = require("../auth/restricted");
 
 const {
+  validateContent,
   validateUserId,
   validatePostContent,
   validateDeleteContent,
@@ -30,9 +31,9 @@ router.get("/", restricted, getContent);
 
 router.get("/:id", validateUserId, getContentById);
 
-// Get by user ID with comments
+// Get by content ID with comments
 
-router.get("/:id/comments", getContentByIdComments);
+router.get("/:id/comments", validateContent, getContentByIdComments);
 
 // Post content
 

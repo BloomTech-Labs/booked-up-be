@@ -10,9 +10,9 @@ exports.validateAuthorContent = [
     .toInt()
     .optional()
     .custom((value) =>
-      Comments.findById(value).then((authId) => {
-        if (authId === undefined) {
-          return Promise.reject("Author Content Id not found");
+      Content.findByIdContent(value).then((user) => {
+        if (user.length === 0) {
+          return Promise.reject("Content not found on server");
         }
       })
     ),
