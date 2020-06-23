@@ -116,6 +116,7 @@ exports.getContentByIdComments = [
   (req, res) => {
     Comments.findContentAndCommentsById(req.params.id)
       .then((content) => {
+        console.log(content);
         const contentGenre = content.map((ele) => {
           const genres = [];
           const objectArray = Object.entries(ele);
@@ -136,8 +137,8 @@ exports.getContentByIdComments = [
           const {
             author_content_id,
             user_id,
-            first_name,
-            last_name,
+            // first_name,
+            // last_name,
             title,
             description,
             img_url,
@@ -150,8 +151,8 @@ exports.getContentByIdComments = [
           const newObj = {
             author_content_id,
             user_id,
-            first_name,
-            last_name,
+            // first_name,
+            // last_name,
             title,
             description,
             img_url,

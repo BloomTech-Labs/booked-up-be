@@ -35,7 +35,7 @@ const LoginFuncDisplay = (req, res) => {
               }
             });
             const {
-              id,
+              author_content_id,
               user_id,
               first_name,
               last_name,
@@ -49,7 +49,7 @@ const LoginFuncDisplay = (req, res) => {
               img_public_id,
             } = ele;
             const newObj = {
-              id,
+              author_content_id,
               user_id,
               first_name,
               last_name,
@@ -184,7 +184,7 @@ const loginFuncEmail = (req, res) => {
               }
             });
             const {
-              id,
+              author_content_id,
               user_id,
               first_name,
               last_name,
@@ -197,7 +197,7 @@ const loginFuncEmail = (req, res) => {
               public_id,
             } = ele;
             const newObj = {
-              id,
+              author_content_id,
               user_id,
               first_name,
               last_name,
@@ -240,7 +240,7 @@ const loginFuncEmail = (req, res) => {
                     }
                   });
                   const {
-                    id,
+                    author_content_id,
                     user_id,
                     first_name,
                     last_name,
@@ -254,7 +254,7 @@ const loginFuncEmail = (req, res) => {
                     img_public_id,
                   } = ele;
                   const newObj = {
-                    id,
+                    author_content_id,
                     user_id,
                     first_name,
                     last_name,
