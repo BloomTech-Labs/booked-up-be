@@ -8,6 +8,28 @@ const cloudinaryConfig = require("../config/cloudinary");
 
 cloudinaryConfig;
 
+exports.validateContent = [
+  check("contentId")
+    .exists()
+    .toInt()
+    .optional()
+    .custom((value) =>
+      Contents.findByIdContent(value).then((user) => {
+        if (user.length === 0) {
+          return Promise.reject("Content not found on server");
+        }
+      })
+    ),
+  restricted,
+  checkRole(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(422).json({ errors: errors.array() });
+    next();
+  },
+];
+
 exports.validateUserId = [
   check("id")
     .exists()
