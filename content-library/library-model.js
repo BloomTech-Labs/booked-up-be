@@ -44,6 +44,7 @@ function findByIdLibrary(id) {
   return db("content_library as cl")
     .join("author_content as ac", "cl.author_content_id", "ac.id")
     .join("genres as g", "cl.author_content_id", "g.author_content_id")
+    .join("users as u", "cl.user_id", "u.id")
     .where("cl.user_id", id);
 }
 

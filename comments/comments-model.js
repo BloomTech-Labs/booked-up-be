@@ -23,29 +23,33 @@ function findById(id) {
 }
 
 function findContentAndCommentsById(id) {
-  return db("comments as c")
-    .join("author_content as ac", "c.author_content_id", "ac.id")
-    .join("genres as g", "c.author_content_id", "g.author_content_id")
-    .select(
-      "ac.id as authorContentId",
-      "ac.user_id as contentUserId",
-      "ac.title",
-      "ac.description",
-      "ac.img_url",
-      "ac.content_url",
-      "ac.created_at",
-      "ac.last_updated",
-      "ac.public_id"
-    )
-    .select("g.*")
-    .select(
-      "c.id as commentId",
-      "c.comment",
-      "c.created_at as commentCreatedAt",
-      "c.last_updated as commentLastUpdated",
-      "c.user_id as commentUserId"
-    )
-    .where("c.author_content_id", id);
+  return (
+    db("comments as c")
+      .join("author_content as ac", "c.author_content_id", "ac.id")
+      .join("genres as g", "c.author_content_id", "g.author_content_id")
+      // .join("users as u", "c.user_id", "u.id")
+      .select(
+        "ac.id as authorContentId",
+        "ac.user_id as contentUserId",
+        "ac.title",
+        "ac.description",
+        "ac.img_url",
+        "ac.content_url",
+        "ac.created_at",
+        "ac.last_updated",
+        "ac.public_id"
+      )
+      .select("g.*")
+      .select(
+        "c.id as commentId",
+        "c.comment",
+        "c.created_at as commentCreatedAt",
+        "c.last_updated as commentLastUpdated",
+        "c.user_id as commentUserId"
+      )
+      // .select("u.first_name", "u.last_name")
+      .where("c.author_content_id", id)
+  );
 }
 
 function add(newComments) {

@@ -12,17 +12,20 @@ exports.getContent = [
   (req, res) => {
     Genres.get()
       .then((finalContent) => {
+        console.log(finalContent);
         const contentGenre = finalContent.map((ele) => {
           const genres = [];
           const objectArray = Object.entries(ele);
           objectArray.map(([key, value]) => {
-            if (value === true) {
+            if (value === true && key !== "email_verification") {
               return genres.push(key);
             }
           });
           const {
-            id,
+            author_content_id,
             user_id,
+            first_name,
+            last_name,
             title,
             description,
             img_url,
@@ -33,8 +36,10 @@ exports.getContent = [
             img_public_id,
           } = ele;
           const newObj = {
-            id,
+            author_content_id,
             user_id,
+            first_name,
+            last_name,
             title,
             description,
             img_url,
@@ -59,17 +64,20 @@ exports.getContentById = [
   (req, res) => {
     Genres.findById(req.params.id)
       .then((finalContent) => {
+        console.log(finalContent);
         const contentGenre = finalContent.map((ele) => {
           const genres = [];
           const objectArray = Object.entries(ele);
           objectArray.map(([key, value]) => {
-            if (value === true) {
+            if (value === true && key !== "email_verification") {
               return genres.push(key);
             }
           });
           const {
-            id,
+            author_content_id,
             user_id,
+            first_name,
+            last_name,
             title,
             description,
             img_url,
@@ -80,8 +88,10 @@ exports.getContentById = [
             img_public_id,
           } = ele;
           const newObj = {
-            id,
+            author_content_id,
             user_id,
+            first_name,
+            last_name,
             title,
             description,
             img_url,
@@ -106,11 +116,12 @@ exports.getContentByIdComments = [
   (req, res) => {
     Comments.findContentAndCommentsById(req.params.id)
       .then((content) => {
+        console.log(content);
         const contentGenre = content.map((ele) => {
           const genres = [];
           const objectArray = Object.entries(ele);
           objectArray.map(([key, value]) => {
-            if (value === true) {
+            if (value === true && key !== "email_verification") {
               return genres.push(key);
             }
           });
@@ -124,8 +135,10 @@ exports.getContentByIdComments = [
             };
           });
           const {
-            id,
+            author_content_id,
             user_id,
+            // first_name,
+            // last_name,
             title,
             description,
             img_url,
@@ -136,8 +149,10 @@ exports.getContentByIdComments = [
             img_public_id,
           } = ele;
           const newObj = {
-            id,
+            author_content_id,
             user_id,
+            // first_name,
+            // last_name,
             title,
             description,
             img_url,
