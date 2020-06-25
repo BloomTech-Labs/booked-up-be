@@ -2,6 +2,7 @@ const { check, validationResult, body } = require("express-validator");
 const cloudinary = require("cloudinary");
 const Users = require("../users/user-model");
 const Contents = require("./content-model");
+const Comments = require("../comments/comments-model");
 const checkRole = require("../check-role/check-role-user");
 const restricted = require("../auth/restricted");
 const cloudinaryConfig = require("../config/cloudinary");
@@ -9,7 +10,7 @@ const cloudinaryConfig = require("../config/cloudinary");
 cloudinaryConfig;
 
 exports.validateContent = [
-  check("contentId")
+  check("id")
     .exists()
     .toInt()
     .optional()
@@ -17,6 +18,13 @@ exports.validateContent = [
       Contents.findByIdContent(value).then((user) => {
         if (user.length === 0) {
           return Promise.reject("Content not found on server");
+        }
+      })
+    )
+    .custom((value) =>
+      Comments.findById(value).then((comment) => {
+        if (comment.length === 0) {
+          return Promise.reject("No comments associated with this content");
         }
       })
     ),
