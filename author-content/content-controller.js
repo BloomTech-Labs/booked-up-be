@@ -12,7 +12,6 @@ exports.getContent = [
   (req, res) => {
     Genres.get()
       .then((finalContent) => {
-        console.log(finalContent);
         const contentGenre = finalContent.map((ele) => {
           const genres = [];
           const objectArray = Object.entries(ele);
@@ -115,7 +114,6 @@ exports.getContentByIdComments = [
   (req, res) => {
     Comments.findContentAndCommentsById(req.params.id)
       .then((content) => {
-        console.log(content);
         const contentGenre = content.map((ele) => {
           const genres = [];
           const objectArray = Object.entries(ele);
@@ -165,11 +163,7 @@ exports.getContentByIdComments = [
           };
           return newObj;
         });
-        if (contentGenre[0] === undefined) {
-          res.send("No comments associated with this content");
-        } else {
-          res.status(200).json(contentGenre[0]);
-        }
+        res.status(200).json(contentGenre[0]);
       })
       .catch((err) => {
         res.status(500).json(err.message);
